@@ -1,0 +1,163 @@
+.navbar-custom {
+    background: linear-gradient(
+        to bottom,
+        rgba(20, 20, 20, 1),
+        rgba(20, 20, 20, 0.7),
+        rgba(0, 0, 0, 0)
+    );
+}
+
+.navbar-brand {
+    color: rgb(255, 255, 46) !important;
+    letter-spacing: 1.2px;
+}
+
+.btn-algorithm {
+    color: #eeeeee;
+    padding: 3px 10px 3px 10px;
+    border-radius: 5px;
+    border: 1px solid #eeeeee;
+    background-color: transparent;
+    transition: all 0.3s;
+}
+
+.btn-algorithm:hover {
+    color: #222222;
+    background-color: #eeeeee;
+}
+
+.btn-algorithm span {
+    color: rgb(77, 255, 181);
+    font-weight: bold;
+}
+
+.btn-algorithm:hover span {
+    color: rgb(0, 177, 103);
+}
+
+.btn-maze {
+    color: #eeeeee;
+    padding: 3px 10px 3px 10px;
+    border-radius: 5px;
+    border: 1px solid #eeeeee;
+    background-color: transparent;
+    transition: all 0.3s;
+    font-weight: bold;
+}
+
+.btn-maze:hover {
+    color: #222222;
+    background-color: #eeeeee;
+}
+
+.btn-maze span {
+    color: rgb(67, 180, 255);
+}
+
+.btn-speed {
+    color: #eeeeee;
+    padding: 3px 10px 3px 10px;
+    border-radius: 5px;
+    border: 1px solid #eeeeee;
+    background-color: transparent;
+    transition: all 0.3s;
+    font-weight: bold;
+}
+
+.btn-speed:hover {
+    color: #222222;
+    background-color: #eeeeee;
+}
+
+.btn-speed span {
+    color: rgb(255, 136, 67);
+}
+
+.algorithm-options-container,
+.maze-options-container,
+.speed-options-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    transition: all 0.3s;
+}
+
+.algorithm-options-container.show,
+.maze-options-container.show,
+.speed-options-container.show {
+    transform: scaleY(1);
+    opacity: 1;
+}
+
+.options-container {
+    position: absolute;
+    width: 80vw;
+    height: fit-content;
+    background-color: rgb(255, 217, 0);
+    color: black;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.option-names-container {
+    position: absolute;
+    display: inline-block;
+    transform: translateY(-50%);
+}
+
+.option-description-container {
+    position: absolute;
+    border-left: 1px solid #555555;
+    display: inline-block;
+    transform: translateY(-50%);
+    color: #aaa;
+    padding: 20px 50px 20px 50px;
+    overflow-y: auto;
+    max-height: 50vh;
+}
+
+.option-description-container b,
+.option-description-container i,
+.option-description-container strong,
+.option-description-container a {
+    margin-left: 4px;
+    margin-right: 4px;
+    color: yellow;
+}
+.option-names-container button {
+    display: block;
+    padding: 15px 50px 15px 15px;
+    text-align: right;
+    background: none;
+    border: none;
+    text-transform: uppercase;
+    width: 100%;
+    letter-spacing: 3px;
+    color: #bbb;
+    transition: all 0.3s;
+}
+
+.option-names-container button:hover,
+.option-names-container button.active {
+    letter-spacing: 10px;
+    transform: skewX(-15deg);
+    font-weight: 500;
+}
+
+.option-names-container button.active {
+    color: rgb(0, 255, 128);
+    text-shadow: 3px 1px 2px rgba(0, 255, 128, 0.2);
+}
+
+.option-names-container button:hover {
+    color: white;
+    text-shadow: 3px 1px 2px rgba(255, 255, 255, 0.2);
+}
