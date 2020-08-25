@@ -56,7 +56,7 @@ class App extends Component {
                 />
                 <Legend />
                 <Grid />
-                <Insights />
+                <Insights insights="Insights" />
                 <Copyright />
             </React.Fragment>
         );

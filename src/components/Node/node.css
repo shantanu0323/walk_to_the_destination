@@ -5,10 +5,11 @@
     height: 20px;
     border: 1px solid #333333;
     border-radius: 2px;
+    background: none;
 }
 
 .node.node-unvisited {
-    background: none;
+    background: rgba(255, 255, 255, 0.904);
 }
 
 .node.node-visited {
