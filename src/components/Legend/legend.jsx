@@ -5,7 +5,7 @@ const NodeState = require("../Node/node_state");
 
 const Legend = () => {
     return (
-        <div className="legend-container">
+        <section className="legend-container">
             <ul>
                 <li>
                     <div>
@@ -38,7 +38,7 @@ const Legend = () => {
                     </div>
                 </li>
             </ul>
-        </div>
+        </section>
     );
 };
 

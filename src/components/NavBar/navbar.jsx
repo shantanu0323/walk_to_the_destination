@@ -288,7 +288,7 @@ class NavBar extends Component {
                                             ).name
                                         }
                                     </span>{" "}
-                                    <i className="fas fa-check-double ml-1"></i>
+                                    <i className="fas fa-tachometer-alt"></i>
                                 </button>
                             </li>
                         </ul>

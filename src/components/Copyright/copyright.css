@@ -1,0 +1,63 @@
+.copyright-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 40px;
+    background: linear-gradient(to top, rgb(0, 26, 34), rgba(0, 26, 34, 0));
+    color: #ddd;
+    text-align: center;
+}
+
+.copyright-container .github-links,
+.copyright-container .copyright,
+.copyright-container .social-links {
+    position: absolute;
+    bottom: 50%;
+    transform: translateY(50%);
+}
+.copyright-container .github-links {
+    left: 0;
+    padding-left: 10px;
+}
+
+.copyright-container .copyright {
+    left: 50%;
+    transform: translate(-50%, 50%);
+}
+
+.copyright-container .social-links {
+    right: 0;
+    padding-right: 10px;
+}
+
+.copyright-container .copyright a,
+.copyright-container .copyright a:hover {
+    text-decoration: none;
+    font-weight: bold;
+    color: yellow;
+    transition: all 0.3s;
+}
+
+.copyright-container .copyright a:hover {
+    letter-spacing: 2px;
+}
+
+.copyright-container .github-links a,
+.copyright-container .social-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.5em;
+    transition: all 0.3s;
+}
+
+.copyright-container .github-links a:hover,
+.copyright-container .social-links a:hover {
+    text-decoration: none;
+    font-size: 1.7em;
+    color: yellow;
+}
+
+.copyright-container .social-links a {
+    margin-left: 10px;
+}
