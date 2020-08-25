@@ -1,0 +1,31 @@
+.legend-container {
+    float: right;
+    width: 100vw;
+    height: 40px;
+    background: linear-gradient(
+        to bottom,
+        rgba(30, 30, 30, 0.5),
+        rgba(30, 30, 30, 0)
+    );
+}
+
+.legend-container ul {
+    list-style: none;
+    text-align: center;
+    padding-left: 0;
+}
+
+.legend-container ul li {
+    display: inline-block;
+    width: 20%;
+    text-align: center;
+}
+
+.legend-container ul li > div {
+    width: fit-content;
+    transform: translateX(50%);
+}
+
+.legend-container ul li > div > span {
+    color: #eee;
+}

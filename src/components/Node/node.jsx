@@ -1,9 +1,41 @@
 import React, { Component } from "react";
-
+import "./node.css";
+const NodeState = require("./node_state");
 class Node extends Component {
-    state = {};
+    static defaultProps = {
+        nodeState: NodeState.NODE_UNVISITED,
+    };
+    state = {
+        nodeState: this.props.nodeState,
+    };
     render() {
-        return <React.Fragment>Node</React.Fragment>;
+        const { nodeState } = this.props;
+        return <div className={this.getNodeStateClass(nodeState)}></div>;
+    }
+
+    getNodeStateClass(nodeState) {
+        let classes = "node node-";
+        switch (nodeState) {
+            case NodeState.NODE_UNVISITED:
+                classes += "unvisited";
+                break;
+            case NodeState.NODE_VISITED:
+                classes += "visited";
+                break;
+            case NodeState.NODE_IS_WALL:
+                classes += "wall";
+                break;
+            case NodeState.NODE_IS_SOURCE:
+                classes += "source";
+                break;
+            case NodeState.NODE_IS_TARGET:
+                classes += "target";
+                break;
+            default:
+                classes += "unvisited";
+                break;
+        }
+        return classes;
     }
 }
 

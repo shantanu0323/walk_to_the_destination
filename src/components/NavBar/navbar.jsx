@@ -214,16 +214,16 @@ class NavBar extends Component {
     render() {
         const {
             selectedAlgorithmId,
-            selectedMazeId,
+            // selectedMazeId,
             selectedSpeedId,
             onAlgorithmChanged,
-            onMazeChanged,
+            // onMazeChanged,
             onSpeedChanged,
         } = this.props;
         return (
             <React.Fragment>
-                <nav className="navbar navbar-expand-lg navbar-custom navbar-dark text-light">
-                    <span className="navbar-brand mb-0 h1">
+                <nav className="navbar navbar-expand-lg navbar-custom navbar-dark text-light pl-1">
+                    <span className="navbar-brand mb-0">
                         <img
                             src={logo}
                             width="30"
@@ -232,7 +232,7 @@ class NavBar extends Component {
                             alt=""
                             loading="lazy"
                         />
-                        Walk to the Destination
+                        <span>Walk to the Destination</span>
                     </span>
                     <button
                         className="navbar-toggler"

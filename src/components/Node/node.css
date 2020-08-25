@@ -1,0 +1,28 @@
+.node {
+    float: left;
+    display: block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #333333;
+    border-radius: 2px;
+}
+
+.node.node-unvisited {
+    background: none;
+}
+
+.node.node-visited {
+    background-color: rgb(0, 151, 238);
+}
+
+.node.node-wall {
+    background-color: rgb(24, 24, 24);
+}
+
+.node.node-source {
+    background-color: rgb(238, 115, 0);
+}
+
+.node.node-target {
+    background-color: rgb(0, 238, 111);
+}

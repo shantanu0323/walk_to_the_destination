@@ -2,6 +2,8 @@ body {
     margin: 0;
     height: 100vh;
     background-image: url("./static/bg-img.jpg");
+    /* background-color: #333333 !important; */
+    /* color: white; */
     background-size: cover;
     background-repeat: no-repeat;
     font-family: "helvetica" !important;
