@@ -1,0 +1,7 @@
+.grid-container {
+    position: absolute;
+    top: 90px;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 190px);
+}

@@ -3,13 +3,13 @@
     display: block;
     width: 20px;
     height: 20px;
-    border: 1px solid #333333;
+    border: 1px solid #000f2a49;
     border-radius: 2px;
     background: none;
 }
 
 .node.node-unvisited {
-    background: rgba(255, 255, 255, 0.904);
+    background: rgba(255, 255, 255, 0.274);
 }
 
 .node.node-visited {

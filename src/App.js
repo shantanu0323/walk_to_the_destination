@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import NavBar from "./components/NavBar/navbar";
 import Legend from "./components/Legend/legend";
 import Grid from "./components/Grid/grid";
+import Node from "./components/Node/node.jsx";
+import NodeState from "./components/Node/node_state.jsx";
+import Position from "./components/Node/position.jsx";
 import Insights from "./components/Insights/insights";
 import Copyright from "./components/Copyright/copyright";
 import "bootstrap/dist/css/bootstrap.css";
@@ -13,6 +16,10 @@ class App extends Component {
         selectedMazeId: "maze-recursive-division",
         selectedSpeedId: "speed-fast",
         speed: 20,
+        rows: 0,
+        columns: 0,
+        source: new Position(-1, -1),
+        target: new Position(-1, -1),
     };
 
     setAlgorithmId = (selectedAlgorithmId) => {
@@ -43,6 +50,11 @@ class App extends Component {
         document.body.appendChild(s);
     }
 
+    createMesh = (rows, columns, source, target) => {
+        console.log(source.x);
+        this.setState({ rows, columns, source, target });
+    };
+
     render() {
         return (
             <React.Fragment>
@@ -55,7 +67,7 @@ class App extends Component {
                     onSpeedChanged={this.setSpeedId}
                 />
                 <Legend />
-                <Grid />
+                <Grid onNodeCreated={this.createMesh} />
                 <Insights insights="Insights" />
                 <Copyright />
             </React.Fragment>

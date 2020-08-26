@@ -1,16 +1,24 @@
 import React, { Component } from "react";
 import "./node.css";
+import Position from "./position";
+
 const NodeState = require("./node_state");
 class Node extends Component {
     static defaultProps = {
         nodeState: NodeState.NODE_UNVISITED,
+        position: new Position(-1, -1),
     };
     state = {
         nodeState: this.props.nodeState,
+        position: this.props.position,
     };
     render() {
         const { nodeState } = this.props;
-        return <div className={this.getNodeStateClass(nodeState)}></div>;
+        return (
+            <div className={this.getNodeStateClass(nodeState)}>
+                <div></div>
+            </div>
+        );
     }
 
     getNodeStateClass(nodeState) {
