@@ -90,6 +90,7 @@
     background-color: rgba(0, 0, 0, 0.85);
     color: white;
     transition: all 0.3s;
+    z-index: 100;
 }
 
 .algorithm-options-container.show,

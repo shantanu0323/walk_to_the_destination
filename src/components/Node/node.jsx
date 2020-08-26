@@ -1,22 +1,28 @@
 import React, { Component } from "react";
 import "./node.css";
-import Position from "./position";
 
 const NodeState = require("./node_state");
 class Node extends Component {
-    static defaultProps = {
-        nodeState: NodeState.NODE_UNVISITED,
-        position: new Position(-1, -1),
-    };
-    state = {
-        nodeState: this.props.nodeState,
-        position: this.props.position,
-    };
     render() {
-        const { nodeState } = this.props;
+        const {
+            nodeState,
+            position,
+            onMouseDown,
+            onMouseUp,
+            onMouseEnter,
+            onMouseLeave,
+        } = this.props;
         return (
-            <div className={this.getNodeStateClass(nodeState)}>
-                <div></div>
+            <div
+                className={this.getNodeStateClass(nodeState)}
+                data-x={position.x}
+                data-y={position.y}
+                onMouseDown={() => onMouseDown(nodeState, position)}
+                onMouseUp={() => onMouseUp(nodeState, position)}
+                onMouseEnter={() => onMouseEnter(nodeState, position)}
+                onMouseLeave={() => onMouseLeave(nodeState, position)}
+            >
+                {/* <div></div> */}
             </div>
         );
     }

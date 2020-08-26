@@ -8,6 +8,11 @@
     background: none;
 }
 
+.node:hover {
+    cursor: pointer;
+    border: 1px solid rgb(255, 255, 255);
+}
+
 .node.node-unvisited {
     background: rgba(255, 255, 255, 0.274);
 }
@@ -26,4 +31,9 @@
 
 .node.node-target {
     background-color: rgb(0, 238, 111);
+    transition: 0.3s;
+}
+
+.node.node-target:hover {
+    transform: scale(1.5);
 }

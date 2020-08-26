@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import NavBar from "./components/NavBar/navbar";
 import Legend from "./components/Legend/legend";
 import Grid from "./components/Grid/grid";
-import Node from "./components/Node/node.jsx";
-import NodeState from "./components/Node/node_state.jsx";
+// import Node from "./components/Node/node.jsx";
+// import NodeState from "./components/Node/node_state.jsx";
 import Position from "./components/Node/position.jsx";
 import Insights from "./components/Insights/insights";
 import Copyright from "./components/Copyright/copyright";
@@ -48,12 +48,23 @@ class App extends Component {
         s.crossOrigin = "anonymous";
         s.src = "https://kit.fontawesome.com/f7fe82406d.js";
         document.body.appendChild(s);
-    }
 
-    createMesh = (rows, columns, source, target) => {
-        console.log(source.x);
+        const gridHeight = window.innerHeight - 190;
+        const gridWidth = window.innerWidth;
+
+        const rows = parseInt((gridHeight - 40) / 20);
+
+        const columns = parseInt((gridWidth - 40) / 20);
+        const source = new Position(
+            parseInt(0.1 * rows),
+            parseInt(0.1 * columns)
+        );
+        const target = new Position(
+            parseInt(0.9 * rows),
+            parseInt(0.9 * columns)
+        );
         this.setState({ rows, columns, source, target });
-    };
+    }
 
     render() {
         return (
@@ -67,7 +78,12 @@ class App extends Component {
                     onSpeedChanged={this.setSpeedId}
                 />
                 <Legend />
-                <Grid onNodeCreated={this.createMesh} />
+                <Grid
+                    rows={this.state.rows}
+                    columns={this.state.columns}
+                    source={this.state.source}
+                    target={this.state.target}
+                />
                 <Insights insights="Insights" />
                 <Copyright />
             </React.Fragment>
