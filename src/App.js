@@ -46,7 +46,7 @@ class App extends Component {
         columns: 0,
         source: new Position(-1, -1),
         target: new Position(-1, -1),
-        walls: [new Position(1, 2), new Position(20, 47)],
+        walls: [],
     };
 
     setAlgorithmId = (selectedAlgorithmId) => {
@@ -69,12 +69,46 @@ class App extends Component {
 
     setNodeAsSource = (position) => {
         console.log(`SOURCE: ${position}`);
-        this.setState({ source: position });
+        if (
+            !(
+                position.x === this.state.target.x &&
+                position.y === this.state.target.y
+            )
+        ) {
+            let walls = this.state.walls;
+            if (
+                walls.some(
+                    (node) => node.x === position.x && node.y === position.y
+                )
+            ) {
+                walls = this.state.walls.filter(
+                    (node) => !(node.x === position.x && node.y === position.y)
+                );
+            }
+            this.setState({ source: position, walls });
+        }
     };
 
     setNodeAsTarget = (position) => {
         console.log(`TARGET: ${position}`);
-        this.setState({ target: position });
+        if (
+            !(
+                position.x === this.state.source.x &&
+                position.y === this.state.source.y
+            )
+        ) {
+            let walls = this.state.walls;
+            if (
+                walls.some(
+                    (node) => node.x === position.x && node.y === position.y
+                )
+            ) {
+                walls = this.state.walls.filter(
+                    (node) => !(node.x === position.x && node.y === position.y)
+                );
+            }
+            this.setState({ target: position, walls });
+        }
     };
 
     toggleWall = (position) => {
