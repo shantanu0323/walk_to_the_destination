@@ -6,11 +6,7 @@
     border: 1px solid #000f2a49;
     border-radius: 2px;
     background: none;
-}
-
-.node:hover {
-    cursor: pointer;
-    border: 1px solid rgb(255, 255, 255);
+    transition: 0.3s;
 }
 
 .node.node-unvisited {
@@ -27,13 +23,20 @@
 
 .node.node-source {
     background-color: rgb(238, 115, 0);
+    border-radius: 10px;
+    transform: scale(0.8);
 }
 
 .node.node-target {
     background-color: rgb(0, 238, 111);
-    transition: 0.3s;
+    border-radius: 10px;
+    transform: scale(0.8);
 }
 
-.node.node-target:hover {
-    transform: scale(1.5);
+/* .node.node-target:hover, .node.node-source:hover { */
+.node:hover {
+    cursor: pointer;
+    border: 1px solid rgb(255, 255, 255);
+    transform: scale(1.2);
+    border-radius: 5px;
 }

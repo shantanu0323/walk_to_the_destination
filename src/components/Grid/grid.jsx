@@ -8,14 +8,14 @@ class Grid extends Component {
     state = {
         isMousePressed: false,
         movingSource: false,
-        movingTarget: true,
+        movingTarget: false,
     };
 
     handleMouseUp(nodeState, position) {
         this.setState({ isMousePressed: false });
-        console.log(
-            `(${position.x}, ${position.y}) : mouseUp | pressed=${this.state.isMousePressed}`
-        );
+        // console.log(
+        //     `(${position.x}, ${position.y}) : mouseUp | pressed=${this.state.isMousePressed}`
+        // );
         if (nodeState === NodeState.NODE_IS_SOURCE) {
             this.setState({ movingSource: false });
         } else if (nodeState === NodeState.NODE_IS_TARGET) {
@@ -34,52 +34,72 @@ class Grid extends Component {
         } else if (nodeState === NodeState.NODE_IS_TARGET) {
             this.setState({ movingTarget: true });
         } else {
-            // TODO: toggleWall()
+            this.props.toggleWall(position);
         }
     }
     handleMouseEnter(nodeState, position) {
-        console.log(
-            `(${position.x}, ${position.y}) : mouseEnter | pressed=${this.state.isMousePressed}`
-        );
         if (this.state.isMousePressed) {
+            console.log(
+                `(${position.x}, ${position.y}) : mouseEnter | pressed=${this.state.isMousePressed}`
+            );
             if (this.state.movingSource) {
                 // TODO: change nodeState to source
+                this.props.setNodeAsSource(position);
             } else if (this.state.movingTarget) {
                 // TODO: change nodeState to target
+                this.props.setNodeAsTarget(position);
             } else {
                 // TODO: toggleWall()
+                console.log(position);
+                this.props.toggleWall(position);
             }
         }
     }
     handleMouseLeave(nodeState, position) {
-        console.log(
-            `(${position.x}, ${position.y}) : mouseLeave | pressed=${this.state.isMousePressed}`
-        );
-        if (this.state.isMousePressed) {
-            if (nodeState === NodeState.NODE_IS_SOURCE) {
-                // TODO: change nodeState to unvisited
-            } else if (nodeState === NodeState.NODE_IS_TARGET) {
-                // TODO: change nodestate to unvisited
-            } else {
-                // do nothing
-            }
+        // if (this.state.isMousePressed) {
+        //     console.log(
+        //         `(${position.x}, ${position.y}) : mouseLeave | pressed=${this.state.isMousePressed}`
+        //     );
+        //     if (nodeState === NodeState.NODE_IS_SOURCE) {
+        //         // TODO: change nodeState to unvisited
+        //     } else if (nodeState === NodeState.NODE_IS_TARGET) {
+        //         // TODO: change nodestate to unvisited
+        //     } else {
+        //         // do nothing
+        //     }
+        // }
+    }
+
+    decideNodeState(x, y, source, target, walls) {
+        if (x === source.x && y === source.y) {
+            return NodeState.NODE_IS_SOURCE;
+        } else if (x === target.x && y === target.y) {
+            return NodeState.NODE_IS_TARGET;
+        } else if (
+            walls.some((position) => position.x === x && position.y === y)
+        ) {
+            return NodeState.NODE_IS_WALL;
         }
+        return NodeState.NODE_UNVISITED;
     }
 
     render() {
-        const { rows, columns, source, target } = this.props;
+        const { rows, columns, source, target, walls } = this.props;
         const paddingX = (window.innerWidth - columns * 20) / 2;
         const paddingY = (window.innerHeight - 190 - rows * 20) / 2;
         const nodes = [];
+
         for (var x = 1; x <= rows; x++) {
             for (var y = 1; y <= columns; y++) {
                 const key = "node-" + x + "-" + y;
-                const nodeState =
-                    x === source.x && y === source.y
-                        ? NodeState.NODE_IS_SOURCE
-                        : x === target.x && y === target.y
-                        ? NodeState.NODE_IS_TARGET
-                        : NodeState.NODE_UNVISITED;
+                const nodeState = this.decideNodeState(
+                    x,
+                    y,
+                    source,
+                    target,
+                    walls
+                );
+
                 nodes.push(
                     <Node
                         key={key}

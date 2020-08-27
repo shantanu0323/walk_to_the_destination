@@ -11,35 +11,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 
 class App extends Component {
-    state = {
-        selectedAlgorithmId: "algo-dijkstra",
-        selectedMazeId: "maze-recursive-division",
-        selectedSpeedId: "speed-fast",
-        speed: 20,
-        rows: 0,
-        columns: 0,
-        source: new Position(-1, -1),
-        target: new Position(-1, -1),
-    };
-
-    setAlgorithmId = (selectedAlgorithmId) => {
-        this.setState({ selectedAlgorithmId });
-        const dom = document.querySelector(".algorithm-options-container");
-        dom.classList.remove("show");
-    };
-
-    setMazeId = (selectedMazeId) => {
-        this.setState({ selectedMazeId });
-        const dom = document.querySelector(".maze-options-container");
-        dom.classList.remove("show");
-    };
-
-    setSpeedId = (selectedSpeedId, speed) => {
-        this.setState({ selectedSpeedId, speed });
-        const dom = document.querySelector(".speed-options-container");
-        dom.classList.remove("show");
-    };
-
     componentDidMount() {
         // Include the FontAwesome Library
         const s = document.createElement("script");
@@ -66,6 +37,63 @@ class App extends Component {
         this.setState({ rows, columns, source, target });
     }
 
+    state = {
+        selectedAlgorithmId: "algo-dijkstra",
+        selectedMazeId: "maze-recursive-division",
+        selectedSpeedId: "speed-fast",
+        speed: 20,
+        rows: 0,
+        columns: 0,
+        source: new Position(-1, -1),
+        target: new Position(-1, -1),
+        walls: [new Position(1, 2), new Position(20, 47)],
+    };
+
+    setAlgorithmId = (selectedAlgorithmId) => {
+        this.setState({ selectedAlgorithmId });
+        const dom = document.querySelector(".algorithm-options-container");
+        dom.classList.remove("show");
+    };
+
+    setMazeId = (selectedMazeId) => {
+        this.setState({ selectedMazeId });
+        const dom = document.querySelector(".maze-options-container");
+        dom.classList.remove("show");
+    };
+
+    setSpeedId = (selectedSpeedId, speed) => {
+        this.setState({ selectedSpeedId, speed });
+        const dom = document.querySelector(".speed-options-container");
+        dom.classList.remove("show");
+    };
+
+    setNodeAsSource = (position) => {
+        console.log(`SOURCE: ${position}`);
+        this.setState({ source: position });
+    };
+
+    setNodeAsTarget = (position) => {
+        console.log(`TARGET: ${position}`);
+        this.setState({ target: position });
+    };
+
+    toggleWall = (position) => {
+        console.log(position);
+        let walls = this.state.walls;
+        if (
+            walls.some((node) => node.x === position.x && node.y === position.y)
+        ) {
+            // Node is a wall -> change to unvisited
+            console.log("check");
+            walls = walls.filter(
+                (node) => !(node.x === position.x && node.y === position.y)
+            );
+        } else {
+            walls.push(position);
+        }
+        this.setState({ walls });
+    };
+
     render() {
         return (
             <React.Fragment>
@@ -83,6 +111,10 @@ class App extends Component {
                     columns={this.state.columns}
                     source={this.state.source}
                     target={this.state.target}
+                    walls={this.state.walls}
+                    setNodeAsSource={this.setNodeAsSource}
+                    setNodeAsTarget={this.setNodeAsTarget}
+                    toggleWall={this.toggleWall}
                 />
                 <Insights insights="Insights" />
                 <Copyright />
