@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import NavBar from "./components/NavBar/navbar";
 import Legend from "./components/Legend/legend";
 import Grid from "./components/Grid/grid";
-// import Node from "./components/Node/node.jsx";
-// import NodeState from "./components/Node/node_state.jsx";
 import Position from "./components/Node/position.jsx";
 import Insights from "./components/Insights/insights";
 import Copyright from "./components/Copyright/copyright";
@@ -40,7 +38,6 @@ class App extends Component {
 
     state = {
         selectedAlgorithmId: "algo-dijkstra",
-        selectedMazeId: "maze-recursive-division",
         selectedSpeedId: "speed-fast",
         speed: 15,
         rows: 0,
@@ -54,12 +51,6 @@ class App extends Component {
     setAlgorithmId = (selectedAlgorithmId) => {
         this.setState({ selectedAlgorithmId });
         const dom = document.querySelector(".algorithm-options-container");
-        dom.classList.remove("show");
-    };
-
-    setMazeId = (selectedMazeId) => {
-        this.setState({ selectedMazeId });
-        const dom = document.querySelector(".maze-options-container");
         dom.classList.remove("show");
     };
 
@@ -190,17 +181,25 @@ class App extends Component {
         }, 500);
     };
 
+    updateMaze = (walls, visitedNodes) => {
+        this.setState({ walls, visitedNodes });
+    };
+
     render() {
         return (
             <React.Fragment>
                 <NavBar
                     selectedAlgorithmId={this.state.selectedAlgorithmId}
-                    selectedMazeId={this.state.selectedMazeId}
                     selectedSpeedId={this.state.selectedSpeedId}
                     onAlgorithmChanged={this.setAlgorithmId}
-                    onMazeChanged={this.setMazeId}
                     onSpeedChanged={this.setSpeedId}
                     startWalking={this.startWalking}
+                    rows={this.state.rows}
+                    columns={this.state.columns}
+                    source={this.state.source}
+                    target={this.state.target}
+                    speed={this.state.speed}
+                    onMazeCreated={this.updateMaze}
                 />
                 <Legend />
                 <Grid

@@ -3,6 +3,7 @@ import "./navbar.css";
 import logo from "../../logo.svg";
 import NavItem from "./NavItem/navitem";
 import "bootstrap/dist/js/bootstrap.min.js";
+import generateBinaryTreeMaze from "../../algorithms/mazeGeneratingAlgorithms/binary_tree";
 
 class NavBar extends Component {
     state = {
@@ -190,7 +191,7 @@ class NavBar extends Component {
         ],
         mazes: [
             { id: "maze-none", name: "Create" },
-            { id: "maze-recursive-division", name: "Recursive Division" },
+            { id: "maze-binary-tree", name: "Binary Tree" },
         ],
         speeds: [
             { id: "speed-faster", name: "Faster", speed: 15 },
@@ -199,10 +200,60 @@ class NavBar extends Component {
             { id: "speed-slow", name: "Slow", speed: 60 },
             { id: "speed-slower", name: "Slower", speed: 75 },
         ],
+        selectedMazeId: "maze-none",
+    };
+
+    constructMaze = (walls) => {
+        console.log({ walls });
+        let i = 0;
+        for (i = 0; i < walls.length; i++) {
+            const wall = walls[i];
+            setTimeout(() => {
+                const nodeDom = document.querySelector(
+                    `#node-${wall.x}-${wall.y}`
+                );
+                nodeDom.classList.remove("node-unvisited");
+                nodeDom.classList.add("node-wall");
+            }, 20 * i);
+        }
+        setTimeout(() => {
+            this.props.onMazeCreated(walls, []);
+        }, this.props.speed * i);
+    };
+
+    generateMaze = (type) => {
+        switch (type) {
+            case "maze-binary-tree":
+                console.log("Generate Maze : ", type);
+                const wallsInOrder = generateBinaryTreeMaze(
+                    this.props.rows,
+                    this.props.columns,
+                    this.props.source,
+                    this.props.target
+                );
+                this.constructMaze(wallsInOrder);
+                break;
+            case "maze-none":
+            default:
+                this.props.onMazeCreated([], []);
+                break;
+        }
+    };
+
+    setMazeId = (selectedMazeId) => {
+        this.setState({ selectedMazeId });
+        const dom = document.querySelector(".maze-options-container");
+        dom.classList.remove("show");
+        this.generateMaze(selectedMazeId);
     };
 
     showAlgorithmOptionsContainer() {
         const dom = document.querySelector(".algorithm-options-container");
+        dom.classList.add("show");
+    }
+
+    showMazeOptionsContainer() {
+        const dom = document.querySelector(".maze-options-container");
         dom.classList.add("show");
     }
 
@@ -211,13 +262,32 @@ class NavBar extends Component {
         dom.classList.add("show");
     }
 
+    getSelectedAlgorithm(selectedAlgorithmId) {
+        const algorithm = this.state.algorithms.filter(
+            (algorithm) => algorithm.id === selectedAlgorithmId
+        );
+        return algorithm[0];
+    }
+
+    getSelectedMaze(selectedMazeId) {
+        const maze = this.state.mazes.filter(
+            (maze) => maze.id === selectedMazeId
+        );
+        return maze[0];
+    }
+
+    getSelectedSpeed(selectedSpeedId) {
+        const speed = this.state.speeds.filter(
+            (speed) => speed.id === selectedSpeedId
+        );
+        return speed[0];
+    }
+
     render() {
         const {
             selectedAlgorithmId,
-            // selectedMazeId,
             selectedSpeedId,
             onAlgorithmChanged,
-            // onMazeChanged,
             onSpeedChanged,
             startWalking,
         } = this.props;
@@ -265,18 +335,22 @@ class NavBar extends Component {
                                     <i className="fas fa-check-double ml-1"></i>
                                 </button>
                             </li>
-                            {/* <li className="nav-item active ml-2">
-                                <button className="btn-maze my-1">
+                            <li className="nav-item active ml-2">
+                                <button
+                                    className="btn-maze my-1"
+                                    onClick={this.showMazeOptionsContainer}
+                                >
                                     <span>
                                         {
-                                            this.getSelectedMaze(selectedMazeId)
-                                                .name
+                                            this.getSelectedMaze(
+                                                this.state.selectedMazeId
+                                            ).name
                                         }
                                     </span>{" "}
                                     Maze
-                                    <i className="fas fa-check-double ml-1"></i>
+                                    <i className="fab fa-magento ml-1"></i>
                                 </button>
-                            </li> */}
+                            </li>
                             <li className="nav-item active ml-2">
                                 <button
                                     className="btn-speed my-1"
@@ -303,13 +377,13 @@ class NavBar extends Component {
                         onChanged={onAlgorithmChanged}
                     />
                 </div>
-                {/* <div className="maze-options-container">
+                <div className="maze-options-container">
                     <NavItem
                         options={this.state.mazes}
-                        selectedOption={selectedMazeId}
-                        onChanged={onMazeChanged}
+                        selectedOption={this.state.selectedMazeId}
+                        onChanged={this.setMazeId}
                     />
-                </div> */}
+                </div>
                 <div className="speed-options-container">
                     <NavItem
                         options={this.state.speeds}
@@ -319,27 +393,6 @@ class NavBar extends Component {
                 </div>
             </React.Fragment>
         );
-    }
-
-    getSelectedAlgorithm(selectedAlgorithmId) {
-        const algorithm = this.state.algorithms.filter(
-            (algorithm) => algorithm.id === selectedAlgorithmId
-        );
-        return algorithm[0];
-    }
-
-    getSelectedMaze(selectedMazeId) {
-        const maze = this.state.mazes.filter(
-            (maze) => maze.id === selectedMazeId
-        );
-        return maze[0];
-    }
-
-    getSelectedSpeed(selectedSpeedId) {
-        const speed = this.state.speeds.filter(
-            (speed) => speed.id === selectedSpeedId
-        );
-        return speed[0];
     }
 }
 
