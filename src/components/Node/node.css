@@ -33,6 +33,10 @@
     transform: scale(0.8);
 }
 
+.node.node-path {
+    background-color: rgb(251, 255, 0);
+}
+
 /* .node.node-target:hover, .node.node-source:hover { */
 .node:hover {
     cursor: pointer;

@@ -133,25 +133,27 @@ class App extends Component {
         for (let i = 1; i <= this.state.rows; i++) {
             for (let j = 1; j <= this.state.columns; j++) {
                 const nodeDom = document.querySelector(`#node-${i}-${j}`);
-                if (nodeDom.classList.contains("node-visited")) {
+                if (
+                    nodeDom.classList.contains("node-visited") ||
+                    nodeDom.classList.contains("node-path")
+                ) {
                     nodeDom.classList.remove("node-visited");
+                    nodeDom.classList.remove("node-path");
                     nodeDom.classList.add("node-unvisited");
                 }
             }
         }
         setTimeout(() => {
             console.log("START WALKING");
-            const visitedNodes = performDijkstra(
+            const { visitedNodes, path } = performDijkstra(
                 this.state.rows,
                 this.state.columns,
                 this.state.source,
                 this.state.target,
                 this.state.walls
             );
-            // console.log(visitedNodes);
             for (let i = 0; i < visitedNodes.length; i++) {
                 setTimeout(() => {
-                    // this.setState({ visitedNodes: visitedNodes.slice(0, i + 1) });
                     const nodeDom = document.querySelector(
                         `#node-${visitedNodes[i].x}-${visitedNodes[i].y}`
                     );
@@ -161,7 +163,25 @@ class App extends Component {
                     }
                     if (i === visitedNodes.length - 1)
                         setTimeout(() => {
-                            alert("Target Reached");
+                            if (
+                                visitedNodes[i].x === this.state.target.x &&
+                                visitedNodes[i].y === this.state.target.y
+                            ) {
+                                for (let k = 0; k < path.length; k++) {
+                                    setTimeout(() => {
+                                        const node = path[k];
+                                        const nodeDom = document.querySelector(
+                                            `#node-${node.x}-${node.y}`
+                                        );
+                                        nodeDom.classList.remove(
+                                            "node-visited"
+                                        );
+                                        nodeDom.classList.add("node-path");
+                                    }, this.state.speed * k);
+                                }
+                            } else {
+                                alert("Target NOT Reachable");
+                            }
                         }, this.state.speed + 500);
                 }, this.state.speed * i);
             }
