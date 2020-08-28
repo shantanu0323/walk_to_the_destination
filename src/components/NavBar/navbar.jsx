@@ -219,6 +219,7 @@ class NavBar extends Component {
             onAlgorithmChanged,
             // onMazeChanged,
             onSpeedChanged,
+            startWalking,
         } = this.props;
         return (
             <React.Fragment>
@@ -231,6 +232,7 @@ class NavBar extends Component {
                             className="d-inline-block align-top"
                             alt=""
                             loading="lazy"
+                            onClick={() => startWalking()}
                         />
                         <span>Walk to the Destination</span>
                     </span>

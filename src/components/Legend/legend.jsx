@@ -13,6 +13,7 @@ const Legend = () => {
                         <Node
                             nodeState={NodeState.NODE_UNVISITED}
                             position={new Position(-1, -1)}
+                            disabled
                         />
                         <span className="ml-2">Unvisited</span>
                     </div>

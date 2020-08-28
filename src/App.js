@@ -9,6 +9,7 @@ import Insights from "./components/Insights/insights";
 import Copyright from "./components/Copyright/copyright";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
+import performDijkstra from "./algorithms/dijkstra";
 
 class App extends Component {
     componentDidMount() {
@@ -27,12 +28,12 @@ class App extends Component {
 
         const columns = parseInt((gridWidth - 40) / 20);
         const source = new Position(
-            parseInt(0.1 * rows),
-            parseInt(0.1 * columns)
+            parseInt(0.5 * rows),
+            parseInt(0.25 * columns)
         );
         const target = new Position(
-            parseInt(0.9 * rows),
-            parseInt(0.9 * columns)
+            parseInt(0.5 * rows),
+            parseInt(0.75 * columns)
         );
         this.setState({ rows, columns, source, target });
     }
@@ -47,6 +48,7 @@ class App extends Component {
         source: new Position(-1, -1),
         target: new Position(-1, -1),
         walls: [],
+        visitedNodes: [],
     };
 
     setAlgorithmId = (selectedAlgorithmId) => {
@@ -112,13 +114,12 @@ class App extends Component {
     };
 
     toggleWall = (position) => {
-        console.log(position);
+        // console.log(position);
         let walls = this.state.walls;
         if (
             walls.some((node) => node.x === position.x && node.y === position.y)
         ) {
             // Node is a wall -> change to unvisited
-            console.log("check");
             walls = walls.filter(
                 (node) => !(node.x === position.x && node.y === position.y)
             );
@@ -126,6 +127,27 @@ class App extends Component {
             walls.push(position);
         }
         this.setState({ walls });
+    };
+
+    startWalking = () => {
+        console.log("START WALKING");
+        const visitedNodes = performDijkstra(
+            this.state.rows,
+            this.state.columns,
+            this.state.source,
+            this.state.target,
+            this.state.walls
+        );
+        console.log(visitedNodes);
+        for (let i = 0; i < visitedNodes.length; i++) {
+            setTimeout(() => {
+                this.setState({ visitedNodes: visitedNodes.slice(0, i + 1) });
+                if (i === visitedNodes.length - 1)
+                    setTimeout(() => {
+                        alert("Target Reached");
+                    }, this.state.speed * (i + 1));
+            }, this.state.speed * i);
+        }
     };
 
     render() {
@@ -138,6 +160,7 @@ class App extends Component {
                     onAlgorithmChanged={this.setAlgorithmId}
                     onMazeChanged={this.setMazeId}
                     onSpeedChanged={this.setSpeedId}
+                    startWalking={this.startWalking}
                 />
                 <Legend />
                 <Grid
@@ -146,6 +169,7 @@ class App extends Component {
                     source={this.state.source}
                     target={this.state.target}
                     walls={this.state.walls}
+                    visitedNodes={this.state.visitedNodes}
                     setNodeAsSource={this.setNodeAsSource}
                     setNodeAsTarget={this.setNodeAsTarget}
                     toggleWall={this.toggleWall}

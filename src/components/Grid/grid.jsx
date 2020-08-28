@@ -26,9 +26,9 @@ class Grid extends Component {
     }
     handleMouseDown(nodeState, position) {
         this.setState({ isMousePressed: true });
-        console.log(
-            `(${position.x}, ${position.y}) : mouseDown | pressed=${this.state.isMousePressed}`
-        );
+        // console.log(
+        //     `(${position.x}, ${position.y}) : mouseDown | pressed=${this.state.isMousePressed}`
+        // );
         if (nodeState === NodeState.NODE_IS_SOURCE) {
             this.setState({ movingSource: true });
         } else if (nodeState === NodeState.NODE_IS_TARGET) {
@@ -39,9 +39,9 @@ class Grid extends Component {
     }
     handleMouseEnter(nodeState, position) {
         if (this.state.isMousePressed) {
-            console.log(
-                `(${position.x}, ${position.y}) : mouseEnter | pressed=${this.state.isMousePressed}`
-            );
+            // console.log(
+            //     `(${position.x}, ${position.y}) : mouseEnter | pressed=${this.state.isMousePressed}`
+            // );
             if (this.state.movingSource) {
                 // TODO: change nodeState to source
                 this.props.setNodeAsSource(position);
@@ -50,7 +50,7 @@ class Grid extends Component {
                 this.props.setNodeAsTarget(position);
             } else {
                 // TODO: toggleWall()
-                console.log(position);
+                // console.log(position);
                 this.props.toggleWall(position);
             }
         }
@@ -70,7 +70,7 @@ class Grid extends Component {
         // }
     }
 
-    decideNodeState(x, y, source, target, walls) {
+    decideNodeState(x, y, source, target, walls, visitedNodes) {
         if (x === source.x && y === source.y) {
             return NodeState.NODE_IS_SOURCE;
         } else if (x === target.x && y === target.y) {
@@ -79,12 +79,25 @@ class Grid extends Component {
             walls.some((position) => position.x === x && position.y === y)
         ) {
             return NodeState.NODE_IS_WALL;
+        } else if (
+            visitedNodes.some(
+                (position) => position.x === x && position.y === y
+            )
+        ) {
+            return NodeState.NODE_VISITED;
         }
         return NodeState.NODE_UNVISITED;
     }
 
     render() {
-        const { rows, columns, source, target, walls } = this.props;
+        const {
+            rows,
+            columns,
+            source,
+            target,
+            walls,
+            visitedNodes,
+        } = this.props;
         const paddingX = (window.innerWidth - columns * 20) / 2;
         const paddingY = (window.innerHeight - 190 - rows * 20) / 2;
         const nodes = [];
@@ -97,7 +110,8 @@ class Grid extends Component {
                     y,
                     source,
                     target,
-                    walls
+                    walls,
+                    visitedNodes
                 );
 
                 nodes.push(

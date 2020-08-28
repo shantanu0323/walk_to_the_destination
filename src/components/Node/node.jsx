@@ -12,19 +12,27 @@ class Node extends Component {
             onMouseEnter,
             onMouseLeave,
         } = this.props;
-        return (
-            <div
-                className={this.getNodeStateClass(nodeState)}
-                data-x={position.x}
-                data-y={position.y}
-                onMouseDown={() => onMouseDown(nodeState, position)}
-                onMouseUp={() => onMouseUp(nodeState, position)}
-                onMouseEnter={() => onMouseEnter(nodeState, position)}
-                onMouseLeave={() => onMouseLeave(nodeState, position)}
-            >
-                {/* <div></div> */}
-            </div>
-        );
+        if (onMouseEnter === undefined) {
+            return (
+                <div className={this.getNodeStateClass(nodeState)}>
+                    {/* <div></div> */}
+                </div>
+            );
+        } else {
+            return (
+                <div
+                    className={this.getNodeStateClass(nodeState)}
+                    data-x={position.x}
+                    data-y={position.y}
+                    onMouseDown={() => onMouseDown(nodeState, position)}
+                    onMouseUp={() => onMouseUp(nodeState, position)}
+                    onMouseEnter={() => onMouseEnter(nodeState, position)}
+                    onMouseLeave={() => onMouseLeave(nodeState, position)}
+                >
+                    {/* <div></div> */}
+                </div>
+            );
+        }
     }
 
     getNodeStateClass(nodeState) {
