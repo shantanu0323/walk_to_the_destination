@@ -194,10 +194,10 @@ class NavBar extends Component {
         ],
         speeds: [
             { id: "speed-faster", name: "Faster", speed: 15 },
-            { id: "speed-fast", name: "Fast", speed: 20 },
-            { id: "speed-normal", name: "Normal", speed: 25 },
-            { id: "speed-slow", name: "Slow", speed: 30 },
-            { id: "speed-slower", name: "Slower", speed: 35 },
+            { id: "speed-fast", name: "Fast", speed: 30 },
+            { id: "speed-normal", name: "Normal", speed: 45 },
+            { id: "speed-slow", name: "Slow", speed: 60 },
+            { id: "speed-slower", name: "Slower", speed: 75 },
         ],
     };
 

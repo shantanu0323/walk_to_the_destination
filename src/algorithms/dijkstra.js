@@ -30,8 +30,10 @@ const initialiseMesh = (rows, columns, source, target, walls) => {
     return { mesh, dist, unvisitedNodes };
 };
 
-const getNodeKey = (node, where, mesh) => {
+const getNodeKey = (node, where, mesh, rows, columns) => {
     let [i, j] = node.split("-");
+    i = parseInt(i);
+    j = parseInt(j);
     switch (where) {
         case "above":
             i--;
@@ -50,13 +52,19 @@ const getNodeKey = (node, where, mesh) => {
             i = j = -1;
             break;
     }
-    if (i < 1 || j < 1 || mesh[i][j] === NodeState.NODE_IS_WALL) {
+    if (
+        i < 1 ||
+        i > rows ||
+        j < 1 ||
+        j > columns ||
+        mesh[parseInt(i)][parseInt(j)] === NodeState.NODE_IS_WALL
+    ) {
         return null;
     }
     return `${i}-${j}`;
 };
 
-const getVisitedNodes = (mesh, source, target, walls, unvisitedNodes, dist) => {
+const getVisitedNodes = (mesh, rows, columns, unvisitedNodes, dist) => {
     const visitedNodes = [];
 
     while (unvisitedNodes.length > 0) {
@@ -84,7 +92,7 @@ const getVisitedNodes = (mesh, source, target, walls, unvisitedNodes, dist) => {
         unvisitedNodes = unvisitedNodes.filter((node) => node !== currNode);
 
         ["above", "right", "below", "left"].forEach((where) => {
-            let u = getNodeKey(currNode, where, mesh);
+            let u = getNodeKey(currNode, where, mesh, rows, columns);
             if (u !== null) {
                 const alt = dist[currNode] + 1;
                 dist[u] = alt < dist[u] ? alt : dist[u];
@@ -97,7 +105,6 @@ const getVisitedNodes = (mesh, source, target, walls, unvisitedNodes, dist) => {
 
 const performDijkstra = (rows, columns, source, target, walls) => {
     console.log("Performing Dijkstra");
-    console.log({ rows, columns, source, target, walls });
 
     // initialise and fetch the graph
     const { mesh, dist, unvisitedNodes } = initialiseMesh(
@@ -111,9 +118,8 @@ const performDijkstra = (rows, columns, source, target, walls) => {
     // perform dijkstra(graph, source, target) on the graph and get the visited nodes in order
     const { visitedNodes } = getVisitedNodes(
         mesh,
-        source,
-        target,
-        walls,
+        rows,
+        columns,
         unvisitedNodes,
         dist
     );

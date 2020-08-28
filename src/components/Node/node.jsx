@@ -22,6 +22,7 @@ class Node extends Component {
             return (
                 <div
                     className={this.getNodeStateClass(nodeState)}
+                    id={`node-${position.x}-${position.y}`}
                     data-x={position.x}
                     data-y={position.y}
                     onMouseDown={() => onMouseDown(nodeState, position)}

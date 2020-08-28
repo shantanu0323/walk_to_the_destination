@@ -42,7 +42,7 @@ class App extends Component {
         selectedAlgorithmId: "algo-dijkstra",
         selectedMazeId: "maze-recursive-division",
         selectedSpeedId: "speed-fast",
-        speed: 20,
+        speed: 15,
         rows: 0,
         columns: 0,
         source: new Position(-1, -1),
@@ -70,7 +70,7 @@ class App extends Component {
     };
 
     setNodeAsSource = (position) => {
-        console.log(`SOURCE: ${position}`);
+        // console.log(`SOURCE: ${position}`);
         if (
             !(
                 position.x === this.state.target.x &&
@@ -92,7 +92,7 @@ class App extends Component {
     };
 
     setNodeAsTarget = (position) => {
-        console.log(`TARGET: ${position}`);
+        // console.log(`TARGET: ${position}`);
         if (
             !(
                 position.x === this.state.source.x &&
@@ -130,24 +130,42 @@ class App extends Component {
     };
 
     startWalking = () => {
-        console.log("START WALKING");
-        const visitedNodes = performDijkstra(
-            this.state.rows,
-            this.state.columns,
-            this.state.source,
-            this.state.target,
-            this.state.walls
-        );
-        console.log(visitedNodes);
-        for (let i = 0; i < visitedNodes.length; i++) {
-            setTimeout(() => {
-                this.setState({ visitedNodes: visitedNodes.slice(0, i + 1) });
-                if (i === visitedNodes.length - 1)
-                    setTimeout(() => {
-                        alert("Target Reached");
-                    }, this.state.speed * (i + 1));
-            }, this.state.speed * i);
+        for (let i = 1; i <= this.state.rows; i++) {
+            for (let j = 1; j <= this.state.columns; j++) {
+                const nodeDom = document.querySelector(`#node-${i}-${j}`);
+                if (nodeDom.classList.contains("node-visited")) {
+                    nodeDom.classList.remove("node-visited");
+                    nodeDom.classList.add("node-unvisited");
+                }
+            }
         }
+        setTimeout(() => {
+            console.log("START WALKING");
+            const visitedNodes = performDijkstra(
+                this.state.rows,
+                this.state.columns,
+                this.state.source,
+                this.state.target,
+                this.state.walls
+            );
+            // console.log(visitedNodes);
+            for (let i = 0; i < visitedNodes.length; i++) {
+                setTimeout(() => {
+                    // this.setState({ visitedNodes: visitedNodes.slice(0, i + 1) });
+                    const nodeDom = document.querySelector(
+                        `#node-${visitedNodes[i].x}-${visitedNodes[i].y}`
+                    );
+                    if (nodeDom.classList.contains("node-unvisited")) {
+                        nodeDom.classList.remove("node-unvisited");
+                        nodeDom.classList.add("node-visited");
+                    }
+                    if (i === visitedNodes.length - 1)
+                        setTimeout(() => {
+                            alert("Target Reached");
+                        }, this.state.speed + 500);
+                }, this.state.speed * i);
+            }
+        }, 500);
     };
 
     render() {
