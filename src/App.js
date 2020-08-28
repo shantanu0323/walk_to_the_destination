@@ -155,7 +155,7 @@ class App extends Component {
             for (let i = 0; i < visitedNodes.length; i++) {
                 setTimeout(() => {
                     const nodeDom = document.querySelector(
-                        `#node-${visitedNodes[i].x}-${visitedNodes[i].y}`
+                        `#node-${visitedNodes[i].position.x}-${visitedNodes[i].position.y}`
                     );
                     if (nodeDom.classList.contains("node-unvisited")) {
                         nodeDom.classList.remove("node-unvisited");
@@ -164,14 +164,16 @@ class App extends Component {
                     if (i === visitedNodes.length - 1)
                         setTimeout(() => {
                             if (
-                                visitedNodes[i].x === this.state.target.x &&
-                                visitedNodes[i].y === this.state.target.y
+                                visitedNodes[i].position.x ===
+                                    this.state.target.x &&
+                                visitedNodes[i].position.y ===
+                                    this.state.target.y
                             ) {
                                 for (let k = 0; k < path.length; k++) {
                                     setTimeout(() => {
                                         const node = path[k];
                                         const nodeDom = document.querySelector(
-                                            `#node-${node.x}-${node.y}`
+                                            `#node-${node.position.x}-${node.position.y}`
                                         );
                                         nodeDom.classList.remove(
                                             "node-visited"

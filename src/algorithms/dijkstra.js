@@ -1,191 +1,151 @@
-import NodeState, { NODE_IS_SOURCE } from "../components/Node/node_state";
+import Node from "./node";
+import NodeState from "../components/Node/node_state";
 import Position from "../components/Node/position";
 
-const INFINITY = 1000000;
+const mesh = [];
+let unvisitedNodes = [];
+
+const isEqual = (a, b) => {
+    return JSON.stringify(a) === JSON.stringify(b);
+};
+
 const initialiseMesh = (rows, columns, source, target, walls) => {
-    const mesh = new Array(rows);
-    const dist = {};
-    const unvisitedNodes = [];
-    for (let i = 1; i <= rows; i++) {
-        const col = new Array(columns);
-        for (let j = 1; j <= columns; j++) {
-            col[j] = NodeState.NODE_UNVISITED;
-            if (i === source.x && j === source.y) {
-                col[j] = NodeState.NODE_IS_SOURCE;
-                dist[`${i}-${j}`] = 0;
-            } else {
-                if (i === target.x && j === target.y) {
-                    col[j] = NodeState.NODE_IS_TARGET;
-                }
-                dist[`${i}-${j}`] = INFINITY;
+    window.rows = rows;
+    window.columns = columns;
+    for (let i = 1; i <= window.rows; i++) {
+        const row = [];
+        for (let j = 1; j <= window.columns; j++) {
+            const node = new Node(new Position(i, j));
+            if (isEqual(node.position, source)) {
+                node.nodeState = NodeState.NODE_IS_SOURCE;
+                node.distance = 0;
+            } else if (isEqual(node.position, target)) {
+                node.nodeState = NodeState.NODE_IS_TARGET;
             }
-            unvisitedNodes.push(`${i}-${j}`);
+            unvisitedNodes.push(node);
+            row[j] = node;
         }
-        mesh[i] = col;
+        mesh[i] = row;
     }
     walls.forEach((position) => {
-        mesh[position.x][position.y] = NodeState.NODE_IS_WALL;
+        mesh[position.x][position.y].nodeState = NodeState.NODE_IS_WALL;
     });
-
-    return { mesh, dist, unvisitedNodes };
 };
 
-const getNodeKey = (node, where, mesh, rows, columns) => {
-    let [i, j] = node.split("-");
-    i = parseInt(i);
-    j = parseInt(j);
-    switch (where) {
-        case "above":
-            i--;
-            break;
-        case "right":
-            j++;
-            break;
-        case "below":
-            i++;
-            break;
-        case "left":
-            j--;
-            break;
-
-        default:
-            i = j = -1;
-            break;
+const getNeighbours = (node) => {
+    const neighbours = [];
+    if (
+        node.position.x >= 1 &&
+        node.position.x <= window.rows &&
+        node.position.y >= 1 &&
+        node.position.y + 1 <= window.columns
+    ) {
+        neighbours.push(mesh[node.position.x][node.position.y + 1]);
     }
     if (
-        i < 1 ||
-        i > rows ||
-        j < 1 ||
-        j > columns ||
-        mesh[parseInt(i)][parseInt(j)] === NodeState.NODE_IS_WALL
+        node.position.x >= 1 &&
+        node.position.x + 1 <= window.rows &&
+        node.position.y >= 1 &&
+        node.position.y <= window.columns
     ) {
-        return null;
+        neighbours.push(mesh[node.position.x + 1][node.position.y]);
     }
-    return `${i}-${j}`;
-};
-
-const getNeighbours = (position, rows, columns) => {
-    // let [i, j] = node.split("-");
-    // const position = new Position(parseInt(i), parseInt(j));
-    const neighbours = [];
-
-    neighbours.push(new Position(position.x - 1, position.y));
-    neighbours.push(new Position(position.x, position.y + 1));
-    neighbours.push(new Position(position.x + 1, position.y));
-    neighbours.push(new Position(position.x, position.y - 1));
+    if (
+        node.position.x >= 1 &&
+        node.position.x <= window.rows &&
+        node.position.y - 1 >= 1 &&
+        node.position.y <= window.columns
+    ) {
+        neighbours.push(mesh[node.position.x][node.position.y - 1]);
+    }
+    if (
+        node.position.x - 1 >= 1 &&
+        node.position.x <= window.rows &&
+        node.position.y >= 1 &&
+        node.position.y <= window.columns
+    ) {
+        neighbours.push(mesh[node.position.x - 1][node.position.y]);
+    }
 
     return neighbours.filter(
-        (node) =>
-            node.x >= 1 && node.x <= rows && node.y >= 1 && node.y <= columns
+        (node) => node.nodeState !== NodeState.NODE_IS_WALL
     );
 };
 
-const getPreviousNodeInPath = (mesh, dist, currNode, rows, columns) => {
-    const neighbours = getNeighbours(currNode, rows, columns).filter(
-        (node) => mesh[node.x][node.y] === 1
+const getPreviousNodeInPath = (currNode) => {
+    const neighbours = getNeighbours(currNode).filter(
+        (node) =>
+            mesh[node.position.x][node.position.y].nodeState ===
+            NodeState.NODE_VISITED
     );
-    let min = INFINITY;
+    let min = Infinity;
     let prevNode;
     for (let i = 0; i < neighbours.length; i++) {
         const node = neighbours[i];
-        if (dist[`${node.x}-${node.y}`] < min) {
-            min = dist[`${node.x}-${node.y}`];
+        if (node.distance < min) {
+            min = node.distance;
             prevNode = node;
         }
     }
     return prevNode;
 };
 
-const getNodesInPath = (mesh, dist, target, rows, columns) => {
+const getNodesInPath = (visitedNodes) => {
     const path = [];
-    let currNode = target;
-    while (dist[`${currNode.x}-${currNode.y}`] > 1) {
-        currNode = getPreviousNodeInPath(mesh, dist, currNode, rows, columns);
+    let currNode = visitedNodes[visitedNodes.length - 1]; // target
+    while (currNode.distance > 1) {
+        currNode = getPreviousNodeInPath(currNode);
         path.unshift(currNode);
     }
     return path;
 };
 
-const getVisitedNodes = (mesh, rows, columns, unvisitedNodes, dist) => {
+const getVisitedNodes = (target) => {
     const visitedNodes = [];
 
     while (unvisitedNodes.length > 0) {
-        let minDist = INFINITY;
-        let currNode;
+        let minDist = Infinity;
+        let currNode = undefined;
         for (let i = 0; i < unvisitedNodes.length; i++) {
-            if (dist[unvisitedNodes[i]] < minDist) {
-                minDist = dist[unvisitedNodes[i]];
+            if (unvisitedNodes[i].distance < minDist) {
+                minDist = unvisitedNodes[i].distance;
                 currNode = unvisitedNodes[i];
             }
         }
         if (currNode === undefined) {
-            // alert("Target Not Reachable");
+            console.log("Target NOT Reachable");
             break;
         }
 
-        visitedNodes.push(
-            new Position(
-                parseInt(currNode.split("-")[0]),
-                parseInt(currNode.split("-")[1])
-            )
+        visitedNodes.push(currNode);
+        unvisitedNodes = unvisitedNodes.filter(
+            (node) => !isEqual(node.position, currNode.position)
         );
-        unvisitedNodes = unvisitedNodes.filter((node) => node !== currNode);
-        if (
-            mesh[currNode.split("-")[0]][currNode.split("-")[1]] ===
-            NodeState.NODE_IS_TARGET
-        ) {
+        if (isEqual(currNode.position, target)) {
             console.log("TARGET REACHED");
             break;
         }
-        mesh[parseInt(currNode.split("-")[0])][
-            parseInt(currNode.split("-")[1])
-        ] =
-            mesh[parseInt(currNode.split("-")[0])][
-                parseInt(currNode.split("-")[1])
-            ] === NodeState.NODE_IS_SOURCE
-                ? NODE_IS_SOURCE
+        currNode.nodeState =
+            currNode.nodeState === NodeState.NODE_IS_SOURCE
+                ? NodeState.NODE_IS_SOURCE
                 : NodeState.NODE_VISITED;
 
-        ["above", "right", "below", "left"].forEach((where) => {
-            let u = getNodeKey(currNode, where, mesh, rows, columns);
-            if (u !== null) {
-                const alt = dist[currNode] + 1;
-                dist[u] = alt < dist[u] ? alt : dist[u];
-            }
+        getNeighbours(currNode).forEach((node) => {
+            const alt = currNode.distance + 1;
+            node.distance = alt < node.distance ? alt : node.distance;
         });
     }
 
-    const path = getNodesInPath(
-        mesh,
-        dist,
-        visitedNodes[visitedNodes.length - 1],
-        rows,
-        columns
-    );
-    return { visitedNodes, path };
+    return visitedNodes;
 };
 
 const performDijkstra = (rows, columns, source, target, walls) => {
-    console.log("Performing Dijkstra");
-
     // initialise and fetch the graph
-    const { mesh, dist, unvisitedNodes } = initialiseMesh(
-        rows,
-        columns,
-        source,
-        target,
-        walls
-    );
+    initialiseMesh(rows, columns, source, target, walls);
 
     // perform dijkstra(graph, source, target) on the graph and get the visited nodes in order
-    const { visitedNodes, path } = getVisitedNodes(
-        mesh,
-        rows,
-        columns,
-        unvisitedNodes,
-        dist
-    );
-
+    const visitedNodes = getVisitedNodes(target);
+    const path = getNodesInPath(visitedNodes);
     return { visitedNodes, path };
 };
 
