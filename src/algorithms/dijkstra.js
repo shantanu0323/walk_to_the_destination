@@ -99,14 +99,9 @@ const getPreviousNodeInPath = (mesh, dist, currNode, rows, columns) => {
 const getNodesInPath = (mesh, dist, target, rows, columns) => {
     const path = [];
     let currNode = target;
-    let k = 30;
-    while (k--) {
+    while (dist[`${currNode.x}-${currNode.y}`] > 1) {
         currNode = getPreviousNodeInPath(mesh, dist, currNode, rows, columns);
         path.unshift(currNode);
-        if (dist[`${currNode.x}-${currNode.y}`] === 1) {
-            // path.unshift(currNode);
-            break;
-        }
     }
     return path;
 };
