@@ -206,8 +206,7 @@ class NavBar extends Component {
 
     constructMaze = (walls) => {
         console.log({ walls });
-        let i = 0;
-        for (i = 0; i < walls.length; i++) {
+        for (let i = 0; i < walls.length; i++) {
             const wall = walls[i];
             setTimeout(() => {
                 const nodeDom = document.querySelector(
@@ -215,11 +214,13 @@ class NavBar extends Component {
                 );
                 nodeDom.classList.remove("node-unvisited");
                 nodeDom.classList.add("node-wall");
-            }, 20 * i);
+                if (i === walls.length - 1) {
+                    setTimeout(() => {
+                        this.props.onMazeCreated(walls, []);
+                    }, this.props.speed);
+                }
+            }, (this.props.speed * i) / 2);
         }
-        setTimeout(() => {
-            this.props.onMazeCreated(walls, []);
-        }, this.props.speed * i);
     };
 
     generateMaze = (type) => {
