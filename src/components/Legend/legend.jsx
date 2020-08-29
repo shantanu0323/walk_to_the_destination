@@ -1,8 +1,8 @@
 import React from "react";
 import "./legend.css";
 import Node from "../Node/node";
-import Position from "../Node/position";
-const NodeState = require("../Node/node_state");
+import Position from "../../helper/position";
+import NodeState from "../Node/node_state";
 
 const Legend = () => {
     return (

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./node.css";
-
-const NodeState = require("./node_state");
+import NodeState from "./node_state";
 class Node extends Component {
     render() {
         const {

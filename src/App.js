@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import NavBar from "./components/NavBar/navbar";
 import Legend from "./components/Legend/legend";
 import Grid from "./components/Grid/grid";
-import Position from "./components/Node/position.jsx";
+import Position from "./helper/position";
 import Insights from "./components/Insights/insights";
 import Copyright from "./components/Copyright/copyright";
 import "bootstrap/dist/css/bootstrap.css";

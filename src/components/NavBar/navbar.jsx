@@ -293,8 +293,8 @@ class NavBar extends Component {
         } = this.props;
         return (
             <React.Fragment>
-                <nav className="navbar navbar-expand-lg navbar-custom navbar-dark text-light pl-1">
-                    <span className="navbar-brand mb-0">
+                <nav className="navbar navbar-expand-lg navbar-custom navbar-dark text-light">
+                    <span className="navbar-brand mb-0 ml-2">
                         <img
                             src={logo}
                             width="30"
@@ -307,7 +307,7 @@ class NavBar extends Component {
                         <span>Walk to the Destination</span>
                     </span>
                     <button
-                        className="navbar-toggler"
+                        className="navbar-toggler mr-2"
                         type="button"
                         data-toggle="collapse"
                         data-target="#navbarNav"

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Node from "../Node/node";
 import NodeState from "../Node/node_state";
-import Position from "../Node/position";
+import Position from "../../helper/position";
 import "./grid.css";
 
 class Grid extends Component {

@@ -1,4 +1,13 @@
-import Position from "../../components/Node/position";
+import Position, { isEqual, getNeighbours } from "../../helper/position";
+
+const isOnEdge = (position, rows, columns) => {
+    return (
+        position.x === 1 ||
+        position.x === rows ||
+        position.y === 1 ||
+        position.y === columns
+    );
+};
 
 const generateBinaryTreeMaze = (rows, columns, source, target) => {
     const walls = [];
@@ -12,8 +21,8 @@ const generateBinaryTreeMaze = (rows, columns, source, target) => {
         walls.push(new Position(rows, j));
     }
 
-    for (let i = 3; i < rows; i += 2) {
-        for (let j = 3; j < columns; j += 2) {
+    for (let i = 3; i < rows - 1; i += 2) {
+        for (let j = 3; j < columns - 1; j += 2) {
             walls.push(new Position(i, j));
             if (Math.round(Math.random())) {
                 walls.push(new Position(i - 1, j));
@@ -22,7 +31,19 @@ const generateBinaryTreeMaze = (rows, columns, source, target) => {
             }
         }
     }
-    return walls;
+    const sourceNeighbours = isOnEdge(source)
+        ? getNeighbours(source, rows, columns)
+        : [];
+    const targetNeighbours = isOnEdge(target)
+        ? getNeighbours(target, rows, columns)
+        : [];
+    return walls.filter(
+        (wall) =>
+            !isEqual(wall, source) &&
+            !isEqual(wall, target) &&
+            !sourceNeighbours.some((node) => isEqual(node, wall)) &&
+            !targetNeighbours.some((node) => isEqual(node, wall))
+    );
 };
 
 export default generateBinaryTreeMaze;

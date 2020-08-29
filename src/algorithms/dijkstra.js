@@ -1,13 +1,9 @@
 import Node from "./node";
 import NodeState from "../components/Node/node_state";
-import Position from "../components/Node/position";
+import Position, { isEqual, getNeighbours } from "../helper/position";
 
 const mesh = [];
 let unvisitedNodes = [];
-
-const isEqual = (a, b) => {
-    return JSON.stringify(a) === JSON.stringify(b);
-};
 
 const initialiseMesh = (rows, columns, source, target, walls) => {
     window.rows = rows;
@@ -32,48 +28,27 @@ const initialiseMesh = (rows, columns, source, target, walls) => {
     });
 };
 
-const getNeighbours = (node) => {
-    const neighbours = [];
-    if (
-        node.position.x >= 1 &&
-        node.position.x <= window.rows &&
-        node.position.y >= 1 &&
-        node.position.y + 1 <= window.columns
-    ) {
-        neighbours.push(mesh[node.position.x][node.position.y + 1]);
-    }
-    if (
-        node.position.x >= 1 &&
-        node.position.x + 1 <= window.rows &&
-        node.position.y >= 1 &&
-        node.position.y <= window.columns
-    ) {
-        neighbours.push(mesh[node.position.x + 1][node.position.y]);
-    }
-    if (
-        node.position.x >= 1 &&
-        node.position.x <= window.rows &&
-        node.position.y - 1 >= 1 &&
-        node.position.y <= window.columns
-    ) {
-        neighbours.push(mesh[node.position.x][node.position.y - 1]);
-    }
-    if (
-        node.position.x - 1 >= 1 &&
-        node.position.x <= window.rows &&
-        node.position.y >= 1 &&
-        node.position.y <= window.columns
-    ) {
-        neighbours.push(mesh[node.position.x - 1][node.position.y]);
-    }
-
-    return neighbours.filter(
-        (node) => node.nodeState !== NodeState.NODE_IS_WALL
+const getNonWallNeighbours = (node) => {
+    const neighbourPositions = getNeighbours(
+        node.position,
+        window.rows,
+        window.columns
     );
+    const neighbours = [];
+    neighbourPositions.map((position) => {
+        const node = mesh[position.x][position.y];
+        if (node.nodeState !== NodeState.NODE_IS_WALL) {
+            neighbours.push(node);
+            return true;
+        }
+        return false;
+    });
+
+    return neighbours;
 };
 
 const getPreviousNodeInPath = (currNode) => {
-    const neighbours = getNeighbours(currNode).filter(
+    const neighbours = getNonWallNeighbours(currNode).filter(
         (node) =>
             mesh[node.position.x][node.position.y].nodeState ===
             NodeState.NODE_VISITED
@@ -130,7 +105,7 @@ const getVisitedNodes = (target) => {
                 ? NodeState.NODE_IS_SOURCE
                 : NodeState.NODE_VISITED;
 
-        getNeighbours(currNode).forEach((node) => {
+        getNonWallNeighbours(currNode).forEach((node) => {
             const alt = currNode.distance + 1;
             node.distance = alt < node.distance ? alt : node.distance;
         });
