@@ -1,6 +1,5 @@
 .insights-container {
-    position: absolute;
-    bottom: 40px;
+    float: left;
     left: 0;
     width: 100vw;
     height: 60px;
@@ -9,9 +8,9 @@
 }
 
 .insights-container div {
-    position: absolute;
+    position: relative;
     left: 0;
-    bottom: 0;
+    top: 0;
     width: calc(100% - 20px);
     height: calc(100% - 20px);
     margin: 10px;

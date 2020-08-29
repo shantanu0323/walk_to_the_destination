@@ -1,34 +1,30 @@
 .copyright-container {
-    position: absolute;
-    bottom: 0;
+    float: left;
     left: 0;
     width: 100vw;
     height: 40px;
     background: linear-gradient(to top, rgb(0, 26, 34), rgba(0, 26, 34, 0));
     color: #ddd;
     text-align: center;
+    overflow: hidden;
 }
 
 .copyright-container .github-links,
 .copyright-container .copyright,
 .copyright-container .social-links {
-    position: absolute;
-    bottom: 50%;
-    transform: translateY(50%);
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
 }
 .copyright-container .github-links {
-    left: 0;
+    float: left;
     padding-left: 10px;
 }
 
-.copyright-container .copyright {
-    left: 50%;
-    transform: translate(-50%, 50%);
-}
-
 .copyright-container .social-links {
-    right: 0;
+    float: right;
     padding-right: 10px;
+    transform: translateY(-110%);
 }
 
 .copyright-container .copyright a,

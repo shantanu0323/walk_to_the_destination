@@ -2,15 +2,17 @@
     height: 50px;
     background: linear-gradient(
         to bottom,
-        rgba(30, 30, 30, 1),
-        rgba(30, 30, 30, 0.5) /* rgba(0, 0, 0, 0) */
+        rgb(255, 255, 255),
+        rgba(255, 255, 255, 0) /* rgba(30, 30, 30, 1), */
+            /* rgba(30, 30, 30, 0.5)  */
     );
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
 
 .navbar-brand {
-    color: rgb(255, 255, 46) !important;
+    color: rgb(0, 0, 0) !important;
+    text-shadow: 1px 1px 0px #55555585 !important;
 }
 
 .navbar-brand span {
@@ -18,41 +20,27 @@
 }
 
 .btn-algorithm {
-    color: #eeeeee;
+    color: #555555;
     padding: 3px 10px 3px 10px;
     border-radius: 5px;
-    border: 1px solid #eeeeee;
+    border: 1px solid #555555;
     background-color: transparent;
     transition: all 0.3s;
-}
-
-.btn-algorithm:hover {
-    color: #222222;
-    background-color: #eeeeee;
 }
 
 .btn-algorithm span {
-    color: rgb(77, 255, 181);
+    color: rgb(64, 212, 150);
     font-weight: bold;
-}
-
-.btn-algorithm:hover span {
-    color: rgb(0, 177, 103);
 }
 
 .btn-maze {
-    color: #eeeeee;
+    color: #555555;
     padding: 3px 10px 3px 10px;
     border-radius: 5px;
-    border: 1px solid #eeeeee;
+    border: 1px solid #555555;
     background-color: transparent;
     transition: all 0.3s;
     font-weight: bold;
-}
-
-.btn-maze:hover {
-    color: #222222;
-    background-color: #eeeeee;
 }
 
 .btn-maze span {
@@ -60,22 +48,36 @@
 }
 
 .btn-speed {
-    color: #eeeeee;
+    color: #555555;
     padding: 3px 10px 3px 10px;
     border-radius: 5px;
-    border: 1px solid #eeeeee;
+    border: 1px solid #555555;
     background-color: transparent;
     transition: all 0.3s;
-}
-
-.btn-speed:hover {
-    color: #222222;
-    background-color: #eeeeee;
 }
 
 .btn-speed span {
     color: rgb(255, 136, 67);
     font-weight: bold;
+}
+
+.btn-algorithm:hover,
+.btn-maze:hover,
+.btn-speed:hover {
+    color: rgb(236, 236, 236);
+    background-color: #555555;
+}
+
+.btn-algorithm:hover span {
+    color: rgb(138, 255, 206);
+}
+
+.btn-maze:hover span {
+    color: rgb(130, 220, 255);
+}
+
+.btn-speed:hover span {
+    color: rgb(255, 151, 92);
 }
 
 .algorithm-options-container,
@@ -169,14 +171,18 @@
 }
 
 .collapse.navbar-collapse.show {
-    background: rgba(0, 0, 0, 0.8);
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 1)
+    );
     z-index: 101;
     transition: all 0.3s;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px;
 }
 
 button.navbar-toggler {
     transform: scale(0.7);
     border: none !important;
+    color: #555555 !important;
 }

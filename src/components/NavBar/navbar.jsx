@@ -4,6 +4,7 @@ import logo from "../../logo.svg";
 import NavItem from "./NavItem/navitem";
 import "bootstrap/dist/js/bootstrap.min.js";
 import generateBinaryTreeMaze from "../../algorithms/mazeGeneratingAlgorithms/binary_tree";
+import $ from "jquery";
 
 class NavBar extends Component {
     state = {
@@ -248,16 +249,19 @@ class NavBar extends Component {
     };
 
     showAlgorithmOptionsContainer() {
+        $(".navbar-collapse").collapse("hide");
         const dom = document.querySelector(".algorithm-options-container");
         dom.classList.add("show");
     }
 
     showMazeOptionsContainer() {
+        $(".navbar-collapse").collapse("hide");
         const dom = document.querySelector(".maze-options-container");
         dom.classList.add("show");
     }
 
     showSpeedOptionsContainer() {
+        $(".navbar-collapse").collapse("hide");
         const dom = document.querySelector(".speed-options-container");
         dom.classList.add("show");
     }
@@ -293,7 +297,7 @@ class NavBar extends Component {
         } = this.props;
         return (
             <React.Fragment>
-                <nav className="navbar navbar-expand-lg navbar-custom navbar-dark text-light">
+                <nav className="navbar navbar-expand-lg navbar-light navbar-custom text-light">
                     <span className="navbar-brand mb-0 ml-2">
                         <img
                             src={logo}

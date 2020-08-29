@@ -1,5 +1,5 @@
 import React from "react";
-import "./insigts.css";
+import "./insights.css";
 
 const Insights = (props) => {
     const { insights } = props;

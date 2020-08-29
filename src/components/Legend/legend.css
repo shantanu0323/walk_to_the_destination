@@ -1,12 +1,8 @@
 .legend-container {
-    float: right;
+    float: left;
     width: 100vw;
     height: 40px;
-    background: linear-gradient(
-        to bottom,
-        rgba(30, 30, 30, 0.5),
-        rgba(30, 30, 30, 0)
-    );
+    background: none;
 }
 
 .legend-container ul {
@@ -23,7 +19,9 @@
 
 .legend-container ul li > div {
     width: fit-content;
-    transform: translateX(50%);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .legend-container ul li > div > span {

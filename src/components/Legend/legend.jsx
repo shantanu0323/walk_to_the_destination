@@ -15,7 +15,7 @@ const Legend = () => {
                             position={new Position(-1, -1)}
                             disabled
                         />
-                        <span className="ml-2">Unvisited</span>
+                        <span className="ml-1">Unvisited</span>
                     </div>
                 </li>
                 <li>
@@ -24,7 +24,7 @@ const Legend = () => {
                             nodeState={NodeState.NODE_VISITED}
                             position={new Position(-1, -1)}
                         />
-                        <span className="ml-2">Visited</span>
+                        <span className="ml-1">Visited</span>
                     </div>
                 </li>
                 <li>
@@ -33,7 +33,7 @@ const Legend = () => {
                             nodeState={NodeState.NODE_IS_WALL}
                             position={new Position(-1, -1)}
                         />
-                        <span className="ml-2">Wall</span>
+                        <span className="ml-1">Wall</span>
                     </div>
                 </li>
                 <li>
@@ -42,7 +42,7 @@ const Legend = () => {
                             nodeState={NodeState.NODE_IS_SOURCE}
                             position={new Position(-1, -1)}
                         />
-                        <span className="ml-2">Source</span>
+                        <span className="ml-1">Source</span>
                     </div>
                 </li>
                 <li>
@@ -51,7 +51,7 @@ const Legend = () => {
                             nodeState={NodeState.NODE_IS_TARGET}
                             position={new Position(-1, -1)}
                         />
-                        <span className="ml-2">Target</span>
+                        <span className="ml-1">Target</span>
                     </div>
                 </li>
             </ul>

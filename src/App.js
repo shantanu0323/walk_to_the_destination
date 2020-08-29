@@ -201,7 +201,6 @@ class App extends Component {
                     speed={this.state.speed}
                     onMazeCreated={this.updateMaze}
                 />
-                <Legend />
                 <Grid
                     rows={this.state.rows}
                     columns={this.state.columns}
@@ -213,6 +212,7 @@ class App extends Component {
                     setNodeAsTarget={this.setNodeAsTarget}
                     toggleWall={this.toggleWall}
                 />
+                <Legend />
                 <Insights insights="Insights" />
                 <Copyright />
             </React.Fragment>
