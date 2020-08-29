@@ -170,17 +170,27 @@
     text-shadow: 3px 1px 2px rgba(255, 255, 255, 0.2);
 }
 
+.collapse.navbar-collapse,
+.collapsing.navbar-collapse {
+    filter: blur(2px);
+}
+.collapse.navbar-collapse,
+.collapsing.navbar-collapse,
 .collapse.navbar-collapse.show {
     background: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0.7),
-        rgba(255, 255, 255, 1)
+        to right,
+        rgba(255, 255, 255, 1),
+        rgba(255, 255, 255, 0.8),
+        rgba(255, 255, 255, 0)
     );
     z-index: 101;
     transition: all 0.3s;
     padding: 10px;
 }
 
+.collapse.navbar-collapse.show {
+    filter: blur(0px);
+}
 button.navbar-toggler {
     transform: scale(0.7);
     border: none !important;
