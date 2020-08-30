@@ -27,6 +27,50 @@
     transform: scale(0.8);
 }
 
+.node.node-source.path-to-top,
+.node.node-source.path-to-right,
+.node.node-source.path-to-bottom,
+.node.node-source.path-to-left,
+.node.node-target.path-to-top,
+.node.node-target.path-to-right,
+.node.node-target.path-to-bottom,
+.node.node-target.path-to-left {
+    border-radius: 2px;
+    transform: scale(1);
+}
+
+.node.node-source.path-to-top {
+    background: linear-gradient(to top, rgb(238, 115, 0), rgb(251, 255, 0));
+}
+
+.node.node-source.path-to-right {
+    background: linear-gradient(to right, rgb(238, 115, 0), rgb(251, 255, 0));
+}
+
+.node.node-source.path-to-bottom {
+    background: linear-gradient(to bottom, rgb(238, 115, 0), rgb(251, 255, 0));
+}
+
+.node.node-source.path-to-left {
+    background: linear-gradient(to left, rgb(238, 115, 0), rgb(251, 255, 0));
+}
+
+.node.node-target.path-to-top {
+    background: linear-gradient(to top, rgb(0, 238, 111), rgb(251, 255, 0));
+}
+
+.node.node-target.path-to-right {
+    background: linear-gradient(to right, rgb(0, 238, 111), rgb(251, 255, 0));
+}
+
+.node.node-target.path-to-bottom {
+    background: linear-gradient(to bottom, rgb(0, 238, 111), rgb(251, 255, 0));
+}
+
+.node.node-target.path-to-left {
+    background: linear-gradient(to left, rgb(0, 238, 111), rgb(251, 255, 0));
+}
+
 .node.node-target {
     background-color: rgb(0, 238, 111);
     border-radius: 10px;

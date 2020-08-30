@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import "./navbar.css";
 import logo from "../../logo.svg";
 import NavItem from "./NavItem/navitem";
-import "bootstrap/dist/js/bootstrap.min.js";
 import generateBinaryTreeMaze from "../../algorithms/mazeGeneratingAlgorithms/binary_tree";
-import $ from "jquery";
+import resetSourceAndTarget from "../../helper/initialise";
 
 class NavBar extends Component {
     state = {
@@ -223,25 +222,29 @@ class NavBar extends Component {
         }
     };
 
-    resetMesh = () => {
-        for (let i = 1; i <= this.props.rows; i++) {
-            for (let j = 1; j <= this.props.columns; j++) {
-                const nodeDom = document.querySelector(`#node-${i}-${j}`);
-                if (
-                    !(
-                        nodeDom.classList.contains("node-source") ||
-                        nodeDom.classList.contains("node-target")
-                    )
-                )
-                    nodeDom.setAttribute("class", "node node-unvisited");
-            }
-        }
-        this.props.onMazeCreated([], []);
-    };
+    // resetMesh = () => {
+    //     for (let i = 1; i <= this.props.rows; i++) {
+    //         for (let j = 1; j <= this.props.columns; j++) {
+    //             const nodeDom = document.querySelector(`#node-${i}-${j}`);
+    //             if (
+    //                 !(
+    //                     nodeDom.classList.contains("node-source") ||
+    //                     nodeDom.classList.contains("node-target")
+    //                 )
+    //             )
+    //                 nodeDom.setAttribute("class", "node node-unvisited");
+    //             else {
+    //                 resetSourceAndTarget();
+    //             }
+    //         }
+    //     }
+    //     this.props.onMazeCreated([], []);
+    // };
+
     generateMaze = (type) => {
         switch (type) {
             case "maze-binary-tree":
-                this.resetMesh(); // clear the maze
+                this.props.resetMesh(); // clear the maze
                 console.log("Generate Maze : ", type);
                 const wallsInOrder = generateBinaryTreeMaze(
                     this.props.rows,
@@ -266,19 +269,19 @@ class NavBar extends Component {
     };
 
     showAlgorithmOptionsContainer() {
-        $(".navbar-collapse").collapse("hide");
+        // $(".navbar-collapse").collapse("hide");
         const dom = document.querySelector(".algorithm-options-container");
         dom.classList.add("show");
     }
 
     showMazeOptionsContainer() {
-        $(".navbar-collapse").collapse("hide");
+        // $(".navbar-collapse").collapse("hide");
         const dom = document.querySelector(".maze-options-container");
         dom.classList.add("show");
     }
 
     showSpeedOptionsContainer() {
-        $(".navbar-collapse").collapse("hide");
+        // $(".navbar-collapse").collapse("hide");
         const dom = document.querySelector(".speed-options-container");
         dom.classList.add("show");
     }
@@ -311,38 +314,52 @@ class NavBar extends Component {
             onAlgorithmChanged,
             onSpeedChanged,
             startWalking,
+            clearPath,
+            destructWalls,
+            resetMesh,
         } = this.props;
         return (
             <React.Fragment>
-                <nav className="navbar navbar-expand-lg navbar-light navbar-custom text-light">
-                    <span className="navbar-brand mb-0 ml-2">
+                <nav className="navbar-custom">
+                    <span className="brand">
                         <img
                             src={logo}
                             width="30"
                             height="30"
                             className="d-inline-block align-top"
-                            alt=""
-                            loading="lazy"
-                            onClick={() => startWalking()}
+                            alt="logo"
                         />
-                        <span>Walk to the Destination</span>
+                        <span className="my-auto">Walk to the Destination</span>
                     </span>
-                    <button
-                        className="navbar-toggler mr-2"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target="#navbarNav"
-                        aria-controls="navbarNav"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                    >
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav">
-                            <li className="nav-item active ml-2">
+                    <div className="actions-container">
+                        <button id="btn-clear-path" onClick={() => clearPath()}>
+                            <span>Clear Path</span>
+                            <i className="fas fa-eraser"></i>
+                        </button>
+                        <button
+                            id="btn-desctruct-walls"
+                            onClick={() => destructWalls()}
+                        >
+                            <span>Destruct Walls</span>
+                            <i className="fas fa-snowplow"></i>
+                        </button>
+                        <button id="btn-reset-mesh" onClick={() => resetMesh()}>
+                            <span>Reset Mesh</span>
+                            <i className="fas fa-trash-restore"></i>
+                        </button>
+                        <button
+                            id="btn-start-walking"
+                            onClick={() => startWalking()}
+                        >
+                            <span>Start Walking</span>
+                            <i className="fas fa-play-circle"></i>
+                        </button>
+                    </div>
+                    <div className="walking-options">
+                        <ul>
+                            <li>
                                 <button
-                                    className="btn-algorithm my-1"
+                                    className="btn-algorithm"
                                     onClick={this.showAlgorithmOptionsContainer}
                                 >
                                     <span>
@@ -356,9 +373,9 @@ class NavBar extends Component {
                                     <i className="fas fa-check-double ml-1"></i>
                                 </button>
                             </li>
-                            <li className="nav-item active ml-2">
+                            <li>
                                 <button
-                                    className="btn-maze my-1"
+                                    className="btn-maze"
                                     onClick={this.showMazeOptionsContainer}
                                 >
                                     <span>
@@ -372,9 +389,9 @@ class NavBar extends Component {
                                     <i className="fab fa-magento ml-1"></i>
                                 </button>
                             </li>
-                            <li className="nav-item active ml-2">
+                            <li>
                                 <button
-                                    className="btn-speed my-1"
+                                    className="btn-speed"
                                     onClick={this.showSpeedOptionsContainer}
                                 >
                                     Speed :{" "}

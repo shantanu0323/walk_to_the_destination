@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import NavBar from "./components/NavBar/navbar";
 import Legend from "./components/Legend/legend";
 import Grid from "./components/Grid/grid";
-import Position from "./helper/position";
+import Position, { isEqual } from "./helper/position";
 import Insights from "./components/Insights/insights";
 import Copyright from "./components/Copyright/copyright";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import performDijkstra from "./algorithms/dijkstra";
+import resetSourceAndTarget from "./helper/initialise";
 
 class App extends Component {
     componentDidMount() {
@@ -120,7 +121,17 @@ class App extends Component {
         this.setState({ walls });
     };
 
+    putNodeInPath = (position, node) => {
+        if (isEqual(position, new Position(node.x - 1, node.y))) return "top";
+        if (isEqual(position, new Position(node.x, node.y + 1))) return "right";
+        if (isEqual(position, new Position(node.x + 1, node.y)))
+            return "bottom";
+        if (isEqual(position, new Position(node.x, node.y - 1))) return "left";
+        return "null";
+    };
+
     startWalking = () => {
+        resetSourceAndTarget();
         for (let i = 1; i <= this.state.rows; i++) {
             for (let j = 1; j <= this.state.columns; j++) {
                 const nodeDom = document.querySelector(`#node-${i}-${j}`);
@@ -160,6 +171,15 @@ class App extends Component {
                                 visitedNodes[i].position.y ===
                                     this.state.target.y
                             ) {
+                                document
+                                    .querySelector(".node.node-source")
+                                    .classList.add(
+                                        `path-to-${this.putNodeInPath(
+                                            path[0].position,
+                                            this.state.source
+                                        )}`
+                                    );
+                                console.log(path[path.length - 1]);
                                 for (let k = 0; k < path.length; k++) {
                                     setTimeout(() => {
                                         const node = path[k];
@@ -170,6 +190,19 @@ class App extends Component {
                                             "node-visited"
                                         );
                                         nodeDom.classList.add("node-path");
+                                        if (k === path.length - 1) {
+                                            document
+                                                .querySelector(
+                                                    ".node.node-target"
+                                                )
+                                                .classList.add(
+                                                    `path-to-${this.putNodeInPath(
+                                                        path[path.length - 1]
+                                                            .position,
+                                                        this.state.target
+                                                    )}`
+                                                );
+                                        }
                                     }, this.state.speed * k);
                                 }
                             } else {
@@ -179,6 +212,33 @@ class App extends Component {
                 }, this.state.speed * i);
             }
         }, 500);
+    };
+
+    clearPath = () => {
+        this.setState({ visitedNodes: [] });
+        for (let i = 1; i <= this.state.rows; i++) {
+            for (let j = 1; j <= this.state.columns; j++) {
+                const nodeDom = document.querySelector(`#node-${i}-${j}`);
+                if (
+                    nodeDom.classList.contains("node-visited") ||
+                    nodeDom.classList.contains("node-path")
+                ) {
+                    nodeDom.classList.remove("node-visited");
+                    nodeDom.classList.remove("node-path");
+                    nodeDom.classList.add("node-unvisited");
+                }
+            }
+        }
+        resetSourceAndTarget();
+    };
+
+    destructWalls = () => {
+        this.setState({ walls: [] });
+    };
+
+    resetMesh = () => {
+        this.clearPath();
+        this.destructWalls();
     };
 
     updateMaze = (walls, visitedNodes) => {
@@ -194,6 +254,9 @@ class App extends Component {
                     onAlgorithmChanged={this.setAlgorithmId}
                     onSpeedChanged={this.setSpeedId}
                     startWalking={this.startWalking}
+                    clearPath={this.clearPath}
+                    destructWalls={this.destructWalls}
+                    resetMesh={this.resetMesh}
                     rows={this.state.rows}
                     columns={this.state.columns}
                     source={this.state.source}
