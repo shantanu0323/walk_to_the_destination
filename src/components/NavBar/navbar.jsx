@@ -214,6 +214,7 @@ class NavBar extends Component {
                 nodeDom.classList.add("node-wall");
                 if (i === walls.length - 1) {
                     setTimeout(() => {
+                        this.props.stopLoading();
                         this.props.onMazeCreated(walls, []);
                     }, this.props.speed);
                 }
@@ -221,28 +222,10 @@ class NavBar extends Component {
         }
     };
 
-    // resetMesh = () => {
-    //     for (let i = 1; i <= this.props.rows; i++) {
-    //         for (let j = 1; j <= this.props.columns; j++) {
-    //             const nodeDom = document.querySelector(`#node-${i}-${j}`);
-    //             if (
-    //                 !(
-    //                     nodeDom.classList.contains("node-source") ||
-    //                     nodeDom.classList.contains("node-target")
-    //                 )
-    //             )
-    //                 nodeDom.setAttribute("class", "node node-unvisited");
-    //             else {
-    //                 resetSourceAndTarget();
-    //             }
-    //         }
-    //     }
-    //     this.props.onMazeCreated([], []);
-    // };
-
     generateMaze = (type) => {
         switch (type) {
             case "maze-binary-tree":
+                this.props.startLoading();
                 this.props.resetMesh(); // clear the maze
                 console.log("Generate Maze : ", type);
                 const wallsInOrder = generateBinaryTreeMaze(

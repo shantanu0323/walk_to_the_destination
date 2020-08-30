@@ -1,0 +1,138 @@
+.loader-container {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    /* background-color: black; */
+    z-index: 500;
+    /* opacity: 0.5; */
+}
+
+.loader-container.show {
+    display: block;
+}
+
+.loader-container.hide {
+    display: none;
+}
+
+.loader-container.show .top-bar,
+.loader-container.show .bottom-bar,
+.loader-container.show .right-bar,
+.loader-container.show .left-bar {
+    background-color: rgb(0, 255, 85);
+    position: absolute;
+    box-shadow: 0px 0px 10px 0px rgb(0, 255, 85);
+}
+
+.loader-container.show .top-bar,
+.loader-container.show .bottom-bar {
+    height: 3px;
+    width: 0;
+}
+
+.loader-container.show .right-bar,
+.loader-container.show .left-bar {
+    width: 3px;
+    height: 0;
+}
+
+.loader-container.show .top-bar {
+    top: 0;
+    left: 0;
+    animation-name: anim-top-bar;
+    animation-duration: 2s;
+    animation-delay: 0;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+}
+
+.loader-container.show .right-bar {
+    top: 0;
+    right: 0;
+    animation-name: anim-right-bar;
+    animation-duration: 2s;
+    animation-delay: 0.5s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+}
+
+.loader-container.show .bottom-bar {
+    bottom: 0;
+    right: 0;
+    animation-name: anim-bottom-bar;
+    animation-duration: 2s;
+    animation-delay: 1s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+}
+
+.loader-container.show .left-bar {
+    bottom: 0;
+    left: 0;
+    animation-name: anim-left-bar;
+    animation-duration: 2s;
+    animation-delay: 1.5s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+}
+
+@keyframes anim-top-bar {
+    0% {
+        width: 0;
+        left: 0;
+    }
+    33% {
+        width: 100vw;
+        left: 0;
+    }
+    66% {
+        width: 0;
+        left: 100%;
+    }
+}
+
+@keyframes anim-right-bar {
+    0% {
+        height: 0;
+        top: 0;
+    }
+    33% {
+        height: 100vh;
+        top: 0;
+    }
+    66% {
+        height: 0;
+        top: 100%;
+    }
+}
+
+@keyframes anim-bottom-bar {
+    0% {
+        width: 0;
+        right: 0;
+    }
+    33% {
+        width: 100vw;
+        right: 0;
+    }
+    66% {
+        width: 0;
+        right: 100%;
+    }
+}
+
+@keyframes anim-left-bar {
+    0% {
+        height: 0;
+        bottom: 0;
+    }
+    33% {
+        height: 100vh;
+        bottom: 0;
+    }
+    67% {
+        height: 0;
+        bottom: 100%;
+    }
+}

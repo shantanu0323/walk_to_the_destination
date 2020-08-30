@@ -9,6 +9,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import performDijkstra from "./algorithms/dijkstra";
 import resetSourceAndTarget from "./helper/initialise";
+import Loader from "./components/Loader/loader";
 
 class App extends Component {
     componentDidMount() {
@@ -28,11 +29,11 @@ class App extends Component {
         const columns = parseInt((gridWidth - 40) / 20);
         const source = new Position(
             parseInt(0.5 * rows),
-            parseInt(0.25 * columns)
+            parseInt(0.3 * columns)
         );
         const target = new Position(
             parseInt(0.5 * rows),
-            parseInt(0.75 * columns)
+            parseInt(0.7 * columns)
         );
         this.setState({ rows, columns, source, target });
     }
@@ -47,6 +48,15 @@ class App extends Component {
         target: new Position(-1, -1),
         walls: [],
         visitedNodes: [],
+        loading: false,
+    };
+
+    startLoading = () => {
+        this.setState({ loading: true });
+    };
+
+    stopLoading = () => {
+        this.setState({ loading: false });
     };
 
     setAlgorithmId = (selectedAlgorithmId) => {
@@ -131,6 +141,7 @@ class App extends Component {
     };
 
     startWalking = () => {
+        this.startLoading();
         resetSourceAndTarget();
         for (let i = 1; i <= this.state.rows; i++) {
             for (let j = 1; j <= this.state.columns; j++) {
@@ -202,11 +213,13 @@ class App extends Component {
                                                         this.state.target
                                                     )}`
                                                 );
+                                            this.stopLoading();
                                         }
                                     }, this.state.speed * k);
                                 }
                             } else {
                                 alert("Target NOT Reachable");
+                                this.stopLoading();
                             }
                         }, this.state.speed + 500);
                 }, this.state.speed * i);
@@ -248,6 +261,7 @@ class App extends Component {
     render() {
         return (
             <React.Fragment>
+                <Loader loading={this.state.loading} />
                 <NavBar
                     selectedAlgorithmId={this.state.selectedAlgorithmId}
                     selectedSpeedId={this.state.selectedSpeedId}
@@ -263,7 +277,10 @@ class App extends Component {
                     target={this.state.target}
                     speed={this.state.speed}
                     onMazeCreated={this.updateMaze}
+                    startLoading={this.startLoading}
+                    stopLoading={this.stopLoading}
                 />
+
                 <Grid
                     rows={this.state.rows}
                     columns={this.state.columns}
