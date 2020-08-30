@@ -3,7 +3,6 @@ import "./navbar.css";
 import logo from "../../logo.svg";
 import NavItem from "./NavItem/navitem";
 import generateBinaryTreeMaze from "../../algorithms/mazeGeneratingAlgorithms/binary_tree";
-import resetSourceAndTarget from "../../helper/initialise";
 
 class NavBar extends Component {
     state = {
