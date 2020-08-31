@@ -1,10 +1,10 @@
 .navbar-custom {
     height: 50px;
-    background: linear-gradient(
+    /* background: linear-gradient(
         to bottom,
         rgb(255, 255, 255),
         rgba(255, 255, 255, 0)
-    );
+    ); */
     padding-bottom: 10px;
 }
 
@@ -17,8 +17,8 @@
 }
 
 .navbar-custom .brand span {
-    color: rgb(0, 0, 0) !important;
-    text-shadow: 1px 1px 0px #55555585 !important;
+    color: white !important;
+    text-shadow: 0.5px 0.5px 0px white !important;
     line-height: 30px;
 }
 
@@ -58,7 +58,7 @@
     border: none;
     color: rgb(0, 217, 255);
     padding: 0;
-    text-shadow: 0px 0px 2px #555555;
+    text-shadow: 0px 0px 2px #eeeeee;
     transition: all 0.3s;
     margin-right: 10px;
 }
@@ -132,10 +132,10 @@
 }
 
 .btn-algorithm {
-    color: #555555;
+    color: #eeeeee;
     padding: 3px 10px 3px 10px;
     border-radius: 5px;
-    border: 1px solid #555555;
+    border: 1px solid #eeeeee;
     background-color: transparent;
     transition: all 0.3s;
 }
@@ -146,10 +146,10 @@
 }
 
 .btn-maze {
-    color: #555555;
+    color: #eeeeee;
     padding: 3px 10px 3px 10px;
     border-radius: 5px;
-    border: 1px solid #555555;
+    border: 1px solid #eeeeee;
     background-color: transparent;
     transition: all 0.3s;
     font-weight: bold;
@@ -160,10 +160,10 @@
 }
 
 .btn-speed {
-    color: #555555;
+    color: #eeeeee;
     padding: 3px 10px 3px 10px;
     border-radius: 5px;
-    border: 1px solid #555555;
+    border: 1px solid #eeeeee;
     background-color: transparent;
     transition: all 0.3s;
 }
@@ -176,20 +176,20 @@
 .btn-algorithm:hover,
 .btn-maze:hover,
 .btn-speed:hover {
-    color: rgb(236, 236, 236);
-    background-color: #555555;
+    color: #555555;
+    background-color: #eeeeee;
 }
 
 .btn-algorithm:hover span {
-    color: rgb(138, 255, 206);
+    color: rgb(0, 144, 84);
 }
 
 .btn-maze:hover span {
-    color: rgb(130, 220, 255);
+    color: rgb(0, 114, 160);
 }
 
 .btn-speed:hover span {
-    color: rgb(255, 151, 92);
+    color: rgb(158, 58, 0);
 }
 
 .algorithm-options-container,
@@ -235,7 +235,7 @@
 
 .option-description-container {
     position: absolute;
-    border-left: 1px solid #555555;
+    border-left: 1px solid #eeeeee;
     display: inline-block;
     transform: translateY(-50%);
     color: #aaa;
@@ -300,9 +300,4 @@
 
 .collapse.navbar-collapse.show {
     filter: blur(0px);
-}
-button.navbar-toggler {
-    transform: scale(0.7);
-    border: none !important;
-    color: #555555 !important;
 }

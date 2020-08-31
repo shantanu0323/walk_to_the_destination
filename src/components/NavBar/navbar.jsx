@@ -193,11 +193,11 @@ class NavBar extends Component {
             { id: "maze-binary-tree", name: "Binary Tree" },
         ],
         speeds: [
-            { id: "speed-faster", name: "Faster", speed: 15 },
-            { id: "speed-fast", name: "Fast", speed: 30 },
-            { id: "speed-normal", name: "Normal", speed: 45 },
-            { id: "speed-slow", name: "Slow", speed: 60 },
-            { id: "speed-slower", name: "Slower", speed: 75 },
+            { id: "speed-faster", name: "Faster", speed: 10 },
+            { id: "speed-fast", name: "Fast", speed: 15 },
+            { id: "speed-normal", name: "Normal", speed: 20 },
+            { id: "speed-slow", name: "Slow", speed: 30 },
+            { id: "speed-slower", name: "Slower", speed: 40 },
         ],
         selectedMazeId: "maze-none",
     };
@@ -238,7 +238,7 @@ class NavBar extends Component {
                 break;
             case "maze-none":
             default:
-                this.resetMesh(); // clear the maze
+                this.props.resetMesh(); // clear the maze
                 break;
         }
     };
