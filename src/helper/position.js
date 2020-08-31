@@ -9,39 +9,39 @@ const isEqual = (a, b) => {
     return JSON.stringify(a) === JSON.stringify(b);
 };
 
-const getNeighbours = (position, rows, columns) => {
+const getNeighbours = (position, rows, columns, step = 1) => {
     const neighbours = [];
     if (
         position.x >= 1 &&
         position.x <= rows &&
         position.y >= 1 &&
-        position.y + 1 <= columns
+        position.y + step <= columns
     ) {
-        neighbours.push(new Position(position.x, position.y + 1));
+        neighbours.push(new Position(position.x, position.y + step));
     }
     if (
         position.x >= 1 &&
-        position.x + 1 <= rows &&
+        position.x + step <= rows &&
         position.y >= 1 &&
         position.y <= columns
     ) {
-        neighbours.push(new Position(position.x + 1, position.y));
+        neighbours.push(new Position(position.x + step, position.y));
     }
     if (
         position.x >= 1 &&
         position.x <= rows &&
-        position.y - 1 >= 1 &&
+        position.y - step >= 1 &&
         position.y <= columns
     ) {
-        neighbours.push(new Position(position.x, position.y - 1));
+        neighbours.push(new Position(position.x, position.y - step));
     }
     if (
-        position.x - 1 >= 1 &&
+        position.x - step >= 1 &&
         position.x <= rows &&
         position.y >= 1 &&
         position.y <= columns
     ) {
-        neighbours.push(new Position(position.x - 1, position.y));
+        neighbours.push(new Position(position.x - step, position.y));
     }
     return neighbours;
 };

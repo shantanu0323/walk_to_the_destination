@@ -40,6 +40,7 @@
 .node.node-target.path-to-bottom,
 .node.node-target.path-to-left {
     transform: scale(1.3);
+    border: 1.5px solid #555555;
 }
 
 .node.node-source.path-to-top,
@@ -74,11 +75,12 @@
 }
 
 .node.node-path {
-    background-color: rgb(255, 238, 0);
+    background-color: rgb(255, 208, 0);
     animation-name: anim-path-node;
     animation-duration: 1s;
     animation-direction: forward;
     animation-iteration-count: 1;
+    box-shadow: 0px 0px 5px 1px #55555583;
 }
 
 /* .node.node-target:hover, .node.node-source:hover { */
@@ -126,6 +128,6 @@
     }
     40% {
         transform: scale(1);
-        background-color: rgb(255, 238, 0);
+        background-color: rgb(255, 208, 0);
     }
 }
