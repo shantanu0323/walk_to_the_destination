@@ -114,15 +114,15 @@ class NavBar extends Component {
                             <strong>f</strong> at zero)
                             <br />
                             3. while the open list is not empty <br />
-                            a) find the node with the least <strong>
+                            a. find the node with the least <strong>
                                 f
                             </strong>{" "}
                             on the open list, call it "q" <br />
-                            b) pop q off the open list <br />
-                            c) generate q's 8 successors and set their parents
+                            b. pop q off the open list <br />
+                            c. generate q's 8 successors and set their parents
                             to q <br />
-                            d) for each successor <br />
-                            i) if successor is the goal, stop search successor.
+                            d. for each successor <br />
+                            i. if successor is the goal, stop search successor.
                             <strong>g</strong> = q.<strong>g</strong> + distance
                             between successor and q successor.<strong>h</strong>{" "}
                             = distance from goal to successor (This can be done
@@ -131,15 +131,15 @@ class NavBar extends Component {
                             successor.<strong>f</strong> = successor.
                             <strong>g</strong> + successor.<strong>h</strong>
                             <br />
-                            ii) if a node with the same position as successor is
+                            ii. if a node with the same position as successor is
                             in the OPEN list which has a lower{" "}
                             <strong>f</strong> than successor, skip this
                             successor <br />
-                            iii) if a node with the same position as successor
+                            iii. if a node with the same position as successor
                             is in the CLOSED list which has a lower{" "}
                             <strong>f</strong> than successor, skip this
                             successor otherwise, add the node to the open list
-                            end (for loop) e) push q on the closed list end
+                            end (for loop) e. push q on the closed list end
                             (while loop){" "}
                         </p>
                     </div>
@@ -222,32 +222,37 @@ class NavBar extends Component {
         }
     };
 
-    generateMaze = (type) => {
-        switch (type) {
+    getSelectedMazeFunction = (mazeId) => {
+        switch (mazeId) {
             case "maze-binary-tree":
-                this.props.startLoading();
-                this.props.resetMesh(); // clear the maze
-                console.log("Generate Maze : ", type);
-                const wallsInOrder = generateBinaryTreeMaze(
-                    this.props.rows,
-                    this.props.columns,
-                    this.props.source,
-                    this.props.target
-                );
-                this.constructMaze(wallsInOrder);
-                break;
+                return generateBinaryTreeMaze;
             case "maze-none":
+                return -1;
             default:
-                this.props.resetMesh(); // clear the maze
-                break;
+                return null;
         }
     };
 
     setMazeId = (selectedMazeId) => {
-        this.setState({ selectedMazeId });
+        const generateMaze = this.getSelectedMazeFunction(selectedMazeId);
+        if (generateMaze === null) {
+            alert("Coming Soon !!!");
+            return;
+        }
         const dom = document.querySelector(".maze-options-container");
         dom.classList.remove("show");
-        this.generateMaze(selectedMazeId);
+        this.props.resetMesh(); // clear the maze
+        this.setState({ selectedMazeId });
+        if (generateMaze === -1) return;
+        this.props.startLoading();
+        console.log("Generate Maze : ", selectedMazeId);
+        const wallsInOrder = generateMaze(
+            this.props.rows,
+            this.props.columns,
+            this.props.source,
+            this.props.target
+        );
+        this.constructMaze(wallsInOrder);
     };
 
     showAlgorithmOptionsContainer() {

@@ -140,9 +140,8 @@ class App extends Component {
         return "null";
     };
 
-    startWalking = () => {
-        this.startLoading();
-        resetSourceAndTarget();
+    clearPath = () => {
+        this.setState({ visitedNodes: [] });
         for (let i = 1; i <= this.state.rows; i++) {
             for (let j = 1; j <= this.state.columns; j++) {
                 const nodeDom = document.querySelector(`#node-${i}-${j}`);
@@ -156,9 +155,41 @@ class App extends Component {
                 }
             }
         }
+        resetSourceAndTarget();
+    };
+
+    destructWalls = () => {
+        this.setState({ walls: [] });
+    };
+
+    resetMesh = () => {
+        this.clearPath();
+        this.destructWalls();
+    };
+
+    getSelectedAlgorithmFunction = () => {
+        switch (this.state.selectedAlgorithmId) {
+            case "algo-dijkstra":
+                return performDijkstra;
+            case "algo-a*":
+            case "algo-greedy":
+            default:
+                return null;
+        }
+    };
+
+    startWalking = () => {
         setTimeout(() => {
             console.log("START WALKING");
-            const { visitedNodes, path } = performDijkstra(
+            const algorithm = this.getSelectedAlgorithmFunction();
+            if (algorithm === null) {
+                alert("Coming Soon !!!");
+                return;
+            }
+            this.startLoading();
+            resetSourceAndTarget();
+            this.clearPath();
+            const { visitedNodes, path } = algorithm(
                 this.state.rows,
                 this.state.columns,
                 this.state.source,
@@ -225,33 +256,6 @@ class App extends Component {
                 }, this.state.speed * i);
             }
         }, 500);
-    };
-
-    clearPath = () => {
-        this.setState({ visitedNodes: [] });
-        for (let i = 1; i <= this.state.rows; i++) {
-            for (let j = 1; j <= this.state.columns; j++) {
-                const nodeDom = document.querySelector(`#node-${i}-${j}`);
-                if (
-                    nodeDom.classList.contains("node-visited") ||
-                    nodeDom.classList.contains("node-path")
-                ) {
-                    nodeDom.classList.remove("node-visited");
-                    nodeDom.classList.remove("node-path");
-                    nodeDom.classList.add("node-unvisited");
-                }
-            }
-        }
-        resetSourceAndTarget();
-    };
-
-    destructWalls = () => {
-        this.setState({ walls: [] });
-    };
-
-    resetMesh = () => {
-        this.clearPath();
-        this.destructWalls();
     };
 
     updateMaze = (walls, visitedNodes) => {
