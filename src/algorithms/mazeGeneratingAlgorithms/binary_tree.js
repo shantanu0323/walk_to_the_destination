@@ -41,6 +41,7 @@ const generateBinaryTreeMaze = (rows, columns, source, target) => {
         (wall) =>
             !isEqual(wall, source) &&
             !isEqual(wall, target) &&
+            (wall.y !== columns - 1 || wall.x === 1 || wall.x === rows) &&
             !sourceNeighbours.some((node) => isEqual(node, wall)) &&
             !targetNeighbours.some((node) => isEqual(node, wall))
     );
