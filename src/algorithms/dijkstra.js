@@ -1,6 +1,17 @@
-import Node from "./node";
 import NodeState from "../components/Node/node_state";
 import Position, { isEqual, getNeighbours } from "../helper/position";
+
+class Node {
+    constructor(
+        position,
+        distance = Infinity,
+        nodeState = NodeState.NODE_UNVISITED
+    ) {
+        this.position = position;
+        this.distance = distance;
+        this.nodeState = nodeState;
+    }
+}
 
 const mesh = [];
 let unvisitedNodes = [];
