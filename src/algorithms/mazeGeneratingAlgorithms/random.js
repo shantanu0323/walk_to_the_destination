@@ -14,7 +14,7 @@ const isOnEdge = (position, rows, columns) => {
 const generateRandomWalls = (rows, columns) => {
     for (let i = 3; i < rows - 1; i++) {
         for (let j = 3; j < columns - 1; j++) {
-            if (Math.random() >= 0.7) walls.push(new Position(i, j));
+            if (Math.random() >= 0.8) walls.push(new Position(i, j));
         }
     }
 };
@@ -31,7 +31,9 @@ const generateRandomMaze = (rows, columns, source, target) => {
     }
 
     generateRandomWalls(rows, columns);
-
+    walls.sort(function () {
+        return 0.5 - Math.random();
+    });
     const sourceNeighbours = isOnEdge(source)
         ? getNeighbours(source, rows, columns)
         : [];
