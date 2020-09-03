@@ -5,6 +5,7 @@ import NavItem from "./NavItem/navitem";
 import generateBinaryTreeMaze from "../../algorithms/mazeGeneratingAlgorithms/binary_tree";
 import generateDFSMaze from "../../algorithms/mazeGeneratingAlgorithms/dfs";
 import generateRecursiveDivisionMaze from "../../algorithms/mazeGeneratingAlgorithms/recursive_division";
+import generateRandomMaze from "../../algorithms/mazeGeneratingAlgorithms/random";
 
 class NavBar extends Component {
     state = {
@@ -195,6 +196,7 @@ class NavBar extends Component {
             { id: "maze-binary-tree", name: "Binary Tree" },
             { id: "maze-dfs", name: "Depth First Search" },
             { id: "maze-recursive-division", name: "Recursive Division" },
+            { id: "maze-random", name: "Random Maze" },
         ],
         speeds: [
             { id: "speed-faster", name: "Faster", speed: 10 },
@@ -234,6 +236,8 @@ class NavBar extends Component {
                 return generateDFSMaze;
             case "maze-recursive-division":
                 return generateRecursiveDivisionMaze;
+            case "maze-random":
+                return generateRandomMaze;
             case "maze-none":
                 return -1;
             default:
