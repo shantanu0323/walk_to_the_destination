@@ -11,6 +11,7 @@ import performDijkstra from "./algorithms/dijkstra";
 import resetSourceAndTarget from "./helper/initialise";
 import Loader from "./components/Loader/loader";
 import performAstar from "./algorithms/a_star";
+import performGreedy from "./algorithms/greedy";
 
 class App extends Component {
     componentDidMount() {
@@ -177,6 +178,7 @@ class App extends Component {
             case "algo-a*":
                 return performAstar;
             case "algo-greedy":
+                return performGreedy;
             default:
                 return null;
         }

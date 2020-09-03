@@ -19,6 +19,8 @@ let unvisitedNodes = [];
 const initialiseMesh = (rows, columns, source, target, walls) => {
     window.rows = rows;
     window.columns = columns;
+    mesh.length = 0;
+    unvisitedNodes.length = 0;
     for (let i = 1; i <= window.rows; i++) {
         const row = [];
         for (let j = 1; j <= window.columns; j++) {
