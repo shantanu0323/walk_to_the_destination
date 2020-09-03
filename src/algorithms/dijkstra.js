@@ -130,8 +130,12 @@ const performDijkstra = (rows, columns, source, target, walls) => {
     initialiseMesh(rows, columns, source, target, walls);
 
     // perform dijkstra(graph, source, target) on the graph and get the visited nodes in order
-    const visitedNodes = getVisitedNodes(target);
-    const path = getNodesInPath(visitedNodes);
+    const visitedNodesObjects = getVisitedNodes(target);
+    const pathObjects = getNodesInPath(visitedNodesObjects);
+    const visitedNodes = [];
+    const path = [];
+    visitedNodesObjects.map((node) => visitedNodes.push(node.position));
+    pathObjects.map((node) => path.push(node.position));
     return { visitedNodes, path };
 };
 

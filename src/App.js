@@ -10,6 +10,7 @@ import "./App.css";
 import performDijkstra from "./algorithms/dijkstra";
 import resetSourceAndTarget from "./helper/initialise";
 import Loader from "./components/Loader/loader";
+import performAstar from "./algorithms/a_star";
 
 class App extends Component {
     componentDidMount() {
@@ -31,10 +32,12 @@ class App extends Component {
             parseInt(0.5 * rows),
             parseInt(0.3 * columns)
         );
+        // const source = new Position(2, 2);
         const target = new Position(
             parseInt(0.5 * rows),
             parseInt(0.7 * columns)
         );
+        // const target = new Position(4, 5);
         this.setState({ rows, columns, source, target });
     }
 
@@ -172,6 +175,7 @@ class App extends Component {
             case "algo-dijkstra":
                 return performDijkstra;
             case "algo-a*":
+                return performAstar;
             case "algo-greedy":
             default:
                 return null;
@@ -196,10 +200,12 @@ class App extends Component {
                 this.state.target,
                 this.state.walls
             );
+            // this.stopLoading();
+            // return;
             for (let i = 0; i < visitedNodes.length; i++) {
                 setTimeout(() => {
                     const nodeDom = document.querySelector(
-                        `#node-${visitedNodes[i].position.x}-${visitedNodes[i].position.y}`
+                        `#node-${visitedNodes[i].x}-${visitedNodes[i].y}`
                     );
                     if (nodeDom.classList.contains("node-unvisited")) {
                         nodeDom.classList.remove("node-unvisited");
@@ -208,16 +214,14 @@ class App extends Component {
                     if (i === visitedNodes.length - 1)
                         setTimeout(() => {
                             if (
-                                visitedNodes[i].position.x ===
-                                    this.state.target.x &&
-                                visitedNodes[i].position.y ===
-                                    this.state.target.y
+                                visitedNodes[i].x === this.state.target.x &&
+                                visitedNodes[i].y === this.state.target.y
                             ) {
                                 document
                                     .querySelector(".node.node-source")
                                     .classList.add(
                                         `path-to-${this.putNodeInPath(
-                                            path[0].position,
+                                            path[0],
                                             this.state.source
                                         )}`
                                     );
@@ -226,7 +230,7 @@ class App extends Component {
                                     setTimeout(() => {
                                         const node = path[k];
                                         const nodeDom = document.querySelector(
-                                            `#node-${node.position.x}-${node.position.y}`
+                                            `#node-${node.x}-${node.y}`
                                         );
                                         nodeDom.classList.remove(
                                             "node-visited"
@@ -239,14 +243,13 @@ class App extends Component {
                                                 )
                                                 .classList.add(
                                                     `path-to-${this.putNodeInPath(
-                                                        path[path.length - 1]
-                                                            .position,
+                                                        path[path.length - 1],
                                                         this.state.target
                                                     )}`
                                                 );
                                             this.stopLoading();
                                         }
-                                    }, this.state.speed * k);
+                                    }, this.state.speed * k * 2);
                                 }
                             } else {
                                 alert("Target NOT Reachable");

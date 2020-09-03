@@ -14,7 +14,6 @@ const isOnEdge = (position, rows, columns) => {
 let orientation;
 const buildWalls = (startRow, endRow, startColumn, endColumn) => {
     orientation = !orientation;
-    console.log({ orientation });
     if (orientation) {
         if (startColumn >= endColumn) return;
         const wallIndex =
