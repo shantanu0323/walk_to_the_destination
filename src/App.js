@@ -12,6 +12,7 @@ import resetSourceAndTarget from "./helper/initialise";
 import Loader from "./components/Loader/loader";
 import performAstar from "./algorithms/a_star";
 import performGreedy from "./algorithms/greedy";
+import performBFS from "./algorithms/bfs";
 
 class App extends Component {
     componentDidMount() {
@@ -179,6 +180,8 @@ class App extends Component {
                 return performAstar;
             case "algo-greedy":
                 return performGreedy;
+            case "algo-bfs":
+                return performBFS;
             default:
                 return null;
         }
@@ -227,7 +230,6 @@ class App extends Component {
                                             this.state.source
                                         )}`
                                     );
-                                console.log(path[path.length - 1]);
                                 for (let k = 0; k < path.length; k++) {
                                     setTimeout(() => {
                                         const node = path[k];

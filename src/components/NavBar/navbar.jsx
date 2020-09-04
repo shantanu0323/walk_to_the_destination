@@ -190,6 +190,17 @@ class NavBar extends Component {
                     </div>
                 ),
             },
+            {
+                id: "algo-bfs",
+                name: "Breadth-First-Search",
+                description: (
+                    <div>
+                        <p>
+                            Visit all the siblings before exploring the children
+                        </p>
+                    </div>
+                ),
+            },
         ],
         mazes: [
             { id: "maze-none", name: "Create" },
