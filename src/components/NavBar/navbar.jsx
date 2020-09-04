@@ -201,6 +201,17 @@ class NavBar extends Component {
                     </div>
                 ),
             },
+            {
+                id: "algo-dfs",
+                name: "Depth-First-Search",
+                description: (
+                    <div>
+                        <p>
+                            Visit all the children before exploring the siblings
+                        </p>
+                    </div>
+                ),
+            },
         ],
         mazes: [
             { id: "maze-none", name: "Create" },
@@ -220,7 +231,6 @@ class NavBar extends Component {
     };
 
     constructMaze = (walls) => {
-        console.log({ walls });
         for (let i = 0; i < walls.length; i++) {
             const wall = walls[i];
             setTimeout(() => {

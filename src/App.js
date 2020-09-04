@@ -13,6 +13,7 @@ import Loader from "./components/Loader/loader";
 import performAstar from "./algorithms/a_star";
 import performGreedy from "./algorithms/greedy";
 import performBFS from "./algorithms/bfs";
+import performDFS from "./algorithms/dfs";
 
 class App extends Component {
     componentDidMount() {
@@ -182,6 +183,8 @@ class App extends Component {
                 return performGreedy;
             case "algo-bfs":
                 return performBFS;
+            case "algo-dfs":
+                return performDFS;
             default:
                 return null;
         }
