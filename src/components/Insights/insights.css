@@ -21,9 +21,14 @@
     align-items: center;
 }
 
-.insights-container div p {
+.insights-container div span {
     position: relative;
     text-align: center;
-    top: 50%;
-    transform: translateY(-50%);
+    padding-left: 5px;
+    padding-right: 5px;
+    border-right: 1px solid white;
+}
+
+.insights-container div span:last-child {
+    border-right: none;
 }

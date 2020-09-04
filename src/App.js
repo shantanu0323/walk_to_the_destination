@@ -55,6 +55,9 @@ class App extends Component {
         walls: [],
         visitedNodes: [],
         loading: false,
+        numberOfVisitedNodes: null,
+        pathLength: null,
+        timeTaken: null,
     };
 
     startLoading = () => {
@@ -201,6 +204,7 @@ class App extends Component {
             this.startLoading();
             resetSourceAndTarget();
             this.clearPath();
+            const startTime = new Date().getTime();
             const { visitedNodes, path } = algorithm(
                 this.state.rows,
                 this.state.columns,
@@ -208,6 +212,12 @@ class App extends Component {
                 this.state.target,
                 this.state.walls
             );
+            const endTime = new Date().getTime();
+            this.setState({
+                numberOfVisitedNodes: visitedNodes.length,
+                pathLength: path.length + 1,
+                timeTaken: endTime - startTime,
+            });
             // this.stopLoading();
             // return;
             for (let i = 0; i < visitedNodes.length; i++) {
@@ -307,7 +317,13 @@ class App extends Component {
                     toggleWall={this.toggleWall}
                 />
                 <Legend />
-                <Insights insights="Insights" />
+                <Insights
+                    totalNodes={this.state.rows * this.state.columns}
+                    walls={this.state.walls.length}
+                    numberOfVisitedNodes={this.state.numberOfVisitedNodes}
+                    pathLength={this.state.pathLength}
+                    timeTaken={this.state.timeTaken}
+                />
                 <Copyright />
             </React.Fragment>
         );
