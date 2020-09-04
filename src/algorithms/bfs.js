@@ -5,7 +5,6 @@ class Node {
     constructor(position, nodeState = NodeState.NODE_UNVISITED) {
         this.position = position;
         this.nodeState = nodeState;
-        this.parent = null;
     }
 }
 
