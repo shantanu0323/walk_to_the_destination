@@ -21,14 +21,41 @@
     align-items: center;
 }
 
-.insights-container div span {
+.insights-container div span.insights {
     position: relative;
+    top: 50%;
+    display: inline-block;
+    transform: translateY(calc(-50% - 3px));
     text-align: center;
-    padding-left: 5px;
-    padding-right: 5px;
-    border-right: 1px solid white;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 1px 5px 0px 5px;
+    font-size: 0.8em;
+    border-radius: 3px;
 }
 
-.insights-container div span:last-child {
-    border-right: none;
+.insights-container span.insights-total {
+    background-color: rgba(255, 255, 255, 0.055);
+    color: #e7e7e7;
+    /* border: 0.5px solid #e7e7e7; */
+}
+
+.insights-container span.insights-walls {
+    background-color: rgb(252, 252, 252);
+    color: #313131;
+}
+
+.insights-container span.insights-visited {
+    background-color: rgb(0, 119, 255);
+    color: #e7e7e7;
+}
+
+.insights-container span.insights-path {
+    background-color: rgb(255, 208, 0);
+    color: #313131;
+}
+
+.insights-container span.insights-time {
+    background-color: rgb(0, 238, 111);
+    color: #313131;
 }

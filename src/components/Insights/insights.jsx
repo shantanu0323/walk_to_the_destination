@@ -12,13 +12,40 @@ const Insights = (props) => {
     return (
         <section className="insights-container">
             <div>
-                {totalNodes ? <span>Total Nodes: {totalNodes}</span> : null}
-                {walls ? <span>Walls: {walls}</span> : null}
-                {numberOfVisitedNodes ? (
-                    <span>Visited Nodes: {numberOfVisitedNodes}</span>
+                {totalNodes ? (
+                    <span className="insights insights-total">
+                        Total Nodes: <strong>{totalNodes}</strong>
+                    </span>
                 ) : null}
-                {pathLength ? <span>Length of Path: {pathLength}</span> : null}
-                {timeTaken ? <span>Time Taken: {timeTaken} ms</span> : null}
+                {walls ? (
+                    <span className="insights insights-walls">
+                        Walls: <strong>{walls}</strong>
+                    </span>
+                ) : null}
+                {numberOfVisitedNodes ? (
+                    <span className="insights insights-visited">
+                        Visited Nodes: <strong>{numberOfVisitedNodes}</strong>
+                    </span>
+                ) : null}
+                {pathLength ? (
+                    <span className="insights insights-path">
+                        Length of Path: <strong>{pathLength}</strong>
+                    </span>
+                ) : null}
+                {timeTaken ? (
+                    <span className="insights insights-time">
+                        Time Taken:{" "}
+                        <strong>
+                            {timeTaken >= 1000 ? (
+                                <React.Fragment>
+                                    {timeTaken / 1000} s
+                                </React.Fragment>
+                            ) : (
+                                <React.Fragment>{timeTaken} ms</React.Fragment>
+                            )}
+                        </strong>
+                    </span>
+                ) : null}
             </div>
         </section>
     );

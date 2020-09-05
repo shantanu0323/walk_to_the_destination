@@ -61,10 +61,19 @@ class App extends Component {
     };
 
     startLoading = () => {
+        document
+            .querySelectorAll(".node")
+            .forEach((nodeDom) => (nodeDom.style.animationDuration = `4s`));
         this.setState({ loading: true });
     };
 
-    stopLoading = () => {
+    stopLoading = (delay = 4) => {
+        document
+            .querySelectorAll(".node.node-path")
+            .forEach(
+                (nodeDom) =>
+                    (nodeDom.style.animationDuration = `${delay / 1000 + 4}s`)
+            );
         this.setState({ loading: false });
     };
 
@@ -264,7 +273,9 @@ class App extends Component {
                                                         this.state.target
                                                     )}`
                                                 );
-                                            this.stopLoading();
+                                            this.stopLoading(
+                                                this.state.speed * k * 2
+                                            );
                                         }
                                     }, this.state.speed * k * 2);
                                 }
