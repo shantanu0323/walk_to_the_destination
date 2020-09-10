@@ -14,6 +14,7 @@ import performAstar from "./algorithms/a_star";
 import performGreedy from "./algorithms/greedy";
 import performBFS from "./algorithms/bfs";
 import performDFS from "./algorithms/dfs";
+import Interact from "./components/Interact/interact";
 
 class App extends Component {
     componentDidMount() {
@@ -336,6 +337,14 @@ class App extends Component {
                     timeTaken={this.state.timeTaken}
                 />
                 <Copyright />
+                {this.state.rows !== 0 && this.state.columns !== 0 ? (
+                    <Interact
+                        startLoading={this.startLoading}
+                        stopLoading={this.stopLoading}
+                        rows={this.state.rows}
+                        columns={this.state.columns}
+                    />
+                ) : null}
             </React.Fragment>
         );
     }

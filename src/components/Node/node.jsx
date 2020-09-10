@@ -36,7 +36,7 @@ class Node extends Component {
     }
 
     getNodeStateClass(nodeState) {
-        let classes = "node node-";
+        let classes = "node node-circle node-";
         switch (nodeState) {
             case NodeState.NODE_UNVISITED:
                 classes += "unvisited";

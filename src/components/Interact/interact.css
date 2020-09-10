@@ -1,0 +1,10 @@
+.node.node-circle {
+    border-radius: 20px;
+    transition: all 0.3s;
+}
+
+.node.node-circle.node-target,
+.node.node-circle.node-source {
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.055);
+}
