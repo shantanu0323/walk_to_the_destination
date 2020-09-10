@@ -28,6 +28,11 @@ const letterWidth = {
     Z: 5,
     " ": 3,
     "": 0,
+    "^": 4,
+    "!": 4,
+    "-": 8,
+    "+": 11,
+    "|": 31,
 };
 
 const lengthOfWord = (word) => {
@@ -307,7 +312,67 @@ const ltow = (ch, start = new Position(1, 1)) => {
         case " ":
             nextStart.y = start.y + letterWidth[" "];
             break;
-
+        case "^":
+            for (i = start.x + 6; i > 1; i--)
+                walls.push(new Position(i, start.y));
+            for (i = 1; i <= start.x + 2; i++) {
+                walls.push(new Position(i, start.y - i + 1));
+                walls.push(new Position(i, start.y + i - 1));
+            }
+            nextStart.y = start.y + letterWidth["^"];
+            break;
+        case "-":
+            for (i = 0; i < 7; i++) {
+                walls.push(new Position(start.x, start.y + i));
+                walls.push(new Position(start.x + i, start.y + 6));
+                walls.push(new Position(start.x + 6, start.y + i));
+                walls.push(new Position(start.x + i, start.y));
+            }
+            for (i = 1; i < 6; i++) {
+                for (let j = 1; j < 6; j++) {
+                    if (i === j || i + j === 6) continue;
+                    walls.push(new Position(start.x + i, start.y + j));
+                }
+            }
+            nextStart.y = start.y + letterWidth["-"];
+            break;
+        case "+":
+            for (i = 0; i < 10; i++) {
+                walls.push(new Position(start.x, start.y + i));
+                walls.push(new Position(start.x + i, start.y + 9));
+                walls.push(new Position(start.x + 6, start.y + i));
+                walls.push(new Position(start.x + i, start.y));
+            }
+            for (i = 1; i < 6; i++) {
+                for (let j = 1; j < 9; j++) {
+                    if (i === 3 || j === 6 || ((i === 2 || i === 4) && j === 7))
+                        continue;
+                    walls.push(new Position(start.x + i, start.y + j));
+                }
+            }
+            nextStart.y = start.y + letterWidth["+"];
+            break;
+        case "!":
+            for (i = 6; i > 0; i--)
+                walls.push(new Position(start.x - i, start.y));
+            for (i = 3; i > 0; i--) {
+                walls.push(new Position(start.x - i + 1, start.y - i + 1));
+                walls.push(new Position(start.x - i + 1, start.y + i - 1));
+            }
+            nextStart.y = start.y + letterWidth["!"];
+            break;
+        case "|":
+            for (i = 0; i < 30; i++)
+                walls.push(new Position(start.x, start.y + i));
+            for (i = 0; i < 30; i += 3) {
+                for (let j = 1; j < 4; j++) {
+                    if (i % 2)
+                        walls.push(new Position(start.x + j, start.y + i));
+                    else walls.push(new Position(start.x - j, start.y + i));
+                }
+            }
+            nextStart.y = start.y + letterWidth["!"];
+            break;
         default:
             break;
     }

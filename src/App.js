@@ -69,14 +69,14 @@ class App extends Component {
         this.setState({ loading: true });
     };
 
-    stopLoading = (delay = 4) => {
+    stopLoading = (delay = 4, changeInteraction = true) => {
         document
             .querySelectorAll(".node.node-path")
             .forEach(
                 (nodeDom) =>
                     (nodeDom.style.animationDuration = `${delay / 1000 + 4}s`)
             );
-        this.setState({ loading: false, interactionDone: true });
+        this.setState({ loading: false, interactionDone: changeInteraction });
     };
 
     setAlgorithmId = (selectedAlgorithmId) => {

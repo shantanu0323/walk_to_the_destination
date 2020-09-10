@@ -14,6 +14,7 @@ const Align = {
     BOTTOM_RIGHT: 8,
     CUSTOM: 9,
 };
+let currIndex = 1;
 class Interact extends Component {
     state = {
         transition: 10,
@@ -21,6 +22,24 @@ class Interact extends Component {
 
     componentDidMount() {
         this.startIntro();
+        const skipDom = document.getElementById(
+            `node-${this.props.rows - 6}-${this.props.columns - 6}`
+        );
+        document.getElementById(
+            `btn-skip-interaction`
+        ).style.top = `${skipDom.offsetTop}px`;
+        document.getElementById(
+            `btn-skip-interaction`
+        ).style.left = `${skipDom.offsetLeft}px`;
+        const nextDom = document.getElementById(
+            `node-${this.props.rows - 6}-${this.props.columns - 18}`
+        );
+        document.getElementById(
+            `btn-next-interaction`
+        ).style.top = `${nextDom.offsetTop}px`;
+        document.getElementById(
+            `btn-next-interaction`
+        ).style.left = `${nextDom.offsetLeft}px`;
     }
 
     getCenter(total, len) {
@@ -121,21 +140,34 @@ class Interact extends Component {
         return lines;
     }
 
-    writeOnCanvas(statement, alignment = Align.TOP_CENTER) {
+    writeOnCanvasDelay(statement, lines) {
+        return (
+            this.state.transition *
+                10 *
+                (statement.length + lines.length + 10) +
+            1000
+        );
+    }
+
+    writeOnCanvas(
+        statement,
+        alignment = Align.TOP_CENTER,
+        position = new Position(1, 1)
+    ) {
         // Find the lines
         const lines = this.getLines(statement);
         //Iterate the lines and print the same
         let covered = "";
         for (let x = 0; x < lines.length; x++) {
             const line = lines[x];
-            console.log(line);
             covered += line;
             setTimeout(() => {
                 const start = this.getStartPosition(
                     line,
                     x,
                     lines.length,
-                    alignment
+                    alignment,
+                    position
                 );
                 for (let i = 0; i < line.length; i++) {
                     setTimeout(() => {
@@ -165,12 +197,7 @@ class Interact extends Component {
                 }
             }, this.state.transition * covered.length * 10);
         }
-        return (
-            this.state.transition *
-                10 *
-                (statement.length + lines.length + 10) +
-            1000
-        );
+        return { statement, lines };
     }
 
     initialAnimation(start) {
@@ -255,6 +282,208 @@ class Interact extends Component {
         return delay;
     }
 
+    clearBoard() {
+        document.querySelectorAll(".node").forEach((nodeDom) => {
+            nodeDom.classList.remove("node-wall");
+        });
+    }
+
+    enableSkip(timeout) {
+        setTimeout(() => {
+            document.getElementById(
+                `btn-skip-interaction`
+            ).style.display = `block`;
+            document.getElementById(
+                `btn-skip-interaction`
+            ).style.zIndex = `600`;
+            document.getElementById(
+                `btn-skip-interaction`
+            ).style.animationName = `anim-skip`;
+        }, timeout - 1500);
+    }
+
+    enableNext(timeout) {
+        setTimeout(() => {
+            document.getElementById(
+                `btn-next-interaction`
+            ).style.display = `block`;
+            document.getElementById(
+                `btn-next-interaction`
+            ).style.zIndex = `600`;
+            document.getElementById(
+                `btn-next-interaction`
+            ).style.animationName = `anim-next`;
+        }, timeout - 1500);
+    }
+
+    showInteractions(index) {
+        this.clearBoard();
+        document.getElementById(`btn-next-interaction`).style.display = `none`;
+        document.getElementById(`btn-skip-interaction`).style.display = `none`;
+        let statement = null;
+        let lines = null;
+        let data = null;
+        switch (index) {
+            case 2:
+                this.writeOnCanvas("^", Align.CUSTOM, new Position(1, 21));
+                data = this.writeOnCanvas(
+                    "Try Creating a Maze",
+                    Align.MIDDLE_CENTER
+                );
+                statement = data.statement;
+                lines = data.lines;
+                this.writeOnCanvas(
+                    "-",
+                    Align.CUSTOM,
+                    new Position(this.props.rows - 6, this.props.columns - 6)
+                );
+                this.enableSkip(this.writeOnCanvasDelay(statement, lines));
+                this.writeOnCanvas(
+                    "+",
+                    Align.CUSTOM,
+                    new Position(this.props.rows - 6, this.props.columns - 18)
+                );
+                this.enableNext(this.writeOnCanvasDelay(statement, lines));
+                break;
+            case 3:
+                this.writeOnCanvas("^", Align.CUSTOM, new Position(1, 28));
+                data = this.writeOnCanvas(
+                    "Choose the Speed",
+                    Align.MIDDLE_CENTER
+                );
+                statement = data.statement;
+                lines = data.lines;
+                this.writeOnCanvas(
+                    "-",
+                    Align.CUSTOM,
+                    new Position(this.props.rows - 6, this.props.columns - 6)
+                );
+                this.enableSkip(this.writeOnCanvasDelay(statement, lines));
+                this.writeOnCanvas(
+                    "+",
+                    Align.CUSTOM,
+                    new Position(this.props.rows - 6, this.props.columns - 18)
+                );
+                this.enableNext(this.writeOnCanvasDelay(statement, lines));
+                break;
+            case 4:
+                this.writeOnCanvas(
+                    "^",
+                    Align.CUSTOM,
+                    new Position(1, this.props.columns - 3)
+                );
+                data = this.writeOnCanvas("Start Walking", Align.MIDDLE_CENTER);
+                statement = data.statement;
+                lines = data.lines;
+                this.writeOnCanvas(
+                    "-",
+                    Align.CUSTOM,
+                    new Position(this.props.rows - 6, this.props.columns - 6)
+                );
+                this.enableSkip(this.writeOnCanvasDelay(statement, lines));
+                this.writeOnCanvas(
+                    "+",
+                    Align.CUSTOM,
+                    new Position(this.props.rows - 6, this.props.columns - 18)
+                );
+                this.enableNext(this.writeOnCanvasDelay(statement, lines));
+                break;
+            case 5:
+                this.writeOnCanvas(
+                    "|",
+                    Align.CUSTOM,
+                    new Position(4, parseInt((this.props.columns - 30) / 2))
+                );
+                data = this.writeOnCanvas(
+                    "Drag to Construct Walls",
+                    Align.MIDDLE_CENTER
+                );
+                statement = data.statement;
+                lines = data.lines;
+                this.writeOnCanvas(
+                    "-",
+                    Align.CUSTOM,
+                    new Position(this.props.rows - 6, this.props.columns - 6)
+                );
+                this.enableSkip(this.writeOnCanvasDelay(statement, lines));
+                this.writeOnCanvas(
+                    "+",
+                    Align.CUSTOM,
+                    new Position(this.props.rows - 6, this.props.columns - 18)
+                );
+                this.enableNext(this.writeOnCanvasDelay(statement, lines));
+                break;
+
+            case 6:
+                this.writeOnCanvas(
+                    "!",
+                    Align.CUSTOM,
+                    new Position(
+                        this.props.rows,
+                        parseInt(this.props.columns / 2) + 1
+                    )
+                );
+                data = this.writeOnCanvas(
+                    "Insights Available Below",
+                    Align.MIDDLE_CENTER
+                );
+                statement = data.statement;
+                lines = data.lines;
+                this.writeOnCanvas(
+                    "-",
+                    Align.CUSTOM,
+                    new Position(this.props.rows - 6, this.props.columns - 6)
+                );
+                this.enableSkip(this.writeOnCanvasDelay(statement, lines));
+                this.writeOnCanvas(
+                    "+",
+                    Align.CUSTOM,
+                    new Position(this.props.rows - 6, this.props.columns - 18)
+                );
+                this.enableNext(this.writeOnCanvasDelay(statement, lines));
+                break;
+            case 7:
+                data = this.writeOnCanvas(
+                    "Lets Get Started",
+                    Align.MIDDLE_CENTER
+                );
+                statement = data.statement;
+                lines = data.lines;
+                this.writeOnCanvas(
+                    "-",
+                    Align.CUSTOM,
+                    new Position(this.props.rows - 6, this.props.columns - 6)
+                );
+                this.enableSkip(this.writeOnCanvasDelay(statement, lines));
+                break;
+            case 8:
+                this.skipInteraction();
+                break;
+            case 1:
+            default:
+                this.writeOnCanvas("^", Align.CUSTOM, new Position(1, 14));
+                data = this.writeOnCanvas(
+                    "Select the Algorithm",
+                    Align.MIDDLE_CENTER
+                );
+                statement = data.statement;
+                lines = data.lines;
+                this.writeOnCanvas(
+                    "-",
+                    Align.CUSTOM,
+                    new Position(this.props.rows - 6, this.props.columns - 6)
+                );
+                this.enableSkip(this.writeOnCanvasDelay(statement, lines));
+                this.writeOnCanvas(
+                    "+",
+                    Align.CUSTOM,
+                    new Position(this.props.rows - 6, this.props.columns - 18)
+                );
+                this.enableNext(this.writeOnCanvasDelay(statement, lines));
+                break;
+        }
+    }
+
     startIntro() {
         this.props.startLoading();
         const statement = "Walk to Destination";
@@ -266,14 +495,40 @@ class Interact extends Component {
             lines.length,
             alignment
         );
+        const initialAnimationDelay = this.initialAnimation(start);
+        const writeOnCanvasDelay =
+            initialAnimationDelay + this.writeOnCanvasDelay(statement, lines);
         setTimeout(() => {
-            setTimeout(() => {
-                this.props.stopLoading();
-            }, this.writeOnCanvas(statement, alignment));
-        }, this.initialAnimation(start));
+            this.writeOnCanvas(statement, alignment);
+        }, initialAnimationDelay);
+        setTimeout(() => {
+            this.showInteractions(currIndex);
+        }, writeOnCanvasDelay);
     }
+
+    skipInteraction = () => {
+        document.getElementById(`btn-next-interaction`).style.display = `none`;
+        document.getElementById(`btn-skip-interaction`).style.display = `none`;
+        this.props.stopLoading();
+    };
+
+    nextInteraction = () => {
+        this.showInteractions(++currIndex);
+    };
+
     render() {
-        return <React.Fragment></React.Fragment>;
+        return (
+            <div className="interaction-container">
+                <button
+                    id="btn-next-interaction"
+                    onClick={this.nextInteraction}
+                ></button>
+                <button
+                    id="btn-skip-interaction"
+                    onClick={this.skipInteraction}
+                ></button>
+            </div>
+        );
     }
 }
 

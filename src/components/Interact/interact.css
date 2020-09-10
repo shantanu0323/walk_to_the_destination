@@ -14,3 +14,49 @@
     background-color: white;
     transform: scale(1);
 }
+
+#btn-next-interaction,
+#btn-skip-interaction {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 200px;
+    height: 140px;
+    background: none;
+    border: none;
+    border-radius: 10px;
+    display: none;
+    animation-name: none;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+    animation-duration: 2s;
+    background-blend-mode: screen;
+}
+
+#btn-skip-interaction {
+    width: 140px;
+    animation-name: none;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+    animation-duration: 2s;
+}
+
+@keyframes anim-next {
+    0% {
+        box-shadow: 0px 0px 0px 0px rgba(0, 255, 119, 0.739);
+    }
+    50% {
+        background-color: rgba(0, 255, 119, 0.048);
+        box-shadow: 0px 0px 5px 5px rgba(0, 255, 119, 0.739);
+    }
+}
+
+@keyframes anim-skip {
+    0% {
+        box-shadow: 0px 0px 0px 0px rgba(255, 0, 76, 0.739);
+    }
+    50% {
+        background-color: rgba(255, 0, 76, 0.048);
+        box-shadow: 0px 0px 5px 5px rgba(255, 0, 76, 0.739);
+    }
+}
