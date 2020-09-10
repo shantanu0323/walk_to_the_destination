@@ -8,3 +8,9 @@
     border-radius: 20px;
     background: rgba(255, 255, 255, 0.055);
 }
+
+.node.node-circle.node-target.node-wall,
+.node.node-circle.node-source.node-wall {
+    background-color: white;
+    transform: scale(1);
+}

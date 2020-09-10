@@ -97,6 +97,7 @@ class Grid extends Component {
             target,
             walls,
             visitedNodes,
+            interactionDone,
         } = this.props;
         const paddingX = (window.innerWidth - columns * 20) / 2;
         const paddingY = (window.innerHeight - 190 - rows * 20) / 2;
@@ -120,6 +121,7 @@ class Grid extends Component {
                         position={new Position(x, y)}
                         id={key}
                         nodeState={nodeState}
+                        interactionDone={interactionDone}
                         onMouseDown={(nodeState, position) =>
                             this.handleMouseDown(nodeState, position)
                         }

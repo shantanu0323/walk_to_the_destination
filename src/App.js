@@ -59,6 +59,7 @@ class App extends Component {
         numberOfVisitedNodes: null,
         pathLength: null,
         timeTaken: null,
+        interactionDone: false,
     };
 
     startLoading = () => {
@@ -75,7 +76,7 @@ class App extends Component {
                 (nodeDom) =>
                     (nodeDom.style.animationDuration = `${delay / 1000 + 4}s`)
             );
-        this.setState({ loading: false });
+        this.setState({ loading: false, interactionDone: true });
     };
 
     setAlgorithmId = (selectedAlgorithmId) => {
@@ -297,7 +298,10 @@ class App extends Component {
     render() {
         return (
             <React.Fragment>
-                <Loader loading={this.state.loading} />
+                <Loader
+                    loading={this.state.loading}
+                    interactionDone={this.state.interactionDone}
+                />
                 <NavBar
                     selectedAlgorithmId={this.state.selectedAlgorithmId}
                     selectedSpeedId={this.state.selectedSpeedId}
@@ -324,6 +328,7 @@ class App extends Component {
                     target={this.state.target}
                     walls={this.state.walls}
                     visitedNodes={this.state.visitedNodes}
+                    interactionDone={this.state.interactionDone}
                     setNodeAsSource={this.setNodeAsSource}
                     setNodeAsTarget={this.setNodeAsTarget}
                     toggleWall={this.toggleWall}

@@ -10,6 +10,7 @@ class Node extends Component {
             onMouseUp,
             onMouseEnter,
             onMouseLeave,
+            interactionDone,
         } = this.props;
         if (onMouseEnter === undefined) {
             return (
@@ -20,7 +21,10 @@ class Node extends Component {
         } else {
             return (
                 <div
-                    className={this.getNodeStateClass(nodeState)}
+                    className={this.getNodeStateClass(
+                        nodeState,
+                        interactionDone
+                    )}
                     id={`node-${position.x}-${position.y}`}
                     data-x={position.x}
                     data-y={position.y}
@@ -35,8 +39,10 @@ class Node extends Component {
         }
     }
 
-    getNodeStateClass(nodeState) {
-        let classes = "node node-circle node-";
+    getNodeStateClass(nodeState, interactionDone) {
+        let classes = "";
+        if (!interactionDone && !this.props.legend) classes += "node-circle ";
+        classes += "node node-";
         switch (nodeState) {
             case NodeState.NODE_UNVISITED:
                 classes += "unvisited";

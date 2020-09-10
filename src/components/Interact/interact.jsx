@@ -104,14 +104,26 @@ class Interact extends Component {
             }
             words.shift();
         }
-        lines.push(currentLine.trim());
+        let start = 0;
+        let k = 0;
+        while (k < currentLine.length) {
+            while (
+                lengthOfWord(currentLine.slice(start, k)) <
+                    this.props.columns &&
+                k < currentLine.length
+            ) {
+                k++;
+            }
+            lines.push(currentLine.slice(start, k - 1).trim());
+            start = k - 1;
+        }
+        lines[lines.length - 1] += currentLine[currentLine.length - 1];
         return lines;
     }
 
     writeOnCanvas(statement, alignment = Align.TOP_CENTER) {
         // Find the lines
         const lines = this.getLines(statement);
-        console.log({ lines });
         //Iterate the lines and print the same
         let covered = "";
         for (let x = 0; x < lines.length; x++) {
@@ -129,7 +141,6 @@ class Interact extends Component {
                     setTimeout(() => {
                         const ch = line[i].toUpperCase();
                         const { walls, nextStart } = ltow(ch, start);
-                        console.log({ walls });
                         for (let k = 0; k < walls.length; k++) {
                             const wall = walls[k];
                             setTimeout(() => {
@@ -138,12 +149,12 @@ class Interact extends Component {
                                 );
                                 if (nodeDom === null) return;
                                 nodeDom.classList.add("node-wall");
-                                if (
-                                    i === line.length - 1 &&
-                                    k === walls.length - 1 &&
-                                    x === lines.length - 1
-                                )
-                                    this.props.stopLoading();
+                                // if (
+                                //     i === line.length - 1 &&
+                                //     k === walls.length - 1 &&
+                                //     x === lines.length - 1
+                                // )
+                                // this.props.stopLoading();
                             }, this.state.transition * k);
                         }
                         if (walls.length !== 0) {
@@ -154,14 +165,112 @@ class Interact extends Component {
                 }
             }, this.state.transition * covered.length * 10);
         }
+        return (
+            this.state.transition *
+                10 *
+                (statement.length + lines.length + 10) +
+            1000
+        );
     }
+
+    initialAnimation(start) {
+        let delay = 0;
+        for (let i = start.y + 1; i <= this.props.columns; i++) {
+            setTimeout(() => {
+                const nodeDom = document.getElementById(`node-${1}-${i}`);
+                if (nodeDom !== null) {
+                    nodeDom.classList.add("node-wall");
+                    setTimeout(() => {
+                        nodeDom.classList.remove("node-wall");
+                    }, this.state.transition * this.props.columns);
+                }
+            }, delay + i * this.state.transition);
+        }
+        delay += this.props.columns * this.state.transition;
+        for (let i = 2; i <= this.props.rows; i++) {
+            setTimeout(() => {
+                const nodeDom = document.getElementById(
+                    `node-${i}-${this.props.columns}`
+                );
+                if (nodeDom !== null) {
+                    nodeDom.classList.add("node-wall");
+                    setTimeout(() => {
+                        nodeDom.classList.remove("node-wall");
+                    }, this.state.transition * this.props.columns);
+                }
+            }, delay + i * this.state.transition);
+        }
+        delay += this.props.rows * this.state.transition;
+        for (let i = this.props.columns - 1; i >= 0; i--) {
+            setTimeout(() => {
+                const nodeDom = document.getElementById(
+                    `node-${this.props.rows}-${i}`
+                );
+                if (nodeDom !== null) {
+                    nodeDom.classList.add("node-wall");
+                    setTimeout(() => {
+                        nodeDom.classList.remove("node-wall");
+                    }, this.state.transition * this.props.columns);
+                }
+            }, delay + (this.props.columns - i) * this.state.transition);
+        }
+        delay += this.props.columns * this.state.transition;
+        for (let i = this.props.rows - 1; i >= 0; i--) {
+            setTimeout(() => {
+                const nodeDom = document.getElementById(`node-${i}-${1}`);
+                if (nodeDom !== null) {
+                    nodeDom.classList.add("node-wall");
+                    setTimeout(() => {
+                        nodeDom.classList.remove("node-wall");
+                    }, this.state.transition * this.props.columns);
+                }
+            }, delay + (this.props.rows - i) * this.state.transition);
+        }
+        delay += this.props.rows * this.state.transition;
+        for (let i = 2; i <= start.y; i++) {
+            setTimeout(() => {
+                const nodeDom = document.getElementById(`node-${1}-${i}`);
+                if (nodeDom !== null) {
+                    nodeDom.classList.add("node-wall");
+                    setTimeout(() => {
+                        nodeDom.classList.remove("node-wall");
+                    }, this.state.transition * this.props.columns);
+                }
+            }, delay + i * this.state.transition);
+        }
+        delay += start.y * this.state.transition;
+        for (let i = 2; i < start.x; i++) {
+            setTimeout(() => {
+                const nodeDom = document.getElementById(`node-${i}-${start.y}`);
+                if (nodeDom !== null) {
+                    nodeDom.classList.add("node-wall");
+                    setTimeout(() => {
+                        nodeDom.classList.remove("node-wall");
+                    }, this.state.transition * this.props.columns);
+                }
+            }, delay + i * this.state.transition);
+        }
+        delay -= start.y * this.state.transition;
+        delay -= start.y * this.state.transition;
+        return delay;
+    }
+
     startIntro() {
         this.props.startLoading();
-        const statement = "Welcome Walk to Destination";
+        const statement = "Walk to Destination";
+        const alignment = Align.MIDDLE_CENTER;
+        const lines = this.getLines(statement);
+        const start = this.getStartPosition(
+            lines[0],
+            0,
+            lines.length,
+            alignment
+        );
         setTimeout(() => {
-            this.writeOnCanvas(statement, Align.MIDDLE_CENTER);
-        }, 0);
-        // this.props.stopLoading();
+            setTimeout(() => {
+                this.props.stopLoading();
+            }, this.writeOnCanvas(statement, alignment));
+        }, this.initialAnimation(start));
     }
     render() {
         return <React.Fragment></React.Fragment>;

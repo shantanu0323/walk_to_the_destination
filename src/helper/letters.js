@@ -36,7 +36,6 @@ const lengthOfWord = (word) => {
         len += letterWidth[ch.toUpperCase()];
     });
     len--;
-    console.log({ word, len });
     return len;
 };
 

@@ -6,10 +6,14 @@ const Loader = (props) => {
         : "loader-container hide";
     return (
         <div className={classes}>
-            <div className="top-bar"></div>
-            <div className="right-bar"></div>
-            <div className="bottom-bar"></div>
-            <div className="left-bar"></div>
+            {props.interactionDone ? (
+                <React.Fragment>
+                    <div className="top-bar"></div>
+                    <div className="right-bar"></div>
+                    <div className="bottom-bar"></div>
+                    <div className="left-bar"></div>
+                </React.Fragment>
+            ) : null}
         </div>
     );
 };
