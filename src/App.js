@@ -161,7 +161,12 @@ class App extends Component {
     };
 
     clearPath = () => {
-        this.setState({ visitedNodes: [] });
+        this.setState({
+            visitedNodes: [],
+            numberOfVisitedNodes: null,
+            pathLength: null,
+            timeTaken: null,
+        });
         for (let i = 1; i <= this.state.rows; i++) {
             for (let j = 1; j <= this.state.columns; j++) {
                 const nodeDom = document.querySelector(`#node-${i}-${j}`);
