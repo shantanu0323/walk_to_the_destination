@@ -41,7 +41,8 @@ class Node extends Component {
 
     getNodeStateClass(nodeState, interactionDone) {
         let classes = "";
-        if (!interactionDone && !this.props.legend) classes += "node-circle ";
+        if (!interactionDone && !this.props.legend && window.innerWidth > 1165)
+            classes += "node-circle ";
         classes += "node node-";
         switch (nodeState) {
             case NodeState.NODE_UNVISITED:

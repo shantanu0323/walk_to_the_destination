@@ -348,12 +348,14 @@ class App extends Component {
                 />
                 <Copyright />
                 {this.state.rows !== 0 && this.state.columns !== 0 ? (
-                    <Interact
-                        startLoading={this.startLoading}
-                        stopLoading={this.stopLoading}
-                        rows={this.state.rows}
-                        columns={this.state.columns}
-                    />
+                    window.innerWidth > 1165 ? (
+                        <Interact
+                            startLoading={this.startLoading}
+                            stopLoading={this.stopLoading}
+                            rows={this.state.rows}
+                            columns={this.state.columns}
+                        />
+                    ) : null
                 ) : null}
             </React.Fragment>
         );

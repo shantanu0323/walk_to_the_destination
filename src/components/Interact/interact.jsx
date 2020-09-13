@@ -17,7 +17,7 @@ const Align = {
 let currIndex = 1;
 class Interact extends Component {
     state = {
-        transition: 10,
+        transition: 7,
     };
 
     componentDidMount() {

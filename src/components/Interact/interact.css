@@ -1,6 +1,6 @@
 .node.node-circle {
     border-radius: 20px;
-    transition: all 0.3s;
+    transition: all 0.5s;
 }
 
 .node.node-circle.node-target,
