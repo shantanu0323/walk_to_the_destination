@@ -92,10 +92,10 @@ const generateRecursiveDivisionMaze = (rows, columns, source, target) => {
 
     buildWalls(2, rows - 1, 2, columns - 1);
 
-    const sourceNeighbours = isOnEdge(source)
+    const sourceNeighbours = isOnEdge(source, rows, columns)
         ? getNeighbours(source, rows, columns)
         : [];
-    const targetNeighbours = isOnEdge(target)
+    const targetNeighbours = isOnEdge(target, rows, columns)
         ? getNeighbours(target, rows, columns)
         : [];
     return walls.filter(

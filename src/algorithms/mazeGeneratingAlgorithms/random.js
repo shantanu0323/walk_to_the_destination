@@ -34,10 +34,10 @@ const generateRandomMaze = (rows, columns, source, target) => {
     walls.sort(function () {
         return 0.5 - Math.random();
     });
-    const sourceNeighbours = isOnEdge(source)
+    const sourceNeighbours = isOnEdge(source, rows, columns)
         ? getNeighbours(source, rows, columns)
         : [];
-    const targetNeighbours = isOnEdge(target)
+    const targetNeighbours = isOnEdge(target, rows, columns)
         ? getNeighbours(target, rows, columns)
         : [];
     return walls.filter(

@@ -59,10 +59,10 @@ const generateDFSMaze = (rows, columns, source, target) => {
 
     findNextNode(new Position(3, 3), rows, columns);
 
-    const sourceNeighbours = isOnEdge(source)
+    const sourceNeighbours = isOnEdge(source, rows, columns)
         ? getNeighbours(source, rows, columns)
         : [];
-    const targetNeighbours = isOnEdge(target)
+    const targetNeighbours = isOnEdge(target, rows, columns)
         ? getNeighbours(target, rows, columns)
         : [];
     return walls.filter(

@@ -31,12 +31,14 @@ const generateBinaryTreeMaze = (rows, columns, source, target) => {
             }
         }
     }
-    const sourceNeighbours = isOnEdge(source)
+    const sourceNeighbours = isOnEdge(source, rows, columns)
         ? getNeighbours(source, rows, columns)
         : [];
-    const targetNeighbours = isOnEdge(target)
+    const targetNeighbours = isOnEdge(target, rows, columns)
         ? getNeighbours(target, rows, columns)
         : [];
+    console.log(isOnEdge(target));
+    console.log({ sourceNeighbours, targetNeighbours });
     return walls.filter(
         (wall) =>
             !isEqual(wall, source) &&
