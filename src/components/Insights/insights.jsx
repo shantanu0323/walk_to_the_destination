@@ -8,6 +8,7 @@ const Insights = (props) => {
         numberOfVisitedNodes,
         pathLength,
         timeTaken,
+        targetReached,
     } = props;
     return (
         <section className="insights-container">
@@ -27,7 +28,7 @@ const Insights = (props) => {
                         Visited Nodes: <strong>{numberOfVisitedNodes}</strong>
                     </span>
                 ) : null}
-                {pathLength ? (
+                {pathLength && targetReached ? (
                     <span className="insights insights-path">
                         Length of Path: <strong>{pathLength}</strong>
                     </span>
@@ -44,6 +45,11 @@ const Insights = (props) => {
                                 <React.Fragment>{timeTaken} ms</React.Fragment>
                             )}
                         </strong>
+                    </span>
+                ) : null}
+                {!targetReached && numberOfVisitedNodes ? (
+                    <span className="insights insights-target-not-reached">
+                        <strong>Target NOT Reachable</strong>
                     </span>
                 ) : null}
             </div>

@@ -59,6 +59,7 @@ class App extends Component {
         numberOfVisitedNodes: null,
         pathLength: null,
         timeTaken: null,
+        targetReached: true,
         interactionDone: false,
     };
 
@@ -251,6 +252,7 @@ class App extends Component {
                                 visitedNodes[i].x === this.state.target.x &&
                                 visitedNodes[i].y === this.state.target.y
                             ) {
+                                this.setState({ targetReached: true });
                                 document
                                     .querySelector(".node.node-source")
                                     .classList.add(
@@ -287,7 +289,8 @@ class App extends Component {
                                     }, this.state.speed * k * 2);
                                 }
                             } else {
-                                alert("Target NOT Reachable");
+                                this.setState({ targetReached: false });
+                                console.log("Target NOT Reachable");
                                 this.stopLoading();
                             }
                         }, this.state.speed + 500);
@@ -345,10 +348,11 @@ class App extends Component {
                     numberOfVisitedNodes={this.state.numberOfVisitedNodes}
                     pathLength={this.state.pathLength}
                     timeTaken={this.state.timeTaken}
+                    targetReached={this.state.targetReached}
                 />
                 <Copyright />
                 {this.state.rows !== 0 && this.state.columns !== 0 ? (
-                    window.innerWidth > 1165 ? (
+                    window.innerWidth > 950 ? (
                         <Interact
                             startLoading={this.startLoading}
                             stopLoading={this.stopLoading}

@@ -9,7 +9,7 @@ const Copyright = () => {
                 </a>
             </div>
             <div className="copyright">
-                Made with <i className="fas fa-heart text-danger"></i> by{" "}
+                Made with <i className="fas fa-heart"></i> by{" "}
                 <a href="https://shantanu0323.github.io">Shantanu Pramanik</a>
             </div>
             <div className="social-links">

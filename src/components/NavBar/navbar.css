@@ -49,7 +49,7 @@
         rgb(22, 22, 22),
         rgba(100, 100, 100, 0)
     );
-    padding-left: 50px;
+    padding-left: 10px;
     padding-right: 10px;
 }
 
@@ -109,7 +109,13 @@
 .navbar-custom .actions-container #btn-start-walking:hover i {
     transform: translateY(0%) rotate(360deg) !important;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1140px) {
+    .navbar-custom .actions-container button span {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 800px) {
     .navbar-custom .walking-options {
         width: 100vw;
         text-align: center;
@@ -125,9 +131,6 @@
     }
     .navbar-custom .walking-options ul li:last-child {
         float: right;
-    }
-    .navbar-custom .actions-container button span {
-        display: none;
     }
 }
 

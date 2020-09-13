@@ -27,12 +27,31 @@
     transform: translateY(-110%);
 }
 
+@media only screen and (max-width: 800px) {
+    .copyright-container .copyright {
+        float: left;
+        padding-left: 10px;
+    }
+    .copyright-container .social-links {
+        float: right;
+        padding-right: 10px;
+        transform: translateY(-50%);
+    }
+}
+
 .copyright-container .copyright a,
 .copyright-container .copyright a:hover {
     text-decoration: none;
     font-weight: bold;
     color: yellow;
     transition: all 0.3s;
+}
+
+.copyright-container .copyright .fa-heart {
+    color: rgb(238, 0, 71);
+    animation-name: anim-not-reachable;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
 }
 
 .copyright-container .copyright a:hover {
@@ -56,4 +75,17 @@
 
 .copyright-container .social-links a {
     margin-left: 10px;
+}
+
+@keyframes anim-not-reachable {
+    0%,
+    100% {
+        text-shadow: 0px 0px 5px rgb(238, 0, 71);
+        transform: scale(1.2);
+    }
+    50% {
+        color: rgba(238, 0, 71, 0.397);
+        text-shadow: none;
+        transform: scale(1);
+    }
 }
