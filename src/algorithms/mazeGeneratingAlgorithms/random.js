@@ -20,6 +20,7 @@ const generateRandomWalls = (rows, columns) => {
 };
 
 const generateRandomMaze = (rows, columns, source, target) => {
+    walls.length = 0;
     for (let i = 1; i <= rows; i++) {
         walls.push(new Position(i, 1));
         walls.push(new Position(i, columns));
