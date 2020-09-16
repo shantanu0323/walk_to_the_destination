@@ -1,0 +1,13 @@
+.options-container button.dismiss-container {
+    position: absolute;
+    top: -40vh;
+    right: 0;
+    background: none;
+    border: none;
+    transform: scale(2, 1.5);
+    color: white;
+    padding: 20px;
+    border-radius: 20px;
+    font-weight: 100;
+    z-index: 600;
+}

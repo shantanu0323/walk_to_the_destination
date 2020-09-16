@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import "./navitem.css";
 class NavItem extends Component {
     state = {
         description: this.getSelectedOptionDescription(
@@ -10,6 +10,12 @@ class NavItem extends Component {
 
     handleHover = (option) => {
         this.setState({ description: option.description });
+    };
+
+    dismissContainer = () => {
+        document
+            .querySelectorAll(".option-container")
+            .forEach((dom) => dom.classList.remove("show"));
     };
 
     render() {
@@ -24,6 +30,12 @@ class NavItem extends Component {
 
         return (
             <div className="options-container">
+                <button
+                    className="dismiss-container"
+                    onClick={this.dismissContainer}
+                >
+                    X
+                </button>
                 <div
                     className="option-names-container"
                     style={{ width: optionNamesContainerWidth }}

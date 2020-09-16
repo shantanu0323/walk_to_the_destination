@@ -428,21 +428,21 @@ class NavBar extends Component {
                         </ul>
                     </div>
                 </nav>
-                <div className="algorithm-options-container">
+                <div className="option-container algorithm-options-container">
                     <NavItem
                         options={this.state.algorithms}
                         selectedOption={selectedAlgorithmId}
                         onChanged={onAlgorithmChanged}
                     />
                 </div>
-                <div className="maze-options-container">
+                <div className="option-container maze-options-container">
                     <NavItem
                         options={this.state.mazes}
                         selectedOption={this.state.selectedMazeId}
                         onChanged={this.setMazeId}
                     />
                 </div>
-                <div className="speed-options-container">
+                <div className="option-container speed-options-container">
                     <NavItem
                         options={this.state.speeds}
                         selectedOption={selectedSpeedId}

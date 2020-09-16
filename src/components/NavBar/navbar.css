@@ -206,7 +206,7 @@
     transform: scaleY(0);
     transform-origin: top;
     opacity: 0;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0, 0, 0, 0.904);
     color: white;
     transition: all 0.3s;
     z-index: 100;
