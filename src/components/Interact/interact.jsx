@@ -23,7 +23,7 @@ class Interact extends Component {
     componentDidMount() {
         this.startIntro();
         const skipDom = document.getElementById(
-            `node-${this.props.rows - 6}-${this.props.columns - 6}`
+            `node-${this.props.rows - 4}-${this.props.columns - 4}`
         );
         document.getElementById(
             `btn-skip-interaction`
@@ -32,7 +32,7 @@ class Interact extends Component {
             `btn-skip-interaction`
         ).style.left = `${skipDom.offsetLeft}px`;
         const nextDom = document.getElementById(
-            `node-${this.props.rows - 6}-${this.props.columns - 18}`
+            `node-${this.props.rows - 4}-${this.props.columns - 14}`
         );
         document.getElementById(
             `btn-next-interaction`
@@ -316,6 +316,24 @@ class Interact extends Component {
         }, timeout - 1500);
     }
 
+    writeSkipButton(statement, lines) {
+        this.writeOnCanvas(
+            "-",
+            Align.CUSTOM,
+            new Position(this.props.rows - 4, this.props.columns - 4)
+        );
+        this.enableSkip(this.writeOnCanvasDelay(statement, lines));
+    }
+
+    writeNextButton(statement, lines) {
+        this.writeOnCanvas(
+            "+",
+            Align.CUSTOM,
+            new Position(this.props.rows - 4, this.props.columns - 14)
+        );
+        this.enableNext(this.writeOnCanvasDelay(statement, lines));
+    }
+
     showInteractions(index) {
         this.clearBoard();
         document.getElementById(`btn-next-interaction`).style.display = `none`;
@@ -332,18 +350,8 @@ class Interact extends Component {
                 );
                 statement = data.statement;
                 lines = data.lines;
-                this.writeOnCanvas(
-                    "-",
-                    Align.CUSTOM,
-                    new Position(this.props.rows - 6, this.props.columns - 6)
-                );
-                this.enableSkip(this.writeOnCanvasDelay(statement, lines));
-                this.writeOnCanvas(
-                    "+",
-                    Align.CUSTOM,
-                    new Position(this.props.rows - 6, this.props.columns - 18)
-                );
-                this.enableNext(this.writeOnCanvasDelay(statement, lines));
+                this.writeSkipButton(statement, lines);
+                this.writeNextButton(statement, lines);
                 break;
             case 3:
                 this.writeOnCanvas("^", Align.CUSTOM, new Position(1, 28));
@@ -353,18 +361,8 @@ class Interact extends Component {
                 );
                 statement = data.statement;
                 lines = data.lines;
-                this.writeOnCanvas(
-                    "-",
-                    Align.CUSTOM,
-                    new Position(this.props.rows - 6, this.props.columns - 6)
-                );
-                this.enableSkip(this.writeOnCanvasDelay(statement, lines));
-                this.writeOnCanvas(
-                    "+",
-                    Align.CUSTOM,
-                    new Position(this.props.rows - 6, this.props.columns - 18)
-                );
-                this.enableNext(this.writeOnCanvasDelay(statement, lines));
+                this.writeSkipButton(statement, lines);
+                this.writeNextButton(statement, lines);
                 break;
             case 4:
                 this.writeOnCanvas(
@@ -375,18 +373,8 @@ class Interact extends Component {
                 data = this.writeOnCanvas("Start Walking", Align.MIDDLE_CENTER);
                 statement = data.statement;
                 lines = data.lines;
-                this.writeOnCanvas(
-                    "-",
-                    Align.CUSTOM,
-                    new Position(this.props.rows - 6, this.props.columns - 6)
-                );
-                this.enableSkip(this.writeOnCanvasDelay(statement, lines));
-                this.writeOnCanvas(
-                    "+",
-                    Align.CUSTOM,
-                    new Position(this.props.rows - 6, this.props.columns - 18)
-                );
-                this.enableNext(this.writeOnCanvasDelay(statement, lines));
+                this.writeSkipButton(statement, lines);
+                this.writeNextButton(statement, lines);
                 break;
             case 5:
                 this.writeOnCanvas(
@@ -400,18 +388,8 @@ class Interact extends Component {
                 );
                 statement = data.statement;
                 lines = data.lines;
-                this.writeOnCanvas(
-                    "-",
-                    Align.CUSTOM,
-                    new Position(this.props.rows - 6, this.props.columns - 6)
-                );
-                this.enableSkip(this.writeOnCanvasDelay(statement, lines));
-                this.writeOnCanvas(
-                    "+",
-                    Align.CUSTOM,
-                    new Position(this.props.rows - 6, this.props.columns - 18)
-                );
-                this.enableNext(this.writeOnCanvasDelay(statement, lines));
+                this.writeSkipButton(statement, lines);
+                this.writeNextButton(statement, lines);
                 break;
 
             case 6:
@@ -429,18 +407,8 @@ class Interact extends Component {
                 );
                 statement = data.statement;
                 lines = data.lines;
-                this.writeOnCanvas(
-                    "-",
-                    Align.CUSTOM,
-                    new Position(this.props.rows - 6, this.props.columns - 6)
-                );
-                this.enableSkip(this.writeOnCanvasDelay(statement, lines));
-                this.writeOnCanvas(
-                    "+",
-                    Align.CUSTOM,
-                    new Position(this.props.rows - 6, this.props.columns - 18)
-                );
-                this.enableNext(this.writeOnCanvasDelay(statement, lines));
+                this.writeSkipButton(statement, lines);
+                this.writeNextButton(statement, lines);
                 break;
             case 7:
                 data = this.writeOnCanvas(
@@ -449,12 +417,7 @@ class Interact extends Component {
                 );
                 statement = data.statement;
                 lines = data.lines;
-                this.writeOnCanvas(
-                    "-",
-                    Align.CUSTOM,
-                    new Position(this.props.rows - 6, this.props.columns - 6)
-                );
-                this.enableSkip(this.writeOnCanvasDelay(statement, lines));
+                this.writeSkipButton(statement, lines);
                 break;
             case 8:
                 this.skipInteraction();
@@ -468,18 +431,8 @@ class Interact extends Component {
                 );
                 statement = data.statement;
                 lines = data.lines;
-                this.writeOnCanvas(
-                    "-",
-                    Align.CUSTOM,
-                    new Position(this.props.rows - 6, this.props.columns - 6)
-                );
-                this.enableSkip(this.writeOnCanvasDelay(statement, lines));
-                this.writeOnCanvas(
-                    "+",
-                    Align.CUSTOM,
-                    new Position(this.props.rows - 6, this.props.columns - 18)
-                );
-                this.enableNext(this.writeOnCanvasDelay(statement, lines));
+                this.writeSkipButton(statement, lines);
+                this.writeNextButton(statement, lines);
                 break;
         }
     }

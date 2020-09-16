@@ -1,6 +1,6 @@
 .node.node-circle {
     border-radius: 20px;
-    transition: all 0.5s;
+    transition: all 0.3s;
 }
 
 .node.node-circle.node-target,
@@ -20,8 +20,8 @@
     position: absolute;
     top: 50px;
     left: 50px;
-    width: 200px;
-    height: 140px;
+    width: 160px;
+    height: 100px;
     background: none;
     border: none;
     border-radius: 10px;
@@ -34,7 +34,7 @@
 }
 
 #btn-skip-interaction {
-    width: 140px;
+    width: 100px;
     animation-name: none;
     animation-delay: 0s;
     animation-iteration-count: infinite;

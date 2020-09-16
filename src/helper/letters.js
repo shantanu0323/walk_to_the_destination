@@ -30,8 +30,8 @@ const letterWidth = {
     "": 0,
     "^": 4,
     "!": 4,
-    "-": 8,
-    "+": 11,
+    "-": 6,
+    "+": 9,
     "|": 31,
 };
 
@@ -284,6 +284,7 @@ const ltow = (ch, start = new Position(1, 1)) => {
                 walls.push(new Position(start.x + i, start.y + 4));
             nextStart.y = start.y + letterWidth["W"];
             break;
+        case "-":
         case "X":
             for (i = 0; i < 5; i++)
                 walls.push(new Position(start.x + i, start.y + i));
@@ -321,35 +322,15 @@ const ltow = (ch, start = new Position(1, 1)) => {
             }
             nextStart.y = start.y + letterWidth["^"];
             break;
-        case "-":
-            for (i = 0; i < 7; i++) {
-                walls.push(new Position(start.x, start.y + i));
-                walls.push(new Position(start.x + i, start.y + 6));
-                walls.push(new Position(start.x + 6, start.y + i));
-                walls.push(new Position(start.x + i, start.y));
-            }
-            for (i = 1; i < 6; i++) {
-                for (let j = 1; j < 6; j++) {
-                    if (i === j || i + j === 6) continue;
-                    walls.push(new Position(start.x + i, start.y + j));
-                }
-            }
-            nextStart.y = start.y + letterWidth["-"];
-            break;
         case "+":
-            for (i = 0; i < 10; i++) {
-                walls.push(new Position(start.x, start.y + i));
-                walls.push(new Position(start.x + i, start.y + 9));
-                walls.push(new Position(start.x + 6, start.y + i));
-                walls.push(new Position(start.x + i, start.y));
+            for (i = 0; i < 7; i++)
+                walls.push(new Position(start.x + 2, start.y + i));
+            for (i = 0; i <= 2; i++) {
+                walls.push(new Position(start.x + i, start.y + 5 + i));
+                walls.push(new Position(start.x + 5 - i, start.y + 4 + i));
             }
-            for (i = 1; i < 6; i++) {
-                for (let j = 1; j < 9; j++) {
-                    if (i === 3 || j === 6 || ((i === 2 || i === 4) && j === 7))
-                        continue;
-                    walls.push(new Position(start.x + i, start.y + j));
-                }
-            }
+            for (i = 1; i < 4; i += 2)
+                walls.push(new Position(start.x + i, start.y + 5));
             nextStart.y = start.y + letterWidth["+"];
             break;
         case "!":
