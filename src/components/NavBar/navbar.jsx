@@ -224,8 +224,8 @@ class NavBar extends Component {
             { id: "speed-faster", name: "Faster", speed: 10 },
             { id: "speed-fast", name: "Fast", speed: 15 },
             { id: "speed-normal", name: "Normal", speed: 20 },
-            { id: "speed-slow", name: "Slow", speed: 30 },
-            { id: "speed-slower", name: "Slower", speed: 40 },
+            { id: "speed-slow", name: "Slow", speed: 200 },
+            { id: "speed-slower", name: "Slower", speed: 500 },
         ],
         selectedMazeId: "maze-none",
     };
