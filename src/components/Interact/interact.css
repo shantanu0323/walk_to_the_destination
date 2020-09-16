@@ -1,18 +1,28 @@
-.node.node-circle {
-    border-radius: 20px;
+.node.node-circle,
+.node.node-unvisited {
     transition: all 0.3s;
+}
+
+.node.node-circle.node-unvisited {
+    transform: scale(0.2);
+}
+
+.node.node-circle.node-wall {
+    border-radius: 5px;
+    transform: rotate(45deg) scaleX(0.3);
 }
 
 .node.node-circle.node-target,
 .node.node-circle.node-source {
-    border-radius: 20px;
+    transform: scale(0.2);
     background: rgba(255, 255, 255, 0.055);
 }
 
 .node.node-circle.node-target.node-wall,
 .node.node-circle.node-source.node-wall {
     background-color: white;
-    transform: scale(1);
+    border-radius: 5px;
+    transform: rotate(45deg) scaleX(0.3);
 }
 
 #btn-next-interaction,

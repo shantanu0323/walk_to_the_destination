@@ -377,11 +377,11 @@ class Interact extends Component {
                 this.writeNextButton(statement, lines);
                 break;
             case 5:
-                this.writeOnCanvas(
-                    "|",
-                    Align.CUSTOM,
-                    new Position(4, parseInt((this.props.columns - 30) / 2))
-                );
+                // this.writeOnCanvas(
+                //     "|",
+                //     Align.CUSTOM,
+                //     new Position(4, parseInt((this.props.columns - 30) / 2))
+                // );
                 data = this.writeOnCanvas(
                     "Drag to Construct Walls",
                     Align.MIDDLE_CENTER

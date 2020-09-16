@@ -306,7 +306,7 @@ class App extends Component {
                         }, this.state.speed + 500);
                 }, this.state.speed * i);
             }
-        }, 1000);
+        }, 100);
     };
 
     updateMaze = (walls, visitedNodes) => {
