@@ -7,9 +7,9 @@ import Insights from "./components/Insights/insights";
 import Copyright from "./components/Copyright/copyright";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
-import performDijkstra from "./algorithms/dijkstra";
 import resetSourceAndTarget from "./helper/initialise";
 import Loader from "./components/Loader/loader";
+import performDijkstra from "./algorithms/dijkstra";
 import performAstar from "./algorithms/a_star";
 import performGreedy from "./algorithms/greedy";
 import performBFS from "./algorithms/bfs";
@@ -41,7 +41,7 @@ class App extends Component {
             parseInt(0.5 * rows),
             parseInt(0.7 * columns)
         );
-        // const target = new Position(4, 5);
+        // const target = new Position(6, 8);
         this.setState({ rows, columns, source, target });
     }
 
@@ -161,7 +161,16 @@ class App extends Component {
         return "null";
     };
 
-    clearPath = () => {
+    resetInsights = () => {
+        this.setState({
+            numberOfVisitedNodes: null,
+            pathLength: null,
+            timeTaken: null,
+            targetReached: true,
+        });
+    };
+
+    clearPath = async () => {
         this.setState({
             visitedNodes: [],
             numberOfVisitedNodes: null,
@@ -182,6 +191,7 @@ class App extends Component {
             }
         }
         resetSourceAndTarget();
+        this.resetInsights();
     };
 
     destructWalls = () => {
@@ -210,7 +220,9 @@ class App extends Component {
         }
     };
 
-    startWalking = () => {
+    startWalking = async () => {
+        this.startLoading();
+        this.clearPath();
         setTimeout(() => {
             console.log("START WALKING");
             const algorithm = this.getSelectedAlgorithmFunction();
@@ -218,9 +230,7 @@ class App extends Component {
                 alert("Coming Soon !!!");
                 return;
             }
-            this.startLoading();
             resetSourceAndTarget();
-            this.clearPath();
             const startTime = new Date().getTime();
             const { visitedNodes, path } = algorithm(
                 this.state.rows,
@@ -296,7 +306,7 @@ class App extends Component {
                         }, this.state.speed + 500);
                 }, this.state.speed * i);
             }
-        }, 500);
+        }, 1000);
     };
 
     updateMaze = (walls, visitedNodes) => {
@@ -352,7 +362,7 @@ class App extends Component {
                 />
                 <Copyright />
                 {this.state.rows !== 0 && this.state.columns !== 0 ? (
-                    window.innerWidth > 950 ? (
+                    window.innerWidth > 950 && !this.state.interactionDone ? (
                         <Interact
                             startLoading={this.startLoading}
                             stopLoading={this.stopLoading}
