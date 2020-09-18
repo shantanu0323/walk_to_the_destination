@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import "./interact.css";
 import { ltow, lengthOfWord } from "../../helper/letters";
 import Position from "../../helper/position";
+import demo_wall_gif from "../../static/demo_wall.gif";
+
 const Align = {
     TOP_LEFT: 0,
     TOP_CENTER: 1,
@@ -40,6 +42,16 @@ class Interact extends Component {
         document.getElementById(
             `btn-next-interaction`
         ).style.left = `${nextDom.offsetLeft}px`;
+
+        const demoDom = document.getElementById(
+            `node-${parseInt(this.props.rows / 2) - 9}-${3}`
+        );
+        document.querySelector(
+            "img.wall-demo-gif"
+        ).style.top = `${demoDom.offsetTop}px`;
+        document.querySelector(
+            "img.wall-demo-gif"
+        ).style.left = `${demoDom.offsetLeft}px`;
     }
 
     getCenter(total, len) {
@@ -110,8 +122,12 @@ class Interact extends Component {
     }
 
     getLines(statement) {
-        const words = statement.split(" ");
         const lines = [];
+        if (statement.includes("\n")) {
+            statement.split("\n").map((line) => lines.push(line.trim()));
+            return lines;
+        }
+        const words = statement.split(" ");
         let currentLine = "";
         while (words.length > 0) {
             const word = words[0];
@@ -334,6 +350,16 @@ class Interact extends Component {
         this.enableNext(this.writeOnCanvasDelay(statement, lines));
     }
 
+    setFocus(identifier) {
+        setTimeout(() => {
+            document.querySelector(identifier).classList.add("focused");
+        }, 500);
+    }
+
+    placeDemoGIF() {
+        document.querySelector("img.wall-demo-gif").style.display = "block";
+    }
+
     showInteractions(index) {
         this.clearBoard();
         document.getElementById(`btn-next-interaction`).style.display = `none`;
@@ -342,8 +368,22 @@ class Interact extends Component {
         let lines = null;
         let data = null;
         switch (index) {
+            case 1:
+            default:
+                this.writeOnCanvas("^", Align.CUSTOM, new Position(1, 14));
+                this.setFocus(".navbar-custom .btn-algorithm");
+                data = this.writeOnCanvas(
+                    "Select the Algorithm",
+                    Align.MIDDLE_CENTER
+                );
+                statement = data.statement;
+                lines = data.lines;
+                this.writeSkipButton(statement, lines);
+                this.writeNextButton(statement, lines);
+                break;
             case 2:
                 this.writeOnCanvas("^", Align.CUSTOM, new Position(1, 21));
+                this.setFocus(".navbar-custom .btn-maze");
                 data = this.writeOnCanvas(
                     "Try Creating a Maze",
                     Align.MIDDLE_CENTER
@@ -355,6 +395,7 @@ class Interact extends Component {
                 break;
             case 3:
                 this.writeOnCanvas("^", Align.CUSTOM, new Position(1, 28));
+                this.setFocus(".navbar-custom .btn-speed");
                 data = this.writeOnCanvas(
                     "Choose the Speed",
                     Align.MIDDLE_CENTER
@@ -370,6 +411,7 @@ class Interact extends Component {
                     Align.CUSTOM,
                     new Position(1, this.props.columns - 3)
                 );
+                this.setFocus(".navbar-custom #btn-start-walking");
                 data = this.writeOnCanvas("Start Walking", Align.MIDDLE_CENTER);
                 statement = data.statement;
                 lines = data.lines;
@@ -382,9 +424,10 @@ class Interact extends Component {
                 //     Align.CUSTOM,
                 //     new Position(4, parseInt((this.props.columns - 30) / 2))
                 // );
+                this.placeDemoGIF();
                 data = this.writeOnCanvas(
-                    "Drag to Construct Walls",
-                    Align.MIDDLE_CENTER
+                    "Drag\nFor Walls",
+                    Align.MIDDLE_RIGHT
                 );
                 statement = data.statement;
                 lines = data.lines;
@@ -401,6 +444,7 @@ class Interact extends Component {
                         parseInt(this.props.columns / 2) + 1
                     )
                 );
+                this.setFocus(".insights-container");
                 data = this.writeOnCanvas(
                     "Insights Available Below",
                     Align.MIDDLE_CENTER
@@ -421,18 +465,6 @@ class Interact extends Component {
                 break;
             case 8:
                 this.skipInteraction();
-                break;
-            case 1:
-            default:
-                this.writeOnCanvas("^", Align.CUSTOM, new Position(1, 14));
-                data = this.writeOnCanvas(
-                    "Select the Algorithm",
-                    Align.MIDDLE_CENTER
-                );
-                statement = data.statement;
-                lines = data.lines;
-                this.writeSkipButton(statement, lines);
-                this.writeNextButton(statement, lines);
                 break;
         }
     }
@@ -462,10 +494,18 @@ class Interact extends Component {
     skipInteraction = () => {
         document.getElementById(`btn-next-interaction`).style.display = `none`;
         document.getElementById(`btn-skip-interaction`).style.display = `none`;
+        document
+            .querySelectorAll(".focused")
+            .forEach((dom) => dom.classList.remove("focused"));
+        document.querySelector("img.wall-demo-gif").style.display = "none";
         this.props.stopLoading();
     };
 
     nextInteraction = () => {
+        document
+            .querySelectorAll(".focused")
+            .forEach((dom) => dom.classList.remove("focused"));
+        document.querySelector("img.wall-demo-gif").style.display = "none";
         this.showInteractions(++currIndex);
     };
 
@@ -480,6 +520,11 @@ class Interact extends Component {
                     id="btn-skip-interaction"
                     onClick={this.skipInteraction}
                 ></button>
+                <img
+                    src={demo_wall_gif}
+                    alt="Drag For Wall Demo"
+                    className="wall-demo-gif"
+                />
             </div>
         );
     }
