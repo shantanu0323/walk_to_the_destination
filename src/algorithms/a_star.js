@@ -25,8 +25,8 @@ const initialiseMesh = (rows, columns, source, target, walls) => {
 
     const sourceNode = new Node(source);
     sourceNode.g = 0;
-    sourceNode.h = distance(source, target);
-    sourceNode.f = sourceNode.g + sourceNode.h;
+    sourceNode.h = 0;
+    sourceNode.f = 0; //sourceNode.g + sourceNode.h;
     openList.push(sourceNode);
 };
 
@@ -35,9 +35,8 @@ const getTraversableNeighbours = (node, walls) => {
     const neighbours = [];
     neighbourPositions
         .filter(
-            (position) =>
-                !walls.some((wall) => isEqual(wall, position)) &&
-                !closedList.some((node) => isEqual(node.position, position))
+            (position) => !walls.some((wall) => isEqual(wall, position))
+            // !closedList.some((node) => isEqual(node.position, position))
         )
         .map((position) => {
             neighbours.push(new Node(new Position(position.x, position.y)));
@@ -49,6 +48,7 @@ const getTraversableNeighbours = (node, walls) => {
 
 const nodeWithLeastF = () => {
     openList.sort((a, b) => {
+        // return a.f > b.f;
         return a.f <= b.f ? a.h > b.h : a.f > b.f;
     });
     return openList[0];
@@ -58,50 +58,69 @@ const performAstar = (rows, columns, source, target, walls) => {
     // initialise and fetch the graph
     // add source to the openList
     initialiseMesh(rows, columns, source, target, walls);
+    let found = undefined;
     // START LOOP
     while (
+        found === undefined &&
         openList.length > 0 &&
         closedList.length < rows * columns - walls.length
     ) {
         // CURRENT = node in the openList with the least f_cost
         const currNode = nodeWithLeastF();
-        // remove current from the openList
-        openList.shift();
-        // add current to the closedList
-        closedList.push(currNode);
 
-        // if current = target then return
-        if (isEqual(currNode.position, target)) break;
+        // remove current from the openList
+        // while (openList[0] !== undefined && openList[0].f === currNode.f)
+        openList.shift();
 
         // FOREACH neighbour of the CURRENT
-        getTraversableNeighbours(currNode.position, walls).map((neighbour) => {
-            // if neighbour is not traversable or neighbour in the closedList then skip to the next neighbour
-            // set the f_cost of the neighbour
-            neighbour.g =
-                currNode.g + distance(neighbour.position, currNode.position);
-            neighbour.h = distance(neighbour.position, target);
-            neighbour.f = neighbour.g + neighbour.h;
+        const neighbours = getTraversableNeighbours(currNode.position, walls);
+        for (let i = 0; i < neighbours.length; i++) {
+            const neighbour = neighbours[i];
+
             // set parent of the neighbour to the current
             neighbour.parent = currNode;
-            // if new path to neighbour is shorter or if the neighbour is NOT in openList
-            let found = false;
-            for (let i = 0; i < openList.length; i++) {
-                if (
-                    isEqual(openList[i].position, neighbour.position) &&
-                    neighbour.f <= openList[i].f
-                ) {
-                    openList[i] = neighbour;
-                    found = true;
-                    break;
-                }
-            }
-            // if neighbour is not in openlist then add it to openList
-            if (!found) {
-                openList.push(neighbour);
-            }
-            return true;
-        });
 
+            // if neighbour = target then return
+            if (isEqual(neighbour.position, target)) {
+                found = neighbour;
+                break;
+            }
+
+            // if neighbour is not traversable or neighbour in the closedList then skip to the next neighbour
+            // set the f_cost of the neighbour
+            neighbour.g = currNode.g + 1; //distance(source, neighbour.position);
+            neighbour.h = distance(neighbour.position, target);
+            neighbour.f = neighbour.g + neighbour.h;
+
+            if (
+                openList.some(
+                    (node) =>
+                        isEqual(node.position, neighbour.position) &&
+                        node.f <= neighbour.f
+                )
+            )
+                continue;
+            if (
+                closedList.some(
+                    (node) =>
+                        isEqual(node.position, neighbour.position) &&
+                        node.f <= neighbour.f
+                )
+            )
+                continue;
+
+            openList.push(neighbour);
+            // }
+        }
+
+        // add current to the closedList
+        if (
+            !closedList.some((node) =>
+                isEqual(node.position, currNode.position)
+            )
+        )
+            closedList.push(currNode);
+        if (found) closedList.push(found);
         // END LOOP
     }
     const visitedNodes = [];
