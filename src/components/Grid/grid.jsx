@@ -3,6 +3,7 @@ import Node from "../Node/node";
 import NodeState from "../Node/node_state";
 import Position from "../../helper/position";
 import "./grid.css";
+import { removeData } from "jquery";
 
 class Grid extends Component {
     state = {
@@ -11,11 +12,12 @@ class Grid extends Component {
         movingTarget: false,
     };
 
+    handleMouseLeavingGrid() {
+        this.setState({ isMousePressed: false });
+    }
+
     handleMouseUp(nodeState, position) {
         this.setState({ isMousePressed: false });
-        // console.log(
-        //     `(${position.x}, ${position.y}) : mouseUp | pressed=${this.state.isMousePressed}`
-        // );
         if (nodeState === NodeState.NODE_IS_SOURCE) {
             this.setState({ movingSource: false });
         } else if (nodeState === NodeState.NODE_IS_TARGET) {
@@ -26,9 +28,6 @@ class Grid extends Component {
     }
     handleMouseDown(nodeState, position) {
         this.setState({ isMousePressed: true });
-        // console.log(
-        //     `(${position.x}, ${position.y}) : mouseDown | pressed=${this.state.isMousePressed}`
-        // );
         if (nodeState === NodeState.NODE_IS_SOURCE) {
             this.setState({ movingSource: true });
         } else if (nodeState === NodeState.NODE_IS_TARGET) {
@@ -39,9 +38,6 @@ class Grid extends Component {
     }
     handleMouseEnter(nodeState, position) {
         if (this.state.isMousePressed) {
-            // console.log(
-            //     `(${position.x}, ${position.y}) : mouseEnter | pressed=${this.state.isMousePressed}`
-            // );
             if (this.state.movingSource) {
                 // TODO: change nodeState to source
                 this.props.setNodeAsSource(position);
@@ -50,7 +46,6 @@ class Grid extends Component {
                 this.props.setNodeAsTarget(position);
             } else {
                 // TODO: toggleWall()
-                // console.log(position);
                 this.props.toggleWall(position);
             }
         }
@@ -141,6 +136,7 @@ class Grid extends Component {
         return (
             <section
                 className="grid-container"
+                onMouseLeave={() => this.handleMouseLeavingGrid()}
                 style={{
                     paddingTop: paddingY,
                     paddingRight: paddingX,
