@@ -16,36 +16,25 @@ class NavBar extends Component {
                 description: (
                     <div>
                         <p>
-                            Let the node at which we are starting be called the
-                            <b>initial node</b>. Let the
-                            <b>
-                                distance of node
-                                <i>Y</i>
-                            </b>
-                            be the distance from the <b> initial node</b>
-                            to
-                            <i>Y</i>. Dijkstra's algorithm will assign some
-                            initial distance values and will try to improve them
-                            step by step.
+                            <b>Initialisation</b>
+                            <br />
+                            Put all nodes except <i>source</i> into{" "}
+                            <i>unvisitedNodes</i> list
+                            <br />
+                            Create another list <i>distances</i> and initialize
+                            all values to <i>Infinity</i>
+                            <br />
+                            Set the <i>distances[source] = 0</i>
                         </p>
                         <ol>
-                            <li>
-                                Mark all nodes unvisited. Create a set of all
-                                the unvisited nodes called the
-                                <i>unvisited set</i>.
-                            </li>
-                            <li>
-                                Assign to every node a tentative distance value:
-                                set it to zero for our initial node and to
-                                infinity for all other nodes. Set the initial
-                                node as current.
-                            </li>
                             <li>
                                 For the current node, consider all of its
                                 unvisited neighbours and calculate their
                                 <i>tentative</i>
-                                distances through the current node. Compare the
-                                newly calculated
+                                distances through the current node.{" "}
+                            </li>
+                            <li>
+                                Compare the newly calculated
                                 <i>tentative</i>
                                 distance to the current assigned value and
                                 assign the smaller one. For example, if the
@@ -67,7 +56,7 @@ class NavBar extends Component {
                                 unvisited neighbours of the current node, mark
                                 the current node as visited and remove it from
                                 the
-                                <i>unvisited set</i>. A visited node will never
+                                <i>unvisitedNodes</i>. A visited node will never
                                 be checked again.
                             </li>
                             <li>
@@ -75,7 +64,7 @@ class NavBar extends Component {
                                 (when planning a route between two specific
                                 nodes) or if the smallest tentative distance
                                 among the nodes in the
-                                <i>unvisited set</i>
+                                <i>unvisitedNodes</i>
                                 is infinity (when planning a complete traversal;
                                 occurs when there is no connection between the
                                 initial node and remaining unvisited nodes),
@@ -105,46 +94,69 @@ class NavBar extends Component {
                 description: (
                     <div>
                         <p>
-                            We create two lists – <i>Open List</i> and{" "}
+                            We create two lists – <i>openList</i> and{" "}
                             <i>Closed List</i>
                             (just like Dijkstra Algorithm)
                         </p>
-                        <p>
-                            1. Initialize the open list
-                            <br />
-                            2. Initialize the closed list put the starting node
-                            on the open list (you can leave its{" "}
-                            <strong>f</strong> at zero)
-                            <br />
-                            3. while the open list is not empty <br />
-                            a. find the node with the least <strong>
-                                f
-                            </strong>{" "}
-                            on the open list, call it "q" <br />
-                            b. pop q off the open list <br />
-                            c. generate q's 8 successors and set their parents
-                            to q <br />
-                            d. for each successor <br />
-                            i. if successor is the goal, stop search successor.
-                            <strong>g</strong> = q.<strong>g</strong> + distance
-                            between successor and q successor.<strong>h</strong>{" "}
-                            = distance from goal to successor (This can be done
-                            using many ways, we will discuss three heuristics-
-                            Manhattan, Diagonal and Euclidean Heuristics)
-                            successor.<strong>f</strong> = successor.
-                            <strong>g</strong> + successor.<strong>h</strong>
-                            <br />
-                            ii. if a node with the same position as successor is
-                            in the OPEN list which has a lower{" "}
-                            <strong>f</strong> than successor, skip this
-                            successor <br />
-                            iii. if a node with the same position as successor
-                            is in the CLOSED list which has a lower{" "}
-                            <strong>f</strong> than successor, skip this
-                            successor otherwise, add the node to the open list
-                            end (for loop) e. push q on the closed list end
-                            (while loop){" "}
-                        </p>
+                        <ol>
+                            <li>
+                                Initialize the <i>openList</i> and put the
+                                starting node on the <i>openList</i> (you can
+                                leave its <strong>f</strong> at zero)
+                            </li>
+                            <li>Initialize the closed list as empty list</li>
+                            <li>
+                                while the <i>openList</i> is not empty{" "}
+                            </li>
+                            <ol>
+                                <li>
+                                    find the node with the least{" "}
+                                    <strong>f</strong> on the <i>openList</i>,
+                                    call it "q"{" "}
+                                </li>
+                                <li>
+                                    pop q off the <i>openList</i>{" "}
+                                </li>
+                                <li>
+                                    generate q's 4 neighbours and set their
+                                    parents to q{" "}
+                                </li>
+                                <li>for each successor </li>
+                                <ol>
+                                    <li>
+                                        if successor is the goal, stop search
+                                        successor.
+                                        <strong>g</strong> = q.
+                                        <strong>g</strong> + distance between
+                                        successor and q successor.
+                                        <strong>h</strong> = distance from goal
+                                        to successor (This can be done using
+                                        many ways, we will discuss three
+                                        heuristics- Manhattan, Diagonal and
+                                        Euclidean Heuristics) successor.
+                                        <strong>f</strong> = successor.
+                                        <strong>g</strong> + successor.
+                                        <strong>h</strong>
+                                    </li>
+                                    <li>
+                                        if a node with the same position as
+                                        successor is in the <i>openList</i>{" "}
+                                        which has a lower <strong>f</strong>{" "}
+                                        than successor, skip this successor{" "}
+                                    </li>
+                                    <li>
+                                        if a node with the same position as
+                                        successor is in the CLOSED list which
+                                        has a lower <strong>f</strong> than
+                                        successor, skip this successor
+                                        otherwise, add the node to the{" "}
+                                        <i>openList</i>
+                                        end (for loop) e. push q on the closed
+                                        list end (while loop){" "}
+                                    </li>
+                                </ol>
+                            </ol>
+                        </ol>
                     </div>
                 ),
             },
@@ -154,39 +166,64 @@ class NavBar extends Component {
                 description: (
                     <div>
                         <p>
-                            A<b>greedy algorithm</b>
-                            is any algorithm that follows the problem-solving
-                            heuristic of making the locally optimal choice at
-                            each stage. In many problems, a greedy strategy does
-                            not usually produce an optimal solution, but
-                            nonetheless a greedy heuristic may yield locally
-                            optimal solutions that approximate a globally
-                            optimal solution in a reasonable amount of time.
+                            Same as A* except this time we will only look at the{" "}
+                            <b>h</b> cost <br />
+                            We create two lists – <i>openList</i> and{" "}
+                            <i>Closed List</i>
+                            (just like Dijkstra Algorithm)
                         </p>
-                        <p>
-                            For example, a greedy strategy for the
-                            <a
-                                href="/wiki/Travelling_salesman_problem"
-                                title="Travelling salesman problem"
-                            >
-                                travelling salesman problem
-                            </a>
-                            (which is of a high computational complexity) is the
-                            following heuristic: "At each step of the journey,
-                            visit the nearest unvisited city." This heuristic
-                            does not intend to find a best solution, but it
-                            terminates in a reasonable number of steps; finding
-                            an optimal solution to such a complex problem
-                            typically requires unreasonably many steps. In
-                            mathematical optimization, greedy algorithms
-                            optimally solve combinatorial problems having the
-                            properties of
-                            <a href="/wiki/Matroid" title="Matroid">
-                                matroids
-                            </a>
-                            , and give constant-factor approximations to
-                            optimization problems with submodular structure.
-                        </p>
+                        <ol>
+                            <li>
+                                Initialize the <i>openList</i> and put the
+                                starting node on the <i>openList</i> (you can
+                                leave its <strong>h</strong> at zero)
+                            </li>
+                            <li>Initialize the closed list as empty list</li>
+                            <li>
+                                while the <i>openList</i> is not empty{" "}
+                            </li>
+                            <ol>
+                                <li>
+                                    find the node with the least{" "}
+                                    <strong>h</strong> on the <i>openList</i>,
+                                    call it "<strong>q</strong>"{" "}
+                                </li>
+                                <li>
+                                    pop q off the <i>openList</i>{" "}
+                                </li>
+                                <li>
+                                    generate q's 4 neighbours and set their
+                                    parents to q{" "}
+                                </li>
+                                <li>for each successor </li>
+                                <ol>
+                                    <li>
+                                        if successor is the goal, stop search
+                                        successor.<strong>h</strong> = distance
+                                        from goal to successor (This can be done
+                                        using many ways, we will discuss three
+                                        heuristics- Manhattan, Diagonal and
+                                        Euclidean Heuristics)
+                                    </li>
+                                    <li>
+                                        if a node with the same position as
+                                        successor is in the <i>openList</i>{" "}
+                                        which has a lower <strong>h</strong>{" "}
+                                        than successor, skip this successor{" "}
+                                    </li>
+                                    <li>
+                                        if a node with the same position as
+                                        successor is in the CLOSED list which
+                                        has a lower <strong>h</strong> than
+                                        successor, skip this successor
+                                        otherwise, add the node to the{" "}
+                                        <i>openList</i>
+                                        end (for loop) e. push q on the closed
+                                        list end (while loop){" "}
+                                    </li>
+                                </ol>
+                            </ol>
+                        </ol>
                     </div>
                 ),
             },
@@ -197,7 +234,41 @@ class NavBar extends Component {
                     <div>
                         <p>
                             Visit all the siblings before exploring the children
+                            <br />
+                            <b>Initialisation</b>
+                            <br />
+                            set up a <b>queue</b> and put the <i>source</i> into
+                            it. set up a <b>parents</b> map and set the parent
+                            of <i>source</i> as NULL
                         </p>
+                        <ol>
+                            <li>loop until target is found</li>
+                            <ol>
+                                <li>
+                                    <b>currNode</b> = <i>queue[0]</i>
+                                </li>
+                                <li>
+                                    push the <i>currNode</i> to the{" "}
+                                    <i>visitedNodes</i> list
+                                </li>
+                                <li>
+                                    if <i>currNode</i> is the target then{" "}
+                                    <i>break</i>
+                                </li>
+                                <li>
+                                    else, remove <i>currNode</i> from the{" "}
+                                    <i>queue</i>
+                                </li>
+                                <li>
+                                    set the parent of the <i>neighbours</i> as
+                                    the <i>currNode</i>
+                                </li>
+                                <li>
+                                    push the <b>neighbours</b> of the{" "}
+                                    <i>currNode</i> into the <i>queue</i>
+                                </li>
+                            </ol>
+                        </ol>
                     </div>
                 ),
             },
@@ -208,7 +279,52 @@ class NavBar extends Component {
                     <div>
                         <p>
                             Visit all the children before exploring the siblings
+                            <br />
+                            <b>Initialisation</b>
+                            <br />
+                            set up an empty <b>visitedNodes</b>
+                            <br />
+                            set up a <b>parents</b> map and set the parent of{" "}
+                            <i>source</i> as NULL
+                            <b>currNode</b> = <i>source</i>
                         </p>
+                        <ol>
+                            <li>
+                                if <b>targetFound</b> flag is true, then return
+                            </li>
+                            <li>
+                                if <b>currNode</b> = <i>target</i>
+                                <ol>
+                                    <li>
+                                        push the <i>currNode</i> into the{" "}
+                                        <i>visitedNodes</i>
+                                    </li>
+                                    <li>
+                                        set the <b>targetFound</b> flag to true
+                                        and <i>return</i>
+                                    </li>
+                                </ol>
+                            </li>
+                            <li>
+                                push the <i>currNode</i> to the{" "}
+                                <i>visitedNodes</i> list
+                            </li>
+                            <li>
+                                set the parent of the <i>neighbours</i> as the{" "}
+                                <i>currNode</i>
+                            </li>
+                            <li>
+                                loop through the <i>neighbours</i> unless the{" "}
+                                <i>targetFound</i> flag is false
+                                <ol>
+                                    <li>recurse from step 1</li>
+                                    <li>
+                                        remove the <i>neighbour</i> from{" "}
+                                        <i>neighbours</i> list
+                                    </li>
+                                </ol>
+                            </li>
+                        </ol>
                     </div>
                 ),
             },
