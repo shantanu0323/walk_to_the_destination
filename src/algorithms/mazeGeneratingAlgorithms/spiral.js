@@ -11,7 +11,7 @@ const isOnEdge = (position, rows, columns) => {
 };
 
 const buildWalls = (startRow, endRow, startColumn, endColumn) => {
-    if (startRow > endRow || startColumn >= endColumn) return;
+    if (startRow >= endRow || startColumn >= endColumn) return;
     for (let i = startColumn; i <= endColumn; i++) {
         if (Math.random() > 0.04) walls.push(new Position(startRow, i));
     }
