@@ -1,7 +1,7 @@
 class Position {
     constructor(x, y) {
-        this.x = x;
-        this.y = y;
+        this.x = parseInt(x);
+        this.y = parseInt(y);
     }
 }
 

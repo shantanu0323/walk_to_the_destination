@@ -136,22 +136,6 @@ class App extends Component {
         }
     };
 
-    toggleWall = (position) => {
-        // console.log(position);
-        let walls = this.state.walls;
-        if (
-            walls.some((node) => node.x === position.x && node.y === position.y)
-        ) {
-            // Node is a wall -> change to unvisited
-            walls = walls.filter(
-                (node) => !(node.x === position.x && node.y === position.y)
-            );
-        } else {
-            walls.push(position);
-        }
-        this.setState({ walls });
-    };
-
     putNodeInPath = (position, node) => {
         if (isEqual(position, new Position(node.x - 1, node.y))) return "top";
         if (isEqual(position, new Position(node.x, node.y + 1))) return "right";
@@ -171,6 +155,15 @@ class App extends Component {
     };
 
     clearPath = async () => {
+        document
+            .querySelectorAll(
+                ".grid-container .node.node-path, .grid-container .node.node-visited"
+            )
+            .forEach((nodeDom) => {
+                nodeDom.classList.add("node-unvisited");
+                nodeDom.classList.remove("node-visited");
+                nodeDom.classList.remove("node-path");
+            });
         this.setState({
             visitedNodes: [],
             numberOfVisitedNodes: null,
@@ -195,6 +188,9 @@ class App extends Component {
     };
 
     destructWalls = () => {
+        document
+            .querySelectorAll(".grid-container .node.node-wall")
+            .forEach((nodeDom) => nodeDom.classList.remove("node-wall"));
         this.setState({ walls: [] });
     };
 
@@ -220,9 +216,20 @@ class App extends Component {
         }
     };
 
+    updateWalls = () => {
+        const walls = [];
+        document
+            .querySelectorAll(".grid-container .node.node-wall")
+            .forEach((node) =>
+                walls.push(new Position(node.dataset.x, node.dataset.y))
+            );
+        this.setState({ walls });
+    };
+
     startWalking = async () => {
         this.startLoading();
         this.clearPath();
+        this.updateWalls();
         setTimeout(() => {
             console.log("START WALKING");
             const algorithm = this.getSelectedAlgorithmFunction();
@@ -242,8 +249,21 @@ class App extends Component {
             const endTime = new Date().getTime();
             this.setState({
                 numberOfVisitedNodes: visitedNodes.length,
-                pathLength: path.length + 1,
+                pathLength:
+                    visitedNodes[visitedNodes.length - 1].x ===
+                        this.state.target.x &&
+                    visitedNodes[visitedNodes.length - 1].y ===
+                        this.state.target.y
+                        ? path.length + 1
+                        : null,
                 timeTaken: endTime - startTime,
+                targetReached:
+                    visitedNodes[visitedNodes.length - 1].x ===
+                        this.state.target.x &&
+                    visitedNodes[visitedNodes.length - 1].y ===
+                        this.state.target.y
+                        ? true
+                        : false,
             });
             // this.stopLoading();
             // return;
@@ -349,7 +369,6 @@ class App extends Component {
                     interactionDone={this.state.interactionDone}
                     setNodeAsSource={this.setNodeAsSource}
                     setNodeAsTarget={this.setNodeAsTarget}
-                    toggleWall={this.toggleWall}
                 />
                 <Legend />
                 <Insights

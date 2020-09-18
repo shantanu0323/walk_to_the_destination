@@ -289,7 +289,7 @@
     transform: translateY(0%) rotate(360deg) !important;
 }
 
-@media only screen and (max-width: 1140px) {
+@media only screen and (max-width: 1300px) {
     .navbar-custom .actions-container button span {
         display: none;
     }

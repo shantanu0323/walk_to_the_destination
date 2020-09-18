@@ -3,7 +3,6 @@ import Node from "../Node/node";
 import NodeState from "../Node/node_state";
 import Position from "../../helper/position";
 import "./grid.css";
-import { removeData } from "jquery";
 
 class Grid extends Component {
     state = {
@@ -11,6 +10,14 @@ class Grid extends Component {
         movingSource: false,
         movingTarget: false,
     };
+
+    toggleWall(position) {
+        const nodeDom = document.getElementById(
+            `node-${position.x}-${position.y}`
+        );
+        nodeDom.classList.toggle("node-unvisited");
+        nodeDom.classList.toggle("node-wall");
+    }
 
     handleMouseLeavingGrid() {
         this.setState({ isMousePressed: false });
@@ -26,6 +33,7 @@ class Grid extends Component {
             // do nothing
         }
     }
+
     handleMouseDown(nodeState, position) {
         this.setState({ isMousePressed: true });
         if (nodeState === NodeState.NODE_IS_SOURCE) {
@@ -33,7 +41,7 @@ class Grid extends Component {
         } else if (nodeState === NodeState.NODE_IS_TARGET) {
             this.setState({ movingTarget: true });
         } else {
-            this.props.toggleWall(position);
+            this.toggleWall(position);
         }
     }
     handleMouseEnter(nodeState, position) {
@@ -46,19 +54,15 @@ class Grid extends Component {
                 this.props.setNodeAsTarget(position);
             } else {
                 // TODO: toggleWall()
-                this.props.toggleWall(position);
+                this.toggleWall(position);
             }
         }
     }
     handleMouseLeave(nodeState, position) {
         // if (this.state.isMousePressed) {
-        //     console.log(
-        //         `(${position.x}, ${position.y}) : mouseLeave | pressed=${this.state.isMousePressed}`
-        //     );
-        //     if (nodeState === NodeState.NODE_IS_SOURCE) {
+        //     if (this.state.movingSource || this.state.movingTarget) {
         //         // TODO: change nodeState to unvisited
-        //     } else if (nodeState === NodeState.NODE_IS_TARGET) {
-        //         // TODO: change nodestate to unvisited
+        //         this.resetNode(position);
         //     } else {
         //         // do nothing
         //     }
