@@ -190,7 +190,10 @@ class App extends Component {
     destructWalls = () => {
         document
             .querySelectorAll(".grid-container .node.node-wall")
-            .forEach((nodeDom) => nodeDom.classList.remove("node-wall"));
+            .forEach((nodeDom) => {
+                nodeDom.classList.add("node-unvisited");
+                nodeDom.classList.remove("node-wall");
+            });
         this.setState({ walls: [] });
     };
 
