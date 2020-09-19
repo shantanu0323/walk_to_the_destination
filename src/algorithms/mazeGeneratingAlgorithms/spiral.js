@@ -14,17 +14,18 @@ const buildWalls = (startRow, endRow, startColumn, endColumn) => {
     for (let i = startColumn; i <= endColumn; i++) {
         if (Math.random() > 0.04) walls.push(new Position(startRow, i));
     }
-    if (startRow >= endRow - 1 || startColumn >= endColumn - 1) return;
     for (let i = startRow + 1; i <= endRow; i++) {
         if (Math.random() > 0.02) walls.push(new Position(i, endColumn));
     }
+    if (startRow >= endRow - 1 || startColumn >= endColumn - 1) return;
     for (let i = endColumn - 1; i >= startColumn; i--) {
         if (Math.random() > 0.04) walls.push(new Position(endRow, i));
     }
     for (let i = endRow - 1; i >= startRow + 2; i--) {
         if (Math.random() > 0.02) walls.push(new Position(i, startColumn));
     }
-    walls.push(new Position(startRow + 2, startColumn + 1));
+    if (startRow >= endRow - 1 || startColumn >= endColumn - 1)
+        walls.push(new Position(startRow + 2, startColumn + 1));
     buildWalls(startRow + 2, endRow - 2, startColumn + 2, endColumn - 2);
 };
 
