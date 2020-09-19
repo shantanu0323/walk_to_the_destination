@@ -11,12 +11,59 @@ class Grid extends Component {
         movingTarget: false,
     };
 
+    constructor() {
+        super();
+        this.prevPos = null;
+    }
+
     toggleWall(position) {
         const nodeDom = document.getElementById(
             `node-${position.x}-${position.y}`
         );
+        if (
+            nodeDom.classList.contains("node-source") ||
+            nodeDom.classList.contains("node-target")
+        )
+            return;
         nodeDom.classList.toggle("node-unvisited");
         nodeDom.classList.toggle("node-wall");
+    }
+
+    setNodeAsSource(position, set = true) {
+        const nodeDom = document.getElementById(
+            `node-${position.x}-${position.y}`
+        );
+        if (set && nodeDom.classList.contains("node-target"))
+            return this.setNodeAsSource(this.prevPos);
+
+        if (set) nodeDom.classList.add("node-source");
+        else nodeDom.classList.remove("node-source");
+    }
+
+    setNodeAsTarget(position, set = true) {
+        const nodeDom = document.getElementById(
+            `node-${position.x}-${position.y}`
+        );
+        if (set && nodeDom.classList.contains("node-source"))
+            return this.setNodeAsTarget(this.prevPos);
+        if (set) nodeDom.classList.add("node-target");
+        else nodeDom.classList.remove("node-target");
+    }
+
+    getSourcePosition() {
+        const sourceDom = document.querySelector(
+            ".grid-container .node.node-source"
+        );
+        if (sourceDom === null) return this.prevPos;
+        return new Position(sourceDom.dataset.x, sourceDom.dataset.y);
+    }
+
+    getTargetPosition() {
+        const targetDom = document.querySelector(
+            ".grid-container .node.node-target"
+        );
+        if (targetDom === null) return this.prevPos;
+        return new Position(targetDom.dataset.x, targetDom.dataset.y);
     }
 
     handleMouseLeavingGrid() {
@@ -25,10 +72,12 @@ class Grid extends Component {
 
     handleMouseUp(nodeState, position) {
         this.setState({ isMousePressed: false });
-        if (nodeState === NodeState.NODE_IS_SOURCE) {
+        if (this.state.movingSource) {
             this.setState({ movingSource: false });
-        } else if (nodeState === NodeState.NODE_IS_TARGET) {
+            this.props.setNodeAsSource(this.getSourcePosition());
+        } else if (this.state.movingTarget) {
             this.setState({ movingTarget: false });
+            this.props.setNodeAsTarget(this.getTargetPosition());
         } else {
             // do nothing
         }
@@ -48,10 +97,10 @@ class Grid extends Component {
         if (this.state.isMousePressed) {
             if (this.state.movingSource) {
                 // TODO: change nodeState to source
-                this.props.setNodeAsSource(position);
+                this.setNodeAsSource(position);
             } else if (this.state.movingTarget) {
                 // TODO: change nodeState to target
-                this.props.setNodeAsTarget(position);
+                this.setNodeAsTarget(position);
             } else {
                 // TODO: toggleWall()
                 this.toggleWall(position);
@@ -59,14 +108,26 @@ class Grid extends Component {
         }
     }
     handleMouseLeave(nodeState, position) {
-        // if (this.state.isMousePressed) {
-        //     if (this.state.movingSource || this.state.movingTarget) {
-        //         // TODO: change nodeState to unvisited
-        //         this.resetNode(position);
-        //     } else {
-        //         // do nothing
-        //     }
-        // }
+        if (this.state.isMousePressed) {
+            const nodeDom = document.getElementById(
+                `node-${position.x}-${position.y}`
+            );
+            if (this.state.movingSource) {
+                // TODO: change nodeState to unvisited
+                if (!nodeDom.classList.contains("node-target"))
+                    this.prevPos = position;
+                else this.setNodeAsSource(this.prevPos, false);
+                this.setNodeAsSource(position, false);
+            } else if (this.state.movingTarget) {
+                // TODO: change nodeState to unvisited
+                if (!nodeDom.classList.contains("node-source"))
+                    this.prevPos = position;
+                else this.setNodeAsTarget(this.prevPos, false);
+                this.setNodeAsTarget(position, false);
+            } else {
+                // do nothing
+            }
+        }
     }
 
     decideNodeState(x, y, source, target, walls, visitedNodes) {

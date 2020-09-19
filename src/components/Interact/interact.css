@@ -15,7 +15,7 @@
 .node.node-circle.node-target,
 .node.node-circle.node-source {
     transform: scale(0.2);
-    background: rgba(255, 255, 255, 0.055);
+    background: rgba(255, 255, 255, 0.055) !important;
 }
 
 .node.node-circle.node-target.node-wall,
