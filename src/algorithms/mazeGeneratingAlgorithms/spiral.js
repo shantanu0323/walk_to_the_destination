@@ -24,8 +24,9 @@ const buildWalls = (startRow, endRow, startColumn, endColumn) => {
     for (let i = endRow - 1; i >= startRow + 2; i--) {
         if (Math.random() > 0.02) walls.push(new Position(i, startColumn));
     }
-    if (startRow >= endRow - 1 || startColumn >= endColumn - 1)
+    if (startRow + 2 <= endRow - 2 && startColumn + 2 <= endColumn - 2)
         walls.push(new Position(startRow + 2, startColumn + 1));
+    else return;
     buildWalls(startRow + 2, endRow - 2, startColumn + 2, endColumn - 2);
 };
 
@@ -46,7 +47,7 @@ const generateSpiralMaze = (rows, columns, source, target) => {
         (wall) =>
             !isEqual(wall, source) &&
             !isEqual(wall, target) &&
-            (wall.y !== columns - 1 || wall.x === 1 || wall.x === rows) &&
+            // (wall.y !== columns - 1 || wall.x === 1 || wall.x === rows) &&
             !sourceNeighbours.some((node) => isEqual(node, wall)) &&
             !targetNeighbours.some((node) => isEqual(node, wall))
     );

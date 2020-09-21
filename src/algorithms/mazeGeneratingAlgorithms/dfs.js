@@ -69,7 +69,18 @@ const generateDFSMaze = (rows, columns, source, target) => {
         (wall) =>
             !isEqual(wall, source) &&
             !isEqual(wall, target) &&
-            (wall.y !== columns - 1 || wall.x === 1 || wall.x === rows) &&
+            !(
+                columns % 2 === 0 &&
+                wall.y === columns - 1 &&
+                wall.x > 1 &&
+                wall.x < rows
+            ) &&
+            !(
+                rows % 2 === 0 &&
+                wall.x === rows - 1 &&
+                wall.y > 1 &&
+                wall.y < columns
+            ) &&
             !sourceNeighbours.some((node) => isEqual(node, wall)) &&
             !targetNeighbours.some((node) => isEqual(node, wall))
     );
