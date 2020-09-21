@@ -386,16 +386,37 @@ class NavBar extends Component {
         }
     };
 
+    resetMesh = () => {
+        setTimeout(() => {
+            document
+                .querySelectorAll(".grid-container .node")
+                .forEach((nodeDom) => {
+                    nodeDom.classList.remove("node-wall");
+                    nodeDom.classList.remove("node-visited");
+                    nodeDom.classList.remove("node-path");
+                    nodeDom.classList.remove("path-to-top");
+                    nodeDom.classList.remove("path-to-right");
+                    nodeDom.classList.remove("path-to-bottom");
+                    nodeDom.classList.remove("path-to-left");
+                    nodeDom.classList.add("node-unvisited");
+                });
+        }, 1);
+    };
+
     setMazeId = (selectedMazeId) => {
         const generateMaze = this.getSelectedMazeFunction(selectedMazeId);
         if (generateMaze === null) {
             alert("Coming Soon !!!");
             return;
         }
-        const dom = document.querySelector(".maze-options-container");
-        dom.classList.remove("show");
-        this.props.resetMesh(); // clear the maze
-        this.setState({ selectedMazeId });
+        setTimeout(() => {
+            const dom = document.querySelector(".maze-options-container");
+            dom.classList.remove("show");
+            this.resetMesh(); // clear the maze
+        }, 1);
+        setTimeout(() => {
+            this.setState({ selectedMazeId });
+        }, 1);
         if (generateMaze === -1) return;
         this.props.startLoading();
         console.log("Generate Maze : ", selectedMazeId);
@@ -409,19 +430,16 @@ class NavBar extends Component {
     };
 
     showAlgorithmOptionsContainer() {
-        // $(".navbar-collapse").collapse("hide");
         const dom = document.querySelector(".algorithm-options-container");
         dom.classList.add("show");
     }
 
     showMazeOptionsContainer() {
-        // $(".navbar-collapse").collapse("hide");
         const dom = document.querySelector(".maze-options-container");
         dom.classList.add("show");
     }
 
     showSpeedOptionsContainer() {
-        // $(".navbar-collapse").collapse("hide");
         const dom = document.querySelector(".speed-options-container");
         dom.classList.add("show");
     }

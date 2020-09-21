@@ -67,7 +67,7 @@ const getPath = () => {
     return path;
 };
 
-const performDFS = (rows, columns, source, target, walls) => {
+const performDFS = async (rows, columns, source, target, walls) => {
     // initialise and fetch the graph
     initialiseMesh(rows, columns, source, target, walls);
 

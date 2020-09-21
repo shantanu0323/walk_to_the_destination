@@ -50,7 +50,7 @@ const nodeWithLeastF = () => {
     return openList[0];
 };
 
-const performGreedy = (rows, columns, source, target, walls) => {
+const performGreedy = async (rows, columns, source, target, walls) => {
     // initialise and fetch the graph
     // add source to the openList
     initialiseMesh(rows, columns, source, target, walls);
@@ -97,7 +97,6 @@ const performGreedy = (rows, columns, source, target, walls) => {
     }
     const visitedNodes = [];
     closedList.map((node) => visitedNodes.push(node.position));
-    console.log(visitedNodes);
     const path = [];
     let node = closedList[closedList.length - 1];
     while (node !== null) {

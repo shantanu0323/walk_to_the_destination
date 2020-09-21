@@ -54,7 +54,7 @@ const nodeWithLeastF = () => {
     return openList[0];
 };
 
-const performAstar = (rows, columns, source, target, walls) => {
+const performAstar = async (rows, columns, source, target, walls) => {
     // initialise and fetch the graph
     // add source to the openList
     initialiseMesh(rows, columns, source, target, walls);

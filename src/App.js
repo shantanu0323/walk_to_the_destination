@@ -17,8 +17,25 @@ import performDFS from "./algorithms/dfs";
 import Interact from "./components/Interact/interact";
 
 class App extends Component {
+    state = {
+        selectedAlgorithmId: "algo-dijkstra",
+        selectedSpeedId: "speed-fast",
+        speed: 15,
+        rows: 0,
+        columns: 0,
+        source: new Position(-1, -1),
+        target: new Position(-1, -1),
+        walls: [],
+        visitedNodes: [],
+        loading: false,
+        numberOfVisitedNodes: null,
+        pathLength: null,
+        timeTaken: null,
+        targetReached: true,
+        interactionDone: false,
+    };
+
     componentDidMount() {
-        // Include the FontAwesome Library
         const s = document.createElement("script");
         s.type = "text/javascript";
         s.async = true;
@@ -45,29 +62,97 @@ class App extends Component {
         this.setState({ rows, columns, source, target });
     }
 
-    state = {
-        selectedAlgorithmId: "algo-dijkstra",
-        selectedSpeedId: "speed-fast",
-        speed: 15,
-        rows: 0,
-        columns: 0,
-        source: new Position(-1, -1),
-        target: new Position(-1, -1),
-        walls: [],
-        visitedNodes: [],
-        loading: false,
-        numberOfVisitedNodes: null,
-        pathLength: null,
-        timeTaken: null,
-        targetReached: true,
-        interactionDone: false,
+    delay = async (timeout) => {
+        await new Promise((res) => setTimeout(res, timeout));
+        console.log({ timeout });
+        return timeout;
     };
+
+    executeAlgorithm = async (algoId) => {
+        const algorithm = this.getSelectedAlgorithmFunction(algoId);
+        const startTime = new Date().getTime();
+        setTimeout(async () => {
+            const { visitedNodes, path } = await algorithm(
+                this.state.rows,
+                this.state.columns,
+                this.state.source,
+                this.state.target,
+                this.state.walls
+            );
+            const endTime = new Date().getTime();
+            const insights = {
+                visitedNodes: visitedNodes,
+                path: path,
+                numberOfVisitedNodes: visitedNodes.length,
+                pathLength:
+                    visitedNodes[visitedNodes.length - 1].x ===
+                        this.state.target.x &&
+                    visitedNodes[visitedNodes.length - 1].y ===
+                        this.state.target.y
+                        ? path.length + 1
+                        : null,
+                timeTaken: endTime - startTime,
+                targetReached:
+                    visitedNodes[visitedNodes.length - 1].x ===
+                        this.state.target.x &&
+                    visitedNodes[visitedNodes.length - 1].y ===
+                        this.state.target.y
+                        ? true
+                        : false,
+            };
+            switch (algoId) {
+                case "algo-dijkstra":
+                    this.dijkstra = insights;
+                    break;
+                case "algo-a*":
+                    this.astar = insights;
+                    break;
+                case "algo-greedy":
+                    this.greedy = insights;
+                    break;
+                case "algo-bfs":
+                    this.bfs = insights;
+                    break;
+                case "algo-dfs":
+                    this.dfs = insights;
+                    break;
+                default:
+                    break;
+            }
+        }, 1);
+    };
+
+    synchronise = async () => {
+        this.dijkstra = null;
+        this.astar = null;
+        this.greedy = null;
+        this.bfs = null;
+        this.dfs = null;
+        await Promise.all([
+            this.executeAlgorithm(this.state.selectedAlgorithmId),
+        ]);
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        if (
+            this.state.interactionDone &&
+            (this.state.selectedAlgorithmId !== prevState.selectedAlgorithmId ||
+                !isEqual(this.state.source, prevState.source) ||
+                !isEqual(this.state.target, prevState.target) ||
+                JSON.stringify(this.state.walls) !==
+                    JSON.stringify(prevState.walls))
+        ) {
+            this.synchronise();
+        }
+    }
 
     startLoading = () => {
         document
             .querySelectorAll(".node")
             .forEach((nodeDom) => (nodeDom.style.animationDuration = `4s`));
-        this.setState({ loading: true });
+        setTimeout(() => {
+            this.setState({ loading: true });
+        }, 1);
     };
 
     stopLoading = (delay = 4, changeInteraction = true) => {
@@ -77,19 +162,33 @@ class App extends Component {
                 (nodeDom) =>
                     (nodeDom.style.animationDuration = `${delay / 1000 + 4}s`)
             );
-        this.setState({ loading: false, interactionDone: changeInteraction });
+        setTimeout(() => {
+            this.setState({
+                loading: false,
+                interactionDone: changeInteraction,
+            });
+        }, 1);
     };
 
     setAlgorithmId = (selectedAlgorithmId) => {
-        this.setState({ selectedAlgorithmId });
-        const dom = document.querySelector(".algorithm-options-container");
-        dom.classList.remove("show");
+        setTimeout(() => {
+            const dom = document.querySelector(".algorithm-options-container");
+            dom.classList.remove("show");
+        }, 1);
+        setTimeout(() => {
+            this.setState({ selectedAlgorithmId });
+        }, 1);
     };
 
     setSpeedId = (selectedSpeedId, speed) => {
-        this.setState({ selectedSpeedId, speed });
-        const dom = document.querySelector(".speed-options-container");
-        dom.classList.remove("show");
+        setTimeout(() => {
+            const dom = document.querySelector(".speed-options-container");
+            dom.classList.remove("show");
+        }, 1);
+
+        setTimeout(() => {
+            this.setState({ selectedSpeedId, speed });
+        }, 1);
     };
 
     setNodeAsSource = (position) => {
@@ -155,45 +254,49 @@ class App extends Component {
     };
 
     clearPath = async () => {
-        document
-            .querySelectorAll(
-                ".grid-container .node.node-path, .grid-container .node.node-visited"
-            )
-            .forEach((nodeDom) => {
-                nodeDom.classList.add("node-unvisited");
-                nodeDom.classList.remove("node-visited");
-                nodeDom.classList.remove("node-path");
-            });
-        this.setState({
-            visitedNodes: [],
-            numberOfVisitedNodes: null,
-            pathLength: null,
-            timeTaken: null,
-        });
-        for (let i = 1; i <= this.state.rows; i++) {
-            for (let j = 1; j <= this.state.columns; j++) {
-                const nodeDom = document.querySelector(`#node-${i}-${j}`);
-                if (
-                    nodeDom.classList.contains("node-visited") ||
-                    nodeDom.classList.contains("node-path")
-                ) {
+        setTimeout(() => {
+            document
+                .querySelectorAll(
+                    ".grid-container .node.node-path, .grid-container .node.node-visited"
+                )
+                .forEach((nodeDom) => {
+                    nodeDom.classList.add("node-unvisited");
                     nodeDom.classList.remove("node-visited");
                     nodeDom.classList.remove("node-path");
-                    nodeDom.classList.add("node-unvisited");
+                });
+            this.setState({
+                visitedNodes: [],
+                numberOfVisitedNodes: null,
+                pathLength: null,
+                timeTaken: null,
+            });
+            for (let i = 1; i <= this.state.rows; i++) {
+                for (let j = 1; j <= this.state.columns; j++) {
+                    const nodeDom = document.querySelector(`#node-${i}-${j}`);
+                    if (
+                        nodeDom.classList.contains("node-visited") ||
+                        nodeDom.classList.contains("node-path")
+                    ) {
+                        nodeDom.classList.remove("node-visited");
+                        nodeDom.classList.remove("node-path");
+                        nodeDom.classList.add("node-unvisited");
+                    }
                 }
             }
-        }
+        }, 1);
         resetSourceAndTarget();
         this.resetInsights();
     };
 
     destructWalls = () => {
-        document
-            .querySelectorAll(".grid-container .node.node-wall")
-            .forEach((nodeDom) => {
-                nodeDom.classList.add("node-unvisited");
-                nodeDom.classList.remove("node-wall");
-            });
+        setTimeout(() => {
+            document
+                .querySelectorAll(".grid-container .node.node-wall")
+                .forEach((nodeDom) => {
+                    nodeDom.classList.add("node-unvisited");
+                    nodeDom.classList.remove("node-wall");
+                });
+        }, 1);
         this.setState({ walls: [] });
     };
 
@@ -202,8 +305,8 @@ class App extends Component {
         this.destructWalls();
     };
 
-    getSelectedAlgorithmFunction = () => {
-        switch (this.state.selectedAlgorithmId) {
+    getSelectedAlgorithmFunction = (algoId = null) => {
+        switch (algoId === null ? this.state.selectedAlgorithmId : algoId) {
             case "algo-dijkstra":
                 return performDijkstra;
             case "algo-a*":
@@ -229,74 +332,78 @@ class App extends Component {
         this.setState({ walls });
     };
 
+    getInsights = async (algoId, insights = null) => {
+        switch (algoId === null ? this.state.selectedAlgorithmId : algoId) {
+            case "algo-dijkstra":
+                insights = this.dijkstra;
+                break;
+            case "algo-a*":
+                insights = this.astar;
+                break;
+            case "algo-greedy":
+                insights = this.greedy;
+                break;
+            case "algo-bfs":
+                insights = this.bfs;
+                break;
+            case "algo-dfs":
+                insights = this.dfs;
+                break;
+            default:
+                break;
+        }
+        while (insights === null) {
+            this.delay(100);
+            insights = this.getInsights(algoId, insights);
+        }
+        return insights;
+    };
+
     startWalking = async () => {
         this.startLoading();
         this.clearPath();
-        this.updateWalls();
-        setTimeout(() => {
+        resetSourceAndTarget();
+        setTimeout(async () => {
             console.log("START WALKING");
-            const algorithm = this.getSelectedAlgorithmFunction();
-            if (algorithm === null) {
-                alert("Coming Soon !!!");
-                return;
-            }
-            resetSourceAndTarget();
-            const startTime = new Date().getTime();
-            const { visitedNodes, path } = algorithm(
-                this.state.rows,
-                this.state.columns,
-                this.state.source,
-                this.state.target,
-                this.state.walls
+            const insights = await this.getInsights(
+                this.state.selectedAlgorithmId
             );
-            const endTime = new Date().getTime();
             this.setState({
-                numberOfVisitedNodes: visitedNodes.length,
-                pathLength:
-                    visitedNodes[visitedNodes.length - 1].x ===
-                        this.state.target.x &&
-                    visitedNodes[visitedNodes.length - 1].y ===
-                        this.state.target.y
-                        ? path.length + 1
-                        : null,
-                timeTaken: endTime - startTime,
-                targetReached:
-                    visitedNodes[visitedNodes.length - 1].x ===
-                        this.state.target.x &&
-                    visitedNodes[visitedNodes.length - 1].y ===
-                        this.state.target.y
-                        ? true
-                        : false,
+                numberOfVisitedNodes: insights.numberOfVisitedNodes,
+                pathLength: insights.pathLength,
+                timeTaken: insights.timeTaken,
+                targetReached: insights.targetReached,
             });
-            // this.stopLoading();
-            // return;
-            for (let i = 0; i < visitedNodes.length; i++) {
+
+            for (let i = 0; i < insights.visitedNodes.length; i++) {
                 setTimeout(() => {
                     const nodeDom = document.querySelector(
-                        `#node-${visitedNodes[i].x}-${visitedNodes[i].y}`
+                        `#node-${insights.visitedNodes[i].x}-${insights.visitedNodes[i].y}`
                     );
                     if (nodeDom.classList.contains("node-unvisited")) {
                         nodeDom.classList.remove("node-unvisited");
                         nodeDom.classList.add("node-visited");
                     }
-                    if (i === visitedNodes.length - 1)
+                    if (i === insights.visitedNodes.length - 1)
                         setTimeout(() => {
                             if (
-                                visitedNodes[i].x === this.state.target.x &&
-                                visitedNodes[i].y === this.state.target.y
+                                insights.visitedNodes[i].x ===
+                                    this.state.target.x &&
+                                insights.visitedNodes[i].y ===
+                                    this.state.target.y
                             ) {
                                 this.setState({ targetReached: true });
                                 document
                                     .querySelector(".node.node-source")
                                     .classList.add(
                                         `path-to-${this.putNodeInPath(
-                                            path[0],
+                                            insights.path[0],
                                             this.state.source
                                         )}`
                                     );
-                                for (let k = 0; k < path.length; k++) {
+                                for (let k = 0; k < insights.path.length; k++) {
                                     setTimeout(() => {
-                                        const node = path[k];
+                                        const node = insights.path[k];
                                         const nodeDom = document.querySelector(
                                             `#node-${node.x}-${node.y}`
                                         );
@@ -304,14 +411,17 @@ class App extends Component {
                                             "node-visited"
                                         );
                                         nodeDom.classList.add("node-path");
-                                        if (k === path.length - 1) {
+                                        if (k === insights.path.length - 1) {
                                             document
                                                 .querySelector(
                                                     ".node.node-target"
                                                 )
                                                 .classList.add(
                                                     `path-to-${this.putNodeInPath(
-                                                        path[path.length - 1],
+                                                        insights.path[
+                                                            insights.path
+                                                                .length - 1
+                                                        ],
                                                         this.state.target
                                                     )}`
                                                 );
@@ -329,7 +439,7 @@ class App extends Component {
                         }, this.state.speed + 500);
                 }, this.state.speed * i);
             }
-        }, 100);
+        }, 1);
     };
 
     updateMaze = (walls, visitedNodes) => {
@@ -372,6 +482,7 @@ class App extends Component {
                     interactionDone={this.state.interactionDone}
                     setNodeAsSource={this.setNodeAsSource}
                     setNodeAsTarget={this.setNodeAsTarget}
+                    updateWalls={this.updateWalls}
                 />
                 <Legend />
                 <Insights

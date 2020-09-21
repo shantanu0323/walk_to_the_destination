@@ -101,7 +101,7 @@ const getVisitedNodes = (target) => {
             }
         }
         if (currNode === undefined) {
-            console.log("Target NOT Reachable");
+            // console.log("Target NOT Reachable");
             break;
         }
 
@@ -127,7 +127,7 @@ const getVisitedNodes = (target) => {
     return visitedNodes;
 };
 
-const performDijkstra = (rows, columns, source, target, walls) => {
+const performDijkstra = async (rows, columns, source, target, walls) => {
     // initialise and fetch the graph
     initialiseMesh(rows, columns, source, target, walls);
 

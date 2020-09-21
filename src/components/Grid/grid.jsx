@@ -79,7 +79,7 @@ class Grid extends Component {
             this.setState({ movingTarget: false });
             this.props.setNodeAsTarget(this.getTargetPosition());
         } else {
-            // do nothing
+            this.props.updateWalls();
         }
     }
 
