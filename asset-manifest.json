@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/walk_to_the_destination/static/css/main.23f43117.chunk.css",
-    "main.js": "/walk_to_the_destination/static/js/main.2af67581.chunk.js",
-    "main.js.map": "/walk_to_the_destination/static/js/main.2af67581.chunk.js.map",
+    "main.css": "/walk_to_the_destination/static/css/main.925b7ab5.chunk.css",
+    "main.js": "/walk_to_the_destination/static/js/main.f7eb8d51.chunk.js",
+    "main.js.map": "/walk_to_the_destination/static/js/main.f7eb8d51.chunk.js.map",
     "runtime-main.js": "/walk_to_the_destination/static/js/runtime-main.6e6330b8.js",
     "runtime-main.js.map": "/walk_to_the_destination/static/js/runtime-main.6e6330b8.js.map",
     "static/css/2.f3cffc9e.chunk.css": "/walk_to_the_destination/static/css/2.f3cffc9e.chunk.css",
-    "static/js/2.f6bb35ae.chunk.js": "/walk_to_the_destination/static/js/2.f6bb35ae.chunk.js",
-    "static/js/2.f6bb35ae.chunk.js.map": "/walk_to_the_destination/static/js/2.f6bb35ae.chunk.js.map",
+    "static/js/2.139172cb.chunk.js": "/walk_to_the_destination/static/js/2.139172cb.chunk.js",
+    "static/js/2.139172cb.chunk.js.map": "/walk_to_the_destination/static/js/2.139172cb.chunk.js.map",
     "index.html": "/walk_to_the_destination/index.html",
-    "precache-manifest.ed5a3a7e1d25352a4114b5e4ed7fe6d5.js": "/walk_to_the_destination/precache-manifest.ed5a3a7e1d25352a4114b5e4ed7fe6d5.js",
+    "precache-manifest.c90773c3305ffc7dd8f29730c9e8fed6.js": "/walk_to_the_destination/precache-manifest.c90773c3305ffc7dd8f29730c9e8fed6.js",
     "service-worker.js": "/walk_to_the_destination/service-worker.js",
     "static/css/2.f3cffc9e.chunk.css.map": "/walk_to_the_destination/static/css/2.f3cffc9e.chunk.css.map",
-    "static/css/main.23f43117.chunk.css.map": "/walk_to_the_destination/static/css/main.23f43117.chunk.css.map",
-    "static/js/2.f6bb35ae.chunk.js.LICENSE.txt": "/walk_to_the_destination/static/js/2.f6bb35ae.chunk.js.LICENSE.txt",
+    "static/css/main.925b7ab5.chunk.css.map": "/walk_to_the_destination/static/css/main.925b7ab5.chunk.css.map",
+    "static/js/2.139172cb.chunk.js.LICENSE.txt": "/walk_to_the_destination/static/js/2.139172cb.chunk.js.LICENSE.txt",
     "static/media/index.css": "/walk_to_the_destination/static/media/bg-img.886cc6f7.jpg",
     "static/media/demo_wall.gif": "/walk_to_the_destination/static/media/demo_wall.ec27e1f5.gif",
     "static/media/logo.svg": "/walk_to_the_destination/static/media/logo.5d5d9eef.svg"
@@ -21,8 +21,8 @@
   "entrypoints": [
     "static/js/runtime-main.6e6330b8.js",
     "static/css/2.f3cffc9e.chunk.css",
-    "static/js/2.f6bb35ae.chunk.js",
-    "static/css/main.23f43117.chunk.css",
-    "static/js/main.2af67581.chunk.js"
+    "static/js/2.139172cb.chunk.js",
+    "static/css/main.925b7ab5.chunk.css",
+    "static/js/main.f7eb8d51.chunk.js"
   ]
 }
