@@ -20,6 +20,7 @@ class App extends Component {
     state = {
         selectedAlgorithmId: "algo-dijkstra",
         selectedSpeedId: "speed-fast",
+        selectedMazeId: "maze-none",
         speed: 15,
         rows: 0,
         columns: 0,
@@ -191,6 +192,12 @@ class App extends Component {
         }, 1);
     };
 
+    setMazeId = (selectedMazeId) => {
+        setTimeout(() => {
+            this.setState({ selectedMazeId });
+        }, 1);
+    };
+
     setNodeAsSource = (position) => {
         // console.log(`SOURCE: ${position}`);
         if (
@@ -245,12 +252,14 @@ class App extends Component {
     };
 
     resetInsights = () => {
-        this.setState({
-            numberOfVisitedNodes: null,
-            pathLength: null,
-            timeTaken: null,
-            targetReached: true,
-        });
+        setTimeout(() => {
+            this.setState({
+                numberOfVisitedNodes: null,
+                pathLength: null,
+                timeTaken: null,
+                targetReached: true,
+            });
+        }, 1);
     };
 
     clearPath = async () => {
@@ -297,7 +306,10 @@ class App extends Component {
                     nodeDom.classList.remove("node-wall");
                 });
         }, 1);
-        this.setState({ walls: [] });
+        setTimeout(() => {
+            this.setState({ walls: [] });
+        }, 1);
+        this.setMazeId("maze-none");
     };
 
     resetMesh = () => {
@@ -456,8 +468,10 @@ class App extends Component {
                 <NavBar
                     selectedAlgorithmId={this.state.selectedAlgorithmId}
                     selectedSpeedId={this.state.selectedSpeedId}
+                    selectedMazeId={this.state.selectedMazeId}
                     onAlgorithmChanged={this.setAlgorithmId}
                     onSpeedChanged={this.setSpeedId}
+                    onMazeChanged={this.setMazeId}
                     startWalking={this.startWalking}
                     clearPath={this.clearPath}
                     destructWalls={this.destructWalls}

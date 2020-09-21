@@ -345,7 +345,6 @@ class NavBar extends Component {
             { id: "speed-slow", name: "Slow", speed: 200 },
             { id: "speed-slower", name: "Slower", speed: 500 },
         ],
-        selectedMazeId: "maze-none",
     };
 
     constructMaze = (walls) => {
@@ -415,7 +414,7 @@ class NavBar extends Component {
             this.resetMesh(); // clear the maze
         }, 1);
         setTimeout(() => {
-            this.setState({ selectedMazeId });
+            this.props.onMazeChanged(selectedMazeId);
         }, 1);
         if (generateMaze === -1) return;
         this.props.startLoading();
@@ -469,6 +468,7 @@ class NavBar extends Component {
         const {
             selectedAlgorithmId,
             selectedSpeedId,
+            selectedMazeId,
             onAlgorithmChanged,
             onSpeedChanged,
             startWalking,
@@ -538,9 +538,8 @@ class NavBar extends Component {
                                 >
                                     <span>
                                         {
-                                            this.getSelectedMaze(
-                                                this.state.selectedMazeId
-                                            ).name
+                                            this.getSelectedMaze(selectedMazeId)
+                                                .name
                                         }
                                     </span>{" "}
                                     Maze
@@ -576,7 +575,7 @@ class NavBar extends Component {
                 <div className="option-container maze-options-container">
                     <NavItem
                         options={this.state.mazes}
-                        selectedOption={this.state.selectedMazeId}
+                        selectedOption={selectedMazeId}
                         onChanged={this.setMazeId}
                     />
                 </div>
