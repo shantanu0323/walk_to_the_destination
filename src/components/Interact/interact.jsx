@@ -160,7 +160,7 @@ class Interact extends Component {
         return (
             this.state.transition *
                 10 *
-                (statement.length + lines.length + 10) +
+                (statement.length + lines.length + 10) -
             1000
         );
     }
@@ -482,7 +482,9 @@ class Interact extends Component {
         );
         const initialAnimationDelay = this.initialAnimation(start);
         const writeOnCanvasDelay =
-            initialAnimationDelay + this.writeOnCanvasDelay(statement, lines);
+            initialAnimationDelay +
+            this.writeOnCanvasDelay(statement, lines) +
+            2000;
         setTimeout(() => {
             this.writeOnCanvas(statement, alignment);
         }, initialAnimationDelay);
