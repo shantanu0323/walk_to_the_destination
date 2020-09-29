@@ -63,64 +63,54 @@ class App extends Component {
         this.setState({ rows, columns, source, target });
     }
 
-    delay = async (timeout) => {
-        await new Promise((res) => setTimeout(res, timeout));
-        console.log({ timeout });
-        return timeout;
-    };
-
     executeAlgorithm = async (algoId) => {
         const algorithm = this.getSelectedAlgorithmFunction(algoId);
         const startTime = new Date().getTime();
-        setTimeout(async () => {
-            const { visitedNodes, path } = await algorithm(
-                this.state.rows,
-                this.state.columns,
-                this.state.source,
-                this.state.target,
-                this.state.walls
-            );
-            const endTime = new Date().getTime();
-            const insights = {
-                visitedNodes: visitedNodes,
-                path: path,
-                numberOfVisitedNodes: visitedNodes.length,
-                pathLength:
-                    visitedNodes[visitedNodes.length - 1].x ===
-                        this.state.target.x &&
-                    visitedNodes[visitedNodes.length - 1].y ===
-                        this.state.target.y
-                        ? path.length + 1
-                        : null,
-                timeTaken: endTime - startTime,
-                targetReached:
-                    visitedNodes[visitedNodes.length - 1].x ===
-                        this.state.target.x &&
-                    visitedNodes[visitedNodes.length - 1].y ===
-                        this.state.target.y
-                        ? true
-                        : false,
-            };
-            switch (algoId) {
-                case "algo-dijkstra":
-                    this.dijkstra = insights;
-                    break;
-                case "algo-a*":
-                    this.astar = insights;
-                    break;
-                case "algo-greedy":
-                    this.greedy = insights;
-                    break;
-                case "algo-bfs":
-                    this.bfs = insights;
-                    break;
-                case "algo-dfs":
-                    this.dfs = insights;
-                    break;
-                default:
-                    break;
-            }
-        }, 1);
+        const { visitedNodes, path } = await algorithm(
+            this.state.rows,
+            this.state.columns,
+            this.state.source,
+            this.state.target,
+            this.state.walls
+        );
+        const endTime = new Date().getTime();
+        const insights = {
+            visitedNodes: visitedNodes,
+            path: path,
+            numberOfVisitedNodes: visitedNodes.length,
+            pathLength:
+                visitedNodes[visitedNodes.length - 1].x ===
+                    this.state.target.x &&
+                visitedNodes[visitedNodes.length - 1].y === this.state.target.y
+                    ? path.length + 1
+                    : null,
+            timeTaken: endTime - startTime,
+            targetReached:
+                visitedNodes[visitedNodes.length - 1].x ===
+                    this.state.target.x &&
+                visitedNodes[visitedNodes.length - 1].y === this.state.target.y
+                    ? true
+                    : false,
+        };
+        switch (algoId) {
+            case "algo-dijkstra":
+                this.dijkstra = insights;
+                break;
+            case "algo-a*":
+                this.astar = insights;
+                break;
+            case "algo-greedy":
+                this.greedy = insights;
+                break;
+            case "algo-bfs":
+                this.bfs = insights;
+                break;
+            case "algo-dfs":
+                this.dfs = insights;
+                break;
+            default:
+                break;
+        }
     };
 
     synchronise = async () => {
@@ -133,19 +123,6 @@ class App extends Component {
             this.executeAlgorithm(this.state.selectedAlgorithmId),
         ]);
     };
-
-    componentDidUpdate(prevProps, prevState) {
-        if (
-            this.state.interactionDone &&
-            (this.state.selectedAlgorithmId !== prevState.selectedAlgorithmId ||
-                !isEqual(this.state.source, prevState.source) ||
-                !isEqual(this.state.target, prevState.target) ||
-                JSON.stringify(this.state.walls) !==
-                    JSON.stringify(prevState.walls))
-        ) {
-            this.synchronise();
-        }
-    }
 
     startLoading = () => {
         document
@@ -364,10 +341,6 @@ class App extends Component {
             default:
                 break;
         }
-        while (insights === null) {
-            this.delay(100);
-            insights = this.getInsights(algoId, insights);
-        }
         return insights;
     };
 
@@ -377,6 +350,7 @@ class App extends Component {
         resetSourceAndTarget();
         setTimeout(async () => {
             console.log("START WALKING");
+            await this.synchronise();
             const insights = await this.getInsights(
                 this.state.selectedAlgorithmId
             );
