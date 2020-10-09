@@ -324,24 +324,18 @@ class App extends Component {
     getInsights = async (algoId, insights = null) => {
         switch (algoId === null ? this.state.selectedAlgorithmId : algoId) {
             case "algo-dijkstra":
-                insights = this.dijkstra;
-                break;
+                return this.dijkstra;
             case "algo-a*":
-                insights = this.astar;
-                break;
+                return this.astar;
             case "algo-greedy":
-                insights = this.greedy;
-                break;
+                return this.greedy;
             case "algo-bfs":
-                insights = this.bfs;
-                break;
+                return this.bfs;
             case "algo-dfs":
-                insights = this.dfs;
-                break;
+                return this.dfs;
             default:
-                break;
+                return null;
         }
-        return insights;
     };
 
     startWalking = async () => {
