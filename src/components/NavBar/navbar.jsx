@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./navbar.css";
-import logo from "../../logo.svg";
+import logo from "../../logo.png";
 import NavItem from "./NavItem/navitem";
 import generateBinaryTreeMaze from "../../algorithms/mazeGeneratingAlgorithms/binary_tree";
 import generateDFSMaze from "../../algorithms/mazeGeneratingAlgorithms/dfs";
@@ -484,7 +484,7 @@ class NavBar extends Component {
                             src={logo}
                             width="30"
                             height="30"
-                            className="d-inline-block align-top"
+                            className="d-inline-block align-top mr-2"
                             alt="logo"
                         />
                         <span className="my-auto">Walk to the Destination</span>
