@@ -49,7 +49,7 @@ const getTraversableNeighbours = (node, walls) => {
 const nodeWithLeastF = () => {
     openList.sort((a, b) => {
         // return a.f > b.f;
-        return a.f <= b.f ? a.h > b.h : a.f > b.f;
+        return a.f <= b.f ? a.h - b.h : a.f - b.f;
     });
     return openList[0];
 };
